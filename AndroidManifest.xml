@@ -21,7 +21,6 @@
             android:label="@string/title_activity_start" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -35,6 +34,9 @@
         <activity
             android:name=".EditEventActivity"
             android:label="@string/title_activity_edit" >
+             <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.intent.action.MAIN" />
         </activity>
         <activity
             android:name=".CameraScreenActivity"
@@ -48,7 +50,14 @@
             android:label="@string/title_activity_audio_screen" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.usc.vakacalendar.StartActivity" />
+                android:value="android.intent.action.MAIN" />
+        </activity>
+        <activity
+            android:name=".PhotoActivityScreen"
+            android:label="@string/title_activity_photo_activity_screen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="android.intent.action.MAIN" />
         </activity>
     </application>
 
