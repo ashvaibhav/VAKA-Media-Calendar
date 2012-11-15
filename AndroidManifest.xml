@@ -31,8 +31,8 @@
             android:value="android.intent.action.MAIN" />   
         </activity>
         <activity 
-            android:name=".EditEventActivity">
-            
+            android:name=".EditEventActivity"
+            android:label="@string/title_activity_edit">
         </activity>
         <activity android:name=".CameraScreenActivity"
             android:label="@string/title_activity_camera_screen">
