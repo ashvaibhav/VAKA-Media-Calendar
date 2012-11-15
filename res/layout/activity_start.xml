@@ -30,13 +30,14 @@
         android:layout_toLeftOf="@+id/textView1"
         android:onClick="onStartButtonClick"
         android:text="@string/StartButtonTitle" />
-    
+
     <Button
         android:id="@+id/EventListButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_above="@+id/textView1"
+        android:layout_above="@+id/CameraButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="57dp"
         android:onClick="onEventListButtonClick"
         android:text="@string/EventListButtonTitle" />
     
