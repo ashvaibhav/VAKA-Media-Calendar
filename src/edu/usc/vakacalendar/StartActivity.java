@@ -1,5 +1,5 @@
 package edu.usc.vakacalendar;
-//vaibhav is editing
+//vaibhav has completed editing
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
