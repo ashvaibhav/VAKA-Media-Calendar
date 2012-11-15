@@ -24,9 +24,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".EventListActivity"></activity>
-        <activity android:name=".EditEventActivity"></activity>
-        <activity android:name=".CameraScreenActivity"></activity>
-    </application>
+        <activity android:name=".EventListActivity"
+            android:label="@string/title_activity_event_list">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="android.intent.action.MAIN" />   
+        </activity>
+        <activity 
+            android:name=".EditEventActivity">
+            
+        </activity>
+        <activity android:name=".CameraScreenActivity"
+            android:label="@string/title_activity_camera_screen">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="android.intent.action.MAIN" />
+        </activity>
+
+        </application>
 
 </manifest>

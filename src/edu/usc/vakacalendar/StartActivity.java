@@ -143,7 +143,7 @@ public class StartActivity extends Activity {
     }
     
     public void onEventListButtonClick(View v){
-		Intent intent = new Intent(this, CameraScreenActivity.class);
+		Intent intent = new Intent(this, EventListActivity.class);
 		startActivity(intent);
     }
     
