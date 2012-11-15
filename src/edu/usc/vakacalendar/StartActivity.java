@@ -1,5 +1,5 @@
 package edu.usc.vakacalendar;
-//vaibhav has completed editing
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,8 +17,6 @@ import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -122,17 +120,33 @@ public class StartActivity extends Activity {
 		        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 		mRecognizerIntent.putExtra("calling_package", "edu.usc.vakacalendar");
 		
-		final Button startButton = (Button) findViewById(R.id.StartButton);
-		startButton.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		    	cancelSpeechRecognition();
-		    	mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
-				mSpeechRecognizer.startListening(mRecognizerIntent);
-		    }
-		});
+//		final Button startButton = (Button) findViewById(R.id.StartButton);
+//		startButton.setOnClickListener(new OnClickListener() {
+//		    public void onClick(View v) {
+//		    	cancelSpeechRecognition();
+//		    	mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
+//				mSpeechRecognizer.startListening(mRecognizerIntent);
+//		    }
+//		});
 
     }
-
+    
+    public void onStartButtonClick(View v){
+    	cancelSpeechRecognition();
+    	mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
+		mSpeechRecognizer.startListening(mRecognizerIntent);
+    }
+    
+    public void onCameraButtonClick(View v){
+		Intent intent = new Intent(this, CameraScreenActivity.class);
+		startActivity(intent);
+    }
+    
+    public void onEventListButtonClick(View v){
+		Intent intent = new Intent(this, CameraScreenActivity.class);
+		startActivity(intent);
+    }
+    
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_start, menu);
