@@ -10,5 +10,6 @@
     <string name="StartButtonTitle">start</string>
     <string name="EventListButtonTitle">Unsorted events</string>
     <string name="CameraButtonTitle">Camera</string>
-    
+    <string name="title_activity_audio_screen">AudioScreenActivity</string>
+
 </resources>
