@@ -4,6 +4,12 @@
     android:layout_height="match_parent"
     tools:context=".StartActivity" >
 
+    <WebView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/webview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -40,5 +46,5 @@
         android:layout_marginBottom="57dp"
         android:onClick="onEventListButtonClick"
         android:text="@string/EventListButtonTitle" />
-    
+
 </RelativeLayout>

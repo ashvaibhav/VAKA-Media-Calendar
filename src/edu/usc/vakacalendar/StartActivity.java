@@ -17,10 +17,12 @@ import android.speech.SpeechRecognizer;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class StartActivity extends Activity {
+public class StartActivity extends Activity implements ButtonHandlersInterfaceForJavaScript {
 	private static final int ACTION_TAKE_PHOTO = 1;
 	private static final int ACTION_TAKE_VIDEO = 2;
 	private static final String TAG = "VAKA";
@@ -122,15 +124,12 @@ public class StartActivity extends Activity {
 		        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 		mRecognizerIntent.putExtra("calling_package", "edu.usc.vakacalendar");
 		
-//		final Button startButton = (Button) findViewById(R.id.StartButton);
-//		startButton.setOnClickListener(new OnClickListener() {
-//		    public void onClick(View v) {
-//		    	cancelSpeechRecognition();
-//		    	mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
-//				mSpeechRecognizer.startListening(mRecognizerIntent);
-//		    }
-//		});
-
+		WebView webView = (WebView) findViewById(R.id.webview);
+		WebSettings webSettings = webView.getSettings();
+		webSettings.setJavaScriptEnabled(true);
+		
+		ButtonHandlersInterfaceForJavaScript buttonHandlersObj = (ButtonHandlersInterfaceForJavaScript) this;  
+		webView.addJavascriptInterface(buttonHandlersObj, "ButtonHandlers");
     }
     
     public void onStartButtonClick(View v){
@@ -143,6 +142,29 @@ public class StartActivity extends Activity {
     	Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 		startActivityForResult(takeVideoIntent, ACTION_TAKE_VIDEO);
     }
+
+    public void onPhotoButtonClick(View v){
+    	Intent takeVideoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		startActivityForResult(takeVideoIntent, ACTION_TAKE_PHOTO);
+    }
+    
+    public void onAudiotButtonClick(){
+    	cancelSpeechRecognition();
+    	mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
+		mSpeechRecognizer.startListening(mRecognizerIntent);
+    }
+    
+    public void onCameraButtonClick(){
+    	Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+		startActivityForResult(takeVideoIntent, ACTION_TAKE_VIDEO);
+    }
+
+    public void onPhotoButtonClick(){
+    	Intent takeVideoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		startActivityForResult(takeVideoIntent, ACTION_TAKE_PHOTO);
+    }
+        
+    
     
     public void onEventListButtonClick(View v){
 		Intent intent = new Intent(this, EventListActivity.class);
