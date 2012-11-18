@@ -7,8 +7,8 @@ import java.util.Calendar;
 import edu.usc.vakacalendar.commons.BasicEvent;
 import edu.usc.vakacalendar.commons.EventRecognizer;
 
-
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Intent;
 import android.speech.RecognitionListener;
@@ -21,7 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class StartActivity extends Activity {
-	private static final String TAG = "AVAKA";
+	private static final int ACTION_TAKE_PHOTO = 1;
+	private static final int ACTION_TAKE_VIDEO = 2;
+	private static final String TAG = "VAKA";
 	
 	private SpeechRecognizer mSpeechRecognizer;
 	private Intent mRecognizerIntent;
@@ -138,8 +140,8 @@ public class StartActivity extends Activity {
     }
     
     public void onCameraButtonClick(View v){
-		Intent intent = new Intent(this, CameraScreenActivity.class);
-		startActivity(intent);
+    	Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+		startActivityForResult(takeVideoIntent, ACTION_TAKE_VIDEO);
     }
     
     public void onEventListButtonClick(View v){
