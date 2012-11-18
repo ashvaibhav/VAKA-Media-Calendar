@@ -146,6 +146,11 @@ public class StartActivity extends Activity implements ButtonHandlersInterfaceFo
     public void onPhotoButtonClick(View v){
     	Intent takeVideoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		startActivityForResult(takeVideoIntent, ACTION_TAKE_PHOTO);
+    }        
+    
+    public void onEventListButtonClick(View v){
+		Intent intent = new Intent(this, EventListActivity.class);
+		startActivity(intent);
     }
     
     public void onAudiotButtonClick(){
@@ -164,13 +169,11 @@ public class StartActivity extends Activity implements ButtonHandlersInterfaceFo
 		startActivityForResult(takeVideoIntent, ACTION_TAKE_PHOTO);
     }
         
-    
-    
-    public void onEventListButtonClick(View v){
-		Intent intent = new Intent(this, EventListActivity.class);
-		startActivity(intent);
+    public void onEventListClick(){
+    	Intent takeVideoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		startActivityForResult(takeVideoIntent, ACTION_TAKE_PHOTO);
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_start, menu);

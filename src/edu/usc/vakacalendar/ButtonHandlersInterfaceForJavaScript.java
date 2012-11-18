@@ -8,4 +8,5 @@ public interface ButtonHandlersInterfaceForJavaScript {
 
 	void onPhotoButtonClick();
 
+	void onEventListClick();
 }
