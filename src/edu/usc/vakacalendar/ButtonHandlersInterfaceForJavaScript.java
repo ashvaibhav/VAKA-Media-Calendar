@@ -1,12 +1,26 @@
 package edu.usc.vakacalendar;
 
-public interface ButtonHandlersInterfaceForJavaScript {
+public class ButtonHandlersInterfaceForJavaScript {
+	
+	private StartActivity curActivity;
+	
+	public ButtonHandlersInterfaceForJavaScript(StartActivity curActivity){
+		this.curActivity = curActivity;
+	}
+	
+	public void onAudiotButtonClick() {
+		curActivity.onAudiotButtonClick();
+	}
 
-	void onAudiotButtonClick();
+	public void onCameraButtonClick() {
+		curActivity.onCameraButtonClick();
+	}
 
-	void onCameraButtonClick();
+	public void onPhotoButtonClick() {
+		curActivity.onPhotoButtonClick();
+	}
 
-	void onPhotoButtonClick();
-
-	void onEventListClick();
+	public void onEventListClick() {
+		curActivity.onEventListClick();
+	}
 }

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>I am happy now :)</title>
+
+<script type="text/javascript" src="file:///js/main.js"></script>
+<script type="text/javascript" src="file:///js/jquery-1.8.2.js"></script>
+
+</head>
+
+
+<body onLoad="javascript:alert('hello');">
+<div id='test_activities'>
+	<input type='button' value='Audio' onClick='javascript:ButtonHandlers.onAudiotButtonClick();'/>
+	<input type='button' value='Video' onClick='javascript:ButtonHandlers.onCameraButtonClick();'/>
+	<input type='button' value='Photo' onClick='javascript:ButtonHandlers.onPhotoButtonClick();'/>
+	<input type='button' value='Notes' onClick='javascript:ButtonHandlers.onEventListClick();'/>
+	</div>
+<div id='main_screen' width=10 height=10 style='text-align:center'>
+	<img  src = 'images/background.png'/>	
+	<div id='main_button' style="position:relative;text-align:center" onMouseDown="javascript:clickPlus();" onMouseUp="javascript:clickMinus();">
+
+	<span id='togglePlusDiv' style='position:relative;top:-65px;'>
+	<img src = 'file:///images/plus_button.png' />
+	</span>
+	<span id='toggleMinusDiv' style='display:none;position:relative;top:-78px;'>
+	<img id='pie_controls' src = 'images/Pie_Menu.png' />	
+	<AREA SHAPE=poly COORDS="10,10,15,10,20,15,20,10" onMouseOver="showAudio();" ></AREA>
+	<AREA SHAPE=poly COORDS="30,50,45,50,45,70,30,70" ALT="REGION2"></AREA>
+<!--	<AREA SHAPE=poly COORDS="10,50,15,20,20,50"></AREA>
+	<AREA SHAPE=poly COORDS="10,50,15,20,20,50"></AREA>-->
+	</span>
+	<span id='pie_audio' style='display:none;position:relative;top:-78px;'>
+	<img id='pie_controls' src = 'images/Pie_Audio.png' />	
+	</span>
+	<span id='pie_video' style='display:none;position:relative;top:-78px;'>
+	<img src = 'images/Pie_Video.png' />	
+	</span>
+	<span id='pie_photo' style='display:none;position:relative;top:-78px;'>
+	<img src = 'images/Pie_Photo.png' />	
+	</span>
+	<span id='pie_list' style='display:none;position:relative;top:-78px;'>
+	<img src = 'images/Pie_Note.png' />	
+	</span>
+	</div>
+</div>
+</body>
+</html>
