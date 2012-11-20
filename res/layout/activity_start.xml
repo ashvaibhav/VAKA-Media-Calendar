@@ -18,7 +18,7 @@
         android:layout_centerVertical="true"
         android:text="@string/hello_world"
         tools:context=".StartActivity" />
-
+<!-- 
     <Button
         android:id="@+id/CameraButton"
         android:layout_width="wrap_content"
@@ -46,5 +46,6 @@
         android:layout_marginBottom="57dp"
         android:onClick="onEventListButtonClick"
         android:text="@string/EventListButtonTitle" />
-
+ -->
+ 
 </RelativeLayout>

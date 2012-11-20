@@ -18,7 +18,7 @@ public class EventService {
 	public EventService() {
 		Calendar c = Calendar.getInstance();
 		for (int i = 0; i < 3; i++) {
-			BasicEvent ev = new BasicEvent(i, BasicEvent.AUDIO, c.getTime(),
+			BasicEvent ev = new BasicEvent(i, BasicEvent.AUDIO, c.getTime(), c.getTime(),
 					c.getTime(), "Title: # " + i, "Los Angeles",
 					"Test description # " + i);
 			eventList.add(ev);
@@ -38,6 +38,7 @@ public class EventService {
 				jsonEvent.put("title", basicEvent.getTitle());
 				jsonEvent.put("from", "3:30PM on 11/21/2012");
 				jsonEvent.put("to", "4:30PM on 11/21/2012");
+				jsonEvent.put("metadata", "5:30PM on 11/21/2012");
 				jsonEvent.put("place", basicEvent.getPlace());
 				jsonEvent.put("description", basicEvent.getDescription());
 				jsonEventList.put(jsonEvent);
@@ -53,8 +54,10 @@ public class EventService {
 	public void updateEvent(String id, String type, String from, String to, String title, String place, String description) {
 		int updatedId = Integer.parseInt(id);
 		Calendar c = Calendar.getInstance();
+
+		// TODO: update dates should be implemented 
 		BasicEvent ev = new BasicEvent(updatedId, BasicEvent.AUDIO, c.getTime(),
-				c.getTime(), title, place, description);
+				c.getTime(), c.getTime(), title, place, description);
 		if (eventList.contains(ev)){
 			int location = eventList.indexOf(ev);
 			eventList.add(location, ev);

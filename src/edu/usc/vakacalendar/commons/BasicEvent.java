@@ -12,6 +12,7 @@ public class BasicEvent {
 	private int type;
 	private Date from;
 	private Date to;
+	private Date metadata;
 	private String title;
 	private String description;
 	private String place;
@@ -19,15 +20,24 @@ public class BasicEvent {
 	public BasicEvent() {
 	}
 
-	public BasicEvent(int id, int type, Date from, Date to, String title,
+	public BasicEvent(int id, int type, Date from, Date to, Date metadata,String title,
 			String place, String description) {
 		this.id = id;
 		this.type = type;
 		this.from = from;
+		this.metadata = metadata;
 		this.to = to;
 		this.title = title;
 		this.place = place;
 		this.description = description;
+	}
+
+	public Date getMetadata() {
+		return metadata;
+	}
+
+	public void setMetadata(Date metadata) {
+		this.metadata = metadata;
 	}
 
 	public int getType() {
