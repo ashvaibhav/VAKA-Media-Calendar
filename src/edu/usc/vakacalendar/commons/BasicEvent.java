@@ -3,20 +3,61 @@ package edu.usc.vakacalendar.commons;
 import java.util.Date;
 
 public class BasicEvent {
+	
+	public static final int AUDIO = 1;
+	public static final int VIDEO = 2;
+	public static final int PHOTO = 3;
+	
+	private int id;
+	private int type;
 	private Date from;
 	private Date to;
 	private String title;
 	private String description;
+	private String place;
 	
 	public BasicEvent() {
 	}
 	
 
-	public BasicEvent(Date from, Date to, String title, String description) {
+	public BasicEvent(int id, int type, Date from, Date to, String title, String place, String description) {
+		this.id = id;
+		this.type = type;
 		this.from = from;
 		this.to = to;
 		this.title = title;
+		this.place = place;
 		this.description = description;
+	}
+
+
+	public int getType() {
+		return type;
+	}
+
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+	public String getPlace() {
+		return place;
+	}
+
+
+	public void setPlace(String place) {
+		this.place = place;
 	}
 
 

@@ -27,7 +27,8 @@ public class AudioScreenActivity extends Activity {
 
 	private EventRecognizer eventRecognizer;
 	private TextView eventData;
-
+	private AudioScreenActivity thisAudioActivity = this;
+	
 	private RecognitionListener mRecognitionListener = new RecognitionListener() {
 
 		private void updateText(BasicEvent event) {
@@ -68,11 +69,12 @@ public class AudioScreenActivity extends Activity {
 				Toast.makeText(getBaseContext(), result, Toast.LENGTH_SHORT)
 						.show();
 			}
+			thisAudioActivity.finish();
 		}
 
 		public void onReadyForSpeech(Bundle params) {
 			// TODO Auto-generated method stub
-
+			
 		}
 
 		public void onPartialResults(Bundle partialResults) {
@@ -126,8 +128,6 @@ public class AudioScreenActivity extends Activity {
 		mRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
 				RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 		mRecognizerIntent.putExtra("calling_package", "edu.usc.vakacalendar");
-		//cancelSpeechRecognition();
-		//mSpeechRecognizer.setRecognitionListener(mRecognitionListener);
 		mSpeechRecognizer.startListening(mRecognizerIntent);
     }
 

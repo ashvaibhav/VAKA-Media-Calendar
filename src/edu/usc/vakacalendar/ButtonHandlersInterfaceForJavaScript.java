@@ -2,9 +2,9 @@ package edu.usc.vakacalendar;
 
 public class ButtonHandlersInterfaceForJavaScript {
 	
-	private StartActivity curActivity;
+	private ButtonHandler curActivity;
 	
-	public ButtonHandlersInterfaceForJavaScript(StartActivity curActivity){
+	public ButtonHandlersInterfaceForJavaScript(ButtonHandler curActivity){
 		this.curActivity = curActivity;
 	}
 	
