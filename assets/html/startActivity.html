@@ -5,6 +5,7 @@
 
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="js/json.js"></script>
 <meta name="viewport" 
 	content="width=device-width, user-scalable=no, height = 800px ,width =480px, target-densitydpi = device-dpi" 
 />
@@ -29,15 +30,13 @@
 			<img src = 'images/plus_button.png' />
 		</span>
 		<span id='togglePlusDiv' style='display:none;position:relative;top:-180px;'>
-			<img id='pie_controls' src = 'images/Pie_Menu.png' />			
-			<span id='alert' style='position:relative;top:-100px;left:-150px;z-index:50px;background-image:url('pie_menu.gif');background-color:#cccccc;' >
-				<AREA id='area1' href="#" title="area1" SHAPE="poly" COORDS="10,10,10,1000,1000,1000,1000,10">come here for alert</AREA>
-			</span>
-		<map name="planetmap">
-			<AREA SHAPE=poly COORDS="30,50,45,50,45,70,30,70" ALT="REGION2" title="area2"></AREA>
-<!--			<AREA SHAPE=poly COORDS="10,50,15,20,20,50" title="area3"></AREA>
-			<AREA SHAPE=poly COORDS="10,50,15,20,20,50" title="area4"></AREA>-->
-		</map>
+			<img id='pie_controls' src = 'images/Pie_Menu.png' usemap="pieControlsMap" />													
+			<map name="pieControlsMap">
+				<span id='alert' style='position:relative;top:-100px;left:-150px;z-index:50px;background-image:url('pie_menu.gif');background-color:#cccccc;' >
+					<AREA SHAPE="poly" id="area1" COORDS="0,0,0,10000,10000,10000,10000,0" ALT="REGION2" title="area1"></AREA>
+					<AREA id='area2' href="#" title="area1" title="area2" SHAPE="poly" COORDS="10,10,10,1000,1000,1000,1000,10">come here for alert</AREA>
+				</span>
+			</map>	
 		</span>
 		<span id='pie_audio' style='display:none;position:relative;top:-78px;'>
 			<img id='pie_controls' src = 'images/Pie_Audio.png' />			
