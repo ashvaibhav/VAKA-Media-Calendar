@@ -13,9 +13,17 @@ import edu.usc.vakacalendar.commons.BasicEvent;
 
 public class EventService {
 
+	private static boolean isFirstStart;
+	private static boolean isEmprtyList;
+	
+	private static final EventService instance = new EventService(); 
+	
 	private List<BasicEvent> eventList = new LinkedList<BasicEvent>();
 
-	public EventService() {
+	public static EventService getInstance(){
+		return instance;
+	}
+	private EventService() {
 		Calendar c = Calendar.getInstance();
 		for (int i = 0; i < 3; i++) {
 			BasicEvent ev = new BasicEvent(i, BasicEvent.AUDIO, c.getTime(), c.getTime(),
@@ -64,4 +72,18 @@ public class EventService {
 			
 		}
 	}
+	public static boolean isFirstStart() {
+		return isFirstStart;
+	}
+	public static void setFirstStart(boolean isFirstStart) {
+		EventService.isFirstStart = isFirstStart;
+	}
+	public static boolean isEmprtyList() {
+		return isEmprtyList;
+	}
+	public static void setEmprtyList(boolean isEmprtyList) {
+		EventService.isEmprtyList = isEmprtyList;
+	}
+	
+	
 }

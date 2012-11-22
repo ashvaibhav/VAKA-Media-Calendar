@@ -22,7 +22,7 @@ public class EventListActivity extends AbstractButtonHandlerActivity {
 		ButtonHandlersInterfaceForJavaScript buttonHandlersObj = new ButtonHandlersInterfaceForJavaScript(
 				this);
 		webView.addJavascriptInterface(buttonHandlersObj, "ButtonHandlers");
-		EventService evnSrv = new EventService();
+		EventService evnSrv = EventService.getInstance();
 		webView.addJavascriptInterface(evnSrv, "EventService");
 	}
 
