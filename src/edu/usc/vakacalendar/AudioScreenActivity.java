@@ -12,7 +12,9 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Toast;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -24,14 +26,13 @@ public class AudioScreenActivity extends Activity {
 
 	private SpeechRecognizer mSpeechRecognizer;
 	private Intent mRecognizerIntent;
-
 	private EventRecognizer eventRecognizer;
-	private TextView eventData;
-	private AudioScreenActivity thisAudioActivity = this;
+	private EventService evnSrv = EventService.getInstance(); 
+
 	
 	private RecognitionListener mRecognitionListener = new RecognitionListener() {
 
-		private void updateText(BasicEvent event) {
+		private String cunstructTextMessage(BasicEvent event) {
 			Calendar c = Calendar.getInstance();
 			c.setTime(event.getFrom());
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -42,9 +43,7 @@ public class AudioScreenActivity extends Activity {
 					.append(dateFormat.format(event.getFrom()))
 					.append("\nTime: ")
 					.append(timeFormat.format(event.getFrom()));
-			eventData.setText(message);
-			//webView.loadUrl("javascript:method("+message+","+message2+")");
-			return;
+			return message.toString();
 		}
 
 		public void onRmsChanged(float rmsdB) {
@@ -63,13 +62,14 @@ public class AudioScreenActivity extends Activity {
 				Toast.makeText(getBaseContext(), result, Toast.LENGTH_SHORT)
 						.show();
 				BasicEvent event = eventRecognizer.recognize(result);
-				updateText(event);
+				
+				Toast.makeText(getBaseContext(), cunstructTextMessage(event), Toast.LENGTH_SHORT).show();
 			} else {
 				result = "No results";
 				Toast.makeText(getBaseContext(), result, Toast.LENGTH_SHORT)
 						.show();
 			}
-			thisAudioActivity.finish();
+			finish();
 		}
 
 		public void onReadyForSpeech(Bundle params) {
@@ -112,11 +112,16 @@ public class AudioScreenActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_screen);
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
+        
+        WebView webView = (WebView) findViewById(R.id.audioWebview);
+		webView.setWebChromeClient(new WebChromeClient());
+		WebSettings webSettings = webView.getSettings();
+		webSettings.setJavaScriptEnabled(true);
+		webView.addJavascriptInterface(evnSrv, "EventService");
+		webView.loadUrl(getString(R.string.audio_activity_html_file_url));
 
-		eventData = (TextView) findViewById(R.id.audioTextView);
+		
 		eventRecognizer = new EventRecognizer();
-
 		Log.d(TAG,
 				"speech recognition available: "
 						+ SpeechRecognizer
