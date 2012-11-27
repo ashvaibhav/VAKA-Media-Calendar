@@ -37,13 +37,13 @@ public class EventService {
 
 	private EventService() {
 		Calendar c = Calendar.getInstance();
-//		for (int i = 0; i < 3; i++) {
-//			BasicEvent ev = new BasicEvent(i, BasicEvent.AUDIO, c.getTime(),
-//					c.getTime(), c.getTime(), "Title: # " + i, "Los Angeles",
-//					"Test description # " + i);
-//			eventList.add(ev);
-//		}
-//		saveAllEventsFromExternalFile();
+		// for (int i = 0; i < 3; i++) {
+		// BasicEvent ev = new BasicEvent(i, BasicEvent.AUDIO, c.getTime(),
+		// c.getTime(), c.getTime(), "Title: # " + i, "Los Angeles",
+		// "Test description # " + i);
+		// eventList.add(ev);
+		// }
+		// saveAllEventsFromExternalFile();
 		loadAllEventsFromExternalFile();
 		checkRunLog();
 	}
@@ -74,24 +74,27 @@ public class EventService {
 						file));
 				try {
 					String runNumber = dis.readUTF();
-					Log.d(this.getClass().getName(), "Read: \n" + runNumber);
-					if (runNumber.compareTo("") == 0) {
-						this.isFirstStart = true;
-					}
+					Log.d(this.getClass().getName(), "Run log read: \n"
+							+ runNumber);
 				} finally {
 					dis.close();
 				}
-				
+			} catch (FileNotFoundException e) {
+				this.isFirstStart = true;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
 				DataOutputStream dos = new DataOutputStream(
 						new FileOutputStream(file));
 				try {
 					dos.writeUTF("1");
-					Log.d(this.getClass().getName(), "Writen: \n"
+					Log.d(this.getClass().getName(), "Run log writen: \n"
 							+ getAllEvents());
 				} finally {
 					dos.close();
 				}
-				
 			} catch (FileNotFoundException e) {
 				// Unable to create file, likely because external storage is
 				// not currently mounted.
@@ -109,7 +112,7 @@ public class EventService {
 		}
 		return;
 	}
-	
+
 	private void saveAllEventsFromExternalFile() {
 		checkStorageAvailability();
 		if (mExternalStorageAvailable && mExternalStorageWriteable) {
@@ -221,9 +224,10 @@ public class EventService {
 		}
 	}
 
-	public String addEvent(String type, String from, String to,
-			String title, String place, String description) {
-		int updatedId = (eventList.size() == 0) ? 1 : (eventList.get(eventList.size() - 1).getId() + 1);
+	public String addEvent(String type, String from, String to, String title,
+			String place, String description) {
+		int updatedId = (eventList.size() == 0) ? 1 : (eventList.get(
+				eventList.size() - 1).getId() + 1);
 		Calendar c = Calendar.getInstance();
 
 		BasicEvent ev = new BasicEvent(updatedId, BasicEvent.AUDIO,
@@ -237,14 +241,15 @@ public class EventService {
 		saveAllEventsFromExternalFile();
 		return String.valueOf(updatedId);
 	}
-	
+
 	public String addEvent(BasicEvent newEv) {
-		int newId = (eventList.size() == 0) ? 1 : (eventList.get(eventList.size() - 1).getId() + 1);
+		int newId = (eventList.size() == 0) ? 1 : (eventList.get(
+				eventList.size() - 1).getId() + 1);
 		newEv.setId(newId);
 		saveAllEventsFromExternalFile();
 		return String.valueOf(newId);
 	}
-	
+
 	public void deleteEvent(String id) {
 		int idToDelete = Integer.parseInt(id);
 		BasicEvent ev = new BasicEvent(idToDelete);
@@ -254,7 +259,6 @@ public class EventService {
 		}
 		saveAllEventsFromExternalFile();
 	}
-
 
 	public boolean isFirstStart() {
 		return isFirstStart;
