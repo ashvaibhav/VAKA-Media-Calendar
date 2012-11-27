@@ -53,16 +53,22 @@ public class BasicEvent {
 		this.type = jsonEvent.getString("type");
 		// from:
 		String dateInMiliseconds = jsonEvent.getString("from");
-		long tineInMiliseconds = Long.parseLong(dateInMiliseconds);
-		this.from = new Date(tineInMiliseconds);
+		Long tineInMiliseconds = (dateInMiliseconds.compareTo("") == 0) ? null
+				: Long.parseLong(dateInMiliseconds);
+		if (tineInMiliseconds != null)
+			this.from = new Date(tineInMiliseconds);
 		// to:
 		dateInMiliseconds = jsonEvent.getString("to");
-		tineInMiliseconds = Long.parseLong(dateInMiliseconds);
-		this.to = new Date(tineInMiliseconds);
+		tineInMiliseconds = (dateInMiliseconds.compareTo("") == 0) ? null
+				: Long.parseLong(dateInMiliseconds);
+		if (tineInMiliseconds != null)
+			this.to = new Date(tineInMiliseconds);
 		// metadata:
 		dateInMiliseconds = jsonEvent.getString("metadata");
-		tineInMiliseconds = Long.parseLong(dateInMiliseconds);
-		this.to = new Date(tineInMiliseconds);
+		tineInMiliseconds = (dateInMiliseconds.compareTo("") == 0) ? null
+				: Long.parseLong(dateInMiliseconds);
+		if (tineInMiliseconds != null)
+			this.metadata = new Date(tineInMiliseconds);
 
 		this.title = jsonEvent.getString("title");
 		this.place = jsonEvent.getString("place");
@@ -152,13 +158,16 @@ public class BasicEvent {
 		JSONObject jsonEvent = new JSONObject();
 		try {
 			jsonEvent.put("id", getId());
-			jsonEvent.put("type", getType());
-			jsonEvent.put("title", getTitle());
-			jsonEvent.put("from", getFrom().getTime());
-			jsonEvent.put("to", getTo().getTime());
-			jsonEvent.put("metadata", getMetadata().getTime());
-			jsonEvent.put("place", getPlace());
-			jsonEvent.put("description", getDescription());
+			jsonEvent.put("type", ((getType() == null) ? "" : getType()));
+			jsonEvent.put("title", ((getTitle() == null) ? "" : getTitle()));
+			jsonEvent.put("from",
+					(getFrom() == null ? "" : getFrom().getTime()));
+			jsonEvent.put("to", (getTo() == null ? "" : getTo().getTime()));
+			jsonEvent.put("metadata", (getMetadata() == null ? ""
+					: getMetadata().getTime()));
+			jsonEvent.put("place", (getPlace() == null ? "" : getPlace()));
+			jsonEvent.put("description", (getDescription() == null ? ""
+					: getDescription()));
 		} catch (JSONException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);

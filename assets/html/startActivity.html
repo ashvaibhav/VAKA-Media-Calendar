@@ -12,24 +12,55 @@
 </head>
 
 
-<body onLoad = 'javascript:alert(getScreenWidth());'>
-<div id='test_activities'>
-	<input type='button' value='Audio' onClick='javascript:ButtonHandlers.onAudioButtonClick();'/>
+<body bgcolor=#f1f1f2>
+<div id='test_activities' style='display:inline;'>
+	<input type='button' value='Audio' onClick='javascript:ButtonHandlers.onAudiotButtonClick();'/>
 	<input type='button' value='Video' onClick='javascript:ButtonHandlers.onCameraButtonClick();'/>
 	<input type='button' value='Photo' onClick='javascript:ButtonHandlers.onPhotoButtonClick();'/>
 	<input type='button' value='Notes' onClick='javascript:ButtonHandlers.onEventListClick();'/>
 	<a href='eventList.html'>Event</a>
 	</div>
 	
-<div id='main_screen' width="javascript:getScreenWidth();" style='text-align:center;background-color:#f1f1f2;'>
-	<div>
+<div id='main_screen'>
+	<div id='abcd' style='display:none;position:absolute;top:50%;'><input id="abcdText" type='text'></text>
+	<input type='button' value='Button to test touch controls' style='top:200px;'
+		onMouseDown='javascript:updateText("You are mouse down");' 		
+		onMouseUp='javascript:updateText("You are mouse up");'		
+		>
+		<!--
+		onMouseOver='javascript:alert("mouse over");'
+		onMouseOut='javascript:alert("mouse out");'
+		onClick='javascript:alert("mouse click");'
+		-->
+	</div>
+	<div style='position:absolute;top:30%;left:20%;'>
 		<img  src = 'images/logo.png'/>
 	</div>	
-	<div id='main_button' style="position:relative;top:200px;text-align:center" onMouseDown="javascript:clickPlus();" onMouseUp="javascript:clickMinus();">
-		<span id='toggleMinusDiv' style='position:relative;top:-65px;'>
-			<img src = 'images/plus_button.png' />
+	<div id='main_button_div' onMouseDown="javascript:clickPlus();" onMouseUp="javascript:clickMinus();">
+		<span id='main_button' style="position:absolute;top:542px;">		
+			<span id='togglePlusDiv' style='display:none;position:relative;top:656+6px;left:38%'>
+				<img src = 'images/plus_button.png' />
+			</span>
+			<span id='toggleMinusDiv' style='position:relative;top:10px;left:15%;'>
+				<span id='baseAreaMenu'  name='expandImage'  style='display:inline;'><img id='pie_controls' src = 'images/Pie_Menu.png' usemap="pieControlsMap" /></span>
+				<span id='shape1Menu' name='expandImage' style='display:none;'><img id='pie_controls' src = 'images/Pie_Note.png' usemap="pieControlsMap" /></span>
+				<span id='shape2Menu' name='expandImage' style='display:none;'><img id='pie_controls' src = 'images/Pie_Audio.png' usemap="pieControlsMap" /></span>
+				<span id='shape3Menu' name='expandImage' style='display:none;'><img id='pie_controls' src = 'images/Pie_Photo.png' usemap="pieControlsMap" /></span>
+				<span id='shape4Menu' name='expandImage' style='display:none;'><img id='pie_controls' src = 'images/Pie_Video.png' usemap="pieControlsMap" /></span>
+				<map name="pieControlsMap">
+					<AREA id='baseArea' href='startActivity.html' onmouseover="javascript:hoverChange('baseArea');" title="mainButton" SHAPE="circle" COORDS="171,171,62"></AREA>
+					<AREA id='shape1' href='startActivity.html' onmouseover="javascript:hoverChange('shape1');" title="shape1" SHAPE="poly" COORDS="5,171,55,55, 128, 128, 110, 171"></AREA>
+					<AREA id='shape2' href='startActivity.html' onmouseover="javascript:hoverChange('shape2');" title="shape2" SHAPE="poly" COORDS="128,128,55,55, 172, 8, 172, 108"></AREA>
+					<AREA id='shape3' href='startActivity.html' onmouseover="javascript:hoverChange('shape3');" title="shape3" SHAPE="poly" COORDS="172,108,172,8, 288, 55, 215, 128"></AREA>
+					<AREA id='shape4' href='startActivity.html' onmouseover="javascript:hoverChange('shape4');" title="shape4" SHAPE="poly" COORDS="215,128,288,55, 335, 171, 235,171"></AREA>					
+					<AREA id='extendedArea' href='startActivity.html' onClick="javascript:alert('area2');" title="area1" SHAPE="circle" COORDS="171,171,166"></AREA>
+				</map>
+			</span>
 		</span>
-		<span id='togglePlusDiv' style='display:none;position:relative;top:-180px;'>
+<!--
+<AREA SHAPE="poly" id="area1" COORDS="0,0,0,10000,10000,10000,10000,0" ALT="REGION2" title="area1"></AREA>		
+
+		<span id='toggleMinusDiv' style='display:none;position:relative;top:-180px;'>
 			<img id='pie_controls' src = 'images/Pie_Menu.png' usemap="pieControlsMap" />													
 			<map name="pieControlsMap">
 				<span id='alert' style='position:relative;top:-100px;left:-150px;z-index:50px;background-image:url('pie_menu.gif');background-color:#cccccc;' >
@@ -50,7 +81,7 @@
 		<span id='pie_list' style='display:none;position:relative;top:-78px;'>
 			<img src = 'images/Pie_Note.png' />			
 		</span>
-	</div>
+-->	</div>
 
 </div>
 </body>

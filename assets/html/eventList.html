@@ -5,29 +5,40 @@
 	content="width=device-width, user-scalable=no, height = 800px ,width =480px, target-densitydpi = device-dpi" 
 />
 <title>Event List</title>
-
+<link rel="stylesheet" type="text/css" href="css/editEvent.css"/>
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 <script type="text/javascript" src="js/json.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/jquery.gamequery-0.7.0.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
    		populateAllEvents();
  	}); 	
+	function showTime(){
+		var a = 32423423;
+		var d = new Date(a);
+		alert(d.getTime());
+	}
 </script>
 </head>
 
-<body bgcolor="#f1f1f2">
-	<div id='test_activities'>
-	<input type='button' value='Audio' onClick='javascript:ButtonHandlers.onAudiotButtonClick();'/>
+<body bgcolor="#f1f1f2">	
+<div id='test_activities' style='display:inline;'>
+	<input type='button' value='Audio' onClick='javascript:ButtonHandlers.onAudioButtonClick();'/>
 	<input type='button' value='Video' onClick='javascript:ButtonHandlers.onCameraButtonClick();'/>
 	<input type='button' value='Photo' onClick='javascript:ButtonHandlers.onPhotoButtonClick();'/>
 	<input type='button' value='Notes' onClick='javascript:ButtonHandlers.onEventListClick();'/>
-	<a href='startActivity.html'>Back</a>
+	<a href='eventList.html'>Event</a>
 	</div>
-	
+
 <div id='main_screen' width="810px;" height="1200px;" style='text-align:center;background-color:#F1F1F2;'>
+	<div id='test_activities' style='display:none;'>	
+	<a href='startActivity.html'>Start Activity</a>
+	</div>
 	<div>
-		<img  src = 'images/eventListHead.png'/>
+		<img  src = 'images/eventList/event_list_txt.png'/>
 	</div>
 	<div id="eventList">
 		<span id='logo'>
@@ -37,7 +48,7 @@
 </div>
 <div id='edit_screen' width="810px;" height="1200px;" style='display:none;text-align:center;background-color:#F1F1F2;'>
 	<div>
-		<img  src = 'images/UpdateEventHead.png'/>
+		<img  src = 'images/editEvent/edit_event_txt.png'/>
 	</div>
 	<div id="updateEvent">		
 	</div>	

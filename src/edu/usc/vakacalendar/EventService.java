@@ -219,34 +219,11 @@ public class EventService {
 		}
 	}
 
-	public String addEvent(String type, String from, String to, String title,
-			String place, String description) {
-		int updatedId = (eventList.size() == 0) ? 1 : (eventList.get(
-				eventList.size() - 1).getId() + 1);
-		Calendar c = Calendar.getInstance();
-		// from:
-		long tineInMiliseconds = Long.parseLong(from);
-		Date fromDate = new Date(tineInMiliseconds);
-		// to:
-		tineInMiliseconds = Long.parseLong(from);
-		Date toDate = new Date(tineInMiliseconds);
-		// metadata:
-		Date metaDate = new Date(tineInMiliseconds);
-		BasicEvent ev = new BasicEvent(updatedId, type, fromDate, toDate,
-				metaDate, title, place, description);
-		if (eventList.contains(ev)) {
-			int location = eventList.indexOf(ev);
-			eventList.add(location, ev);
-
-		}
-		saveAllEventsFromExternalFile();
-		return String.valueOf(updatedId);
-	}
-
 	public String addEvent(BasicEvent newEv) {
 		int newId = (eventList.size() == 0) ? 1 : (eventList.get(
 				eventList.size() - 1).getId() + 1);
 		newEv.setId(newId);
+		eventList.add(newEv);
 		saveAllEventsFromExternalFile();
 		return String.valueOf(newId);
 	}

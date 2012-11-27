@@ -1,0 +1,58 @@
+.posAbs{
+	position:absolute;
+}
+.posRel{
+	position:relative;
+}
+.editEventHead{
+	font-family:verdana;
+	font-size:40px;
+	margin-top:10px;
+}
+.editEventTextBox{
+	padding-left:10px;
+	left:130px;
+	height:75px;
+	width:618px;
+}
+.editEventTextBoxStyle{
+	border:1px solid;
+	font-size:20px;
+	background:#ffffff;
+}
+.editEventTextBoxContent{
+	padding-top:10px;
+	font-size:20px;
+}
+.editEventDescBox{
+	padding-left:10px;
+	left:0px;
+	margin-top:70px;
+	height:275px;
+	width:748px;
+	overflow:hidden;
+}
+
+.editEventTextButton{
+	left:680px;
+	margin-top:15px;
+}
+
+.title{
+	top:0px;
+}
+.from{
+	top:100px;
+}
+.to{
+	top:200px;
+}
+.place{
+	top:300px;
+}
+.description{
+	top:400px;
+}
+.editEventDropDown{
+	top:10px;
+}
