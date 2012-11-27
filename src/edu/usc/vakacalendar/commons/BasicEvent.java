@@ -51,9 +51,19 @@ public class BasicEvent {
 
 		this.id = jsonEvent.getInt("id");
 		this.type = jsonEvent.getString("type");
-		// this.from = jsonEvent.getString("from");
-		// this.to = jsonEvent.getString("to");
-		// this.metadata = jsonEvent.getInt("metadata");
+		// from:
+		String dateInMiliseconds = jsonEvent.getString("from");
+		long tineInMiliseconds = Long.parseLong(dateInMiliseconds);
+		this.from = new Date(tineInMiliseconds);
+		// to:
+		dateInMiliseconds = jsonEvent.getString("to");
+		tineInMiliseconds = Long.parseLong(dateInMiliseconds);
+		this.to = new Date(tineInMiliseconds);
+		// metadata:
+		dateInMiliseconds = jsonEvent.getString("metadata");
+		tineInMiliseconds = Long.parseLong(dateInMiliseconds);
+		this.to = new Date(tineInMiliseconds);
+
 		this.title = jsonEvent.getString("title");
 		this.place = jsonEvent.getString("place");
 		this.description = jsonEvent.getString("place");
@@ -144,9 +154,9 @@ public class BasicEvent {
 			jsonEvent.put("id", getId());
 			jsonEvent.put("type", getType());
 			jsonEvent.put("title", getTitle());
-			jsonEvent.put("from", "3:30PM on 11/21/2012");
-			jsonEvent.put("to", "4:30PM on 11/21/2012");
-			jsonEvent.put("metadata", "5:30PM on 11/21/2012");
+			jsonEvent.put("from", getFrom().getTime());
+			jsonEvent.put("to", getTo().getTime());
+			jsonEvent.put("metadata", getMetadata().getTime());
 			jsonEvent.put("place", getPlace());
 			jsonEvent.put("description", getDescription());
 		} catch (JSONException e) {

@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,14 +37,6 @@ public class EventService {
 	}
 
 	private EventService() {
-		Calendar c = Calendar.getInstance();
-		// for (int i = 0; i < 3; i++) {
-		// BasicEvent ev = new BasicEvent(i, BasicEvent.AUDIO, c.getTime(),
-		// c.getTime(), c.getTime(), "Title: # " + i, "Los Angeles",
-		// "Test description # " + i);
-		// eventList.add(ev);
-		// }
-		// saveAllEventsFromExternalFile();
 		loadAllEventsFromExternalFile();
 		checkRunLog();
 	}
@@ -82,7 +75,6 @@ public class EventService {
 			} catch (FileNotFoundException e) {
 				this.isFirstStart = true;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			try {
@@ -96,11 +88,10 @@ public class EventService {
 					dos.close();
 				}
 			} catch (FileNotFoundException e) {
-				// Unable to create file, likely because external storage is
-				// not currently mounted.
+				// Unable to create file, likely because external storage is not
+				// currently mounted.
 				Log.w("ExternalStorage", "Error writing " + file, e);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
@@ -132,8 +123,8 @@ public class EventService {
 					dos.close();
 				}
 			} catch (FileNotFoundException e) {
-				// Unable to create file, likely because external storage is
-				// not currently mounted.
+				// Unable to create file, likely because external storage is not
+				// currently mounted.
 				Log.w("ExternalStorage", "Error writing " + file, e);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -174,7 +165,6 @@ public class EventService {
 							eventList.add(event);
 						}
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 
@@ -183,11 +173,10 @@ public class EventService {
 				}
 
 			} catch (FileNotFoundException e) {
-				// Unable to create file, likely because external storage is
-				// not currently mounted.
+				// Unable to create file, likely because external storage is not
+				// currently mounted.
 				Log.w("ExternalStorage", "Error writing " + file, e);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {
@@ -213,10 +202,16 @@ public class EventService {
 			String title, String place, String description) {
 		int updatedId = Integer.parseInt(id);
 		Calendar c = Calendar.getInstance();
-
-		BasicEvent ev = new BasicEvent(updatedId, BasicEvent.AUDIO,
-				c.getTime(), c.getTime(), c.getTime(), title, place,
-				description);
+		// from:
+		long tineInMiliseconds = Long.parseLong(from);
+		Date fromDate = new Date(tineInMiliseconds);
+		// to:
+		tineInMiliseconds = Long.parseLong(from);
+		Date toDate = new Date(tineInMiliseconds);
+		// metadata:
+		Date metaDate = new Date(tineInMiliseconds);
+		BasicEvent ev = new BasicEvent(updatedId, type, fromDate, toDate,
+				metaDate, title, place, description);
 		if (eventList.contains(ev)) {
 			int location = eventList.indexOf(ev);
 			eventList.add(location, ev);
@@ -229,10 +224,16 @@ public class EventService {
 		int updatedId = (eventList.size() == 0) ? 1 : (eventList.get(
 				eventList.size() - 1).getId() + 1);
 		Calendar c = Calendar.getInstance();
-
-		BasicEvent ev = new BasicEvent(updatedId, BasicEvent.AUDIO,
-				c.getTime(), c.getTime(), c.getTime(), title, place,
-				description);
+		// from:
+		long tineInMiliseconds = Long.parseLong(from);
+		Date fromDate = new Date(tineInMiliseconds);
+		// to:
+		tineInMiliseconds = Long.parseLong(from);
+		Date toDate = new Date(tineInMiliseconds);
+		// metadata:
+		Date metaDate = new Date(tineInMiliseconds);
+		BasicEvent ev = new BasicEvent(updatedId, type, fromDate, toDate,
+				metaDate, title, place, description);
 		if (eventList.contains(ev)) {
 			int location = eventList.indexOf(ev);
 			eventList.add(location, ev);
