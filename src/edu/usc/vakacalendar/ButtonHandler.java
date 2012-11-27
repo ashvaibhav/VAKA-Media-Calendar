@@ -2,11 +2,14 @@ package edu.usc.vakacalendar;
 
 public interface ButtonHandler {
 
-	public void onAudiotButtonClick();
+	public void onAudioButtonClick();
 
 	public void onCameraButtonClick();
 
 	public void onPhotoButtonClick();
 
 	public void onEventListClick();
+	
+	public void onStopButtonClick();
+	
 }

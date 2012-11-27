@@ -18,7 +18,7 @@ public class AbstractButtonHandlerActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 	}
 
-	public void onAudiotButtonClick() {
+	public void onAudioButtonClick() {
 		Intent intent = new Intent(this, AudioScreenActivity.class);
 		startActivityForResult(intent, ACTION_TAKE_AUDIO_EVENT);
 	}
@@ -36,6 +36,12 @@ public class AbstractButtonHandlerActivity extends Activity implements
 	public void onEventListClick() {
 		Intent intent = new Intent(this, EventListActivity.class);
 		startActivity(intent);
+	}
+
+
+	@Override
+	public void onStopButtonClick() {
+		finish();		
 	}
 
 }

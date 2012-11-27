@@ -8,6 +8,7 @@ import android.webkit.WebView;
 public class StartActivity extends AbstractButtonHandlerActivity {
 	ButtonHandlersInterfaceForJavaScript buttonHandlersObj; 
 	EventService evnSrv = EventService.getInstance(); 
+	MapService mapSrv = MapService.getInstance(); 
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class StartActivity extends AbstractButtonHandlerActivity {
 				this);
 		webView.addJavascriptInterface(buttonHandlersObj, "ButtonHandlers");
 		webView.addJavascriptInterface(evnSrv, "EventService");
+		webView.addJavascriptInterface(mapSrv, "MapService");
 		webView.loadUrl(getString(R.string.start_activity_html_file_url));
 	}
 }

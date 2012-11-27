@@ -2,14 +2,18 @@ package edu.usc.vakacalendar.commons;
 
 import java.util.Date;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class BasicEvent {
 
-	public static final int AUDIO = 1;
-	public static final int VIDEO = 2;
-	public static final int PHOTO = 3;
+	public static final String AUDIO = "audio";
+	public static final String VIDEO = "video";
+	public static final String PHOTO = "photo";
+	public static final String NOTE = "note";
 
 	private int id;
-	private int type;
+	private String type;
 	private Date from;
 	private Date to;
 	private Date metadata;
@@ -20,8 +24,8 @@ public class BasicEvent {
 	public BasicEvent() {
 	}
 
-	public BasicEvent(int id, int type, Date from, Date to, Date metadata,String title,
-			String place, String description) {
+	public BasicEvent(int id, String type, Date from, Date to, Date metadata,
+			String title, String place, String description) {
 		this.id = id;
 		this.type = type;
 		this.from = from;
@@ -32,6 +36,29 @@ public class BasicEvent {
 		this.description = description;
 	}
 
+	public BasicEvent(int id) {
+		this.id = id;
+		this.type = NOTE;
+		this.from = null;
+		this.metadata = null;
+		this.to = null;
+		this.title = "";
+		this.place = "";
+		this.description = "";
+	}
+
+	public BasicEvent(JSONObject jsonEvent) throws JSONException {
+
+		this.id = jsonEvent.getInt("id");
+		this.type = jsonEvent.getString("type");
+		// this.from = jsonEvent.getString("from");
+		// this.to = jsonEvent.getString("to");
+		// this.metadata = jsonEvent.getInt("metadata");
+		this.title = jsonEvent.getString("title");
+		this.place = jsonEvent.getString("place");
+		this.description = jsonEvent.getString("place");
+	}
+
 	public Date getMetadata() {
 		return metadata;
 	}
@@ -40,11 +67,11 @@ public class BasicEvent {
 		this.metadata = metadata;
 	}
 
-	public int getType() {
+	public String getType() {
 		return type;
 	}
 
-	public void setType(int type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -111,4 +138,21 @@ public class BasicEvent {
 		return this.id;
 	}
 
+	public JSONObject getJSONObject() {
+		JSONObject jsonEvent = new JSONObject();
+		try {
+			jsonEvent.put("id", getId());
+			jsonEvent.put("type", getType());
+			jsonEvent.put("title", getTitle());
+			jsonEvent.put("from", "3:30PM on 11/21/2012");
+			jsonEvent.put("to", "4:30PM on 11/21/2012");
+			jsonEvent.put("metadata", "5:30PM on 11/21/2012");
+			jsonEvent.put("place", getPlace());
+			jsonEvent.put("description", getDescription());
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return jsonEvent;
+	}
 }

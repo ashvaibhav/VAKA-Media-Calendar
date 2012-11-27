@@ -62,7 +62,7 @@ public class AudioScreenActivity extends Activity {
 				Toast.makeText(getBaseContext(), result, Toast.LENGTH_SHORT)
 						.show();
 				BasicEvent event = eventRecognizer.recognize(result);
-				
+				EventService.getInstance().addEvent(event);				
 				Toast.makeText(getBaseContext(), cunstructTextMessage(event), Toast.LENGTH_SHORT).show();
 			} else {
 				result = "No results";
