@@ -338,7 +338,13 @@ function populateOneEvent(id, title, date, metadata, type, status){
 								"<span>"+
 									"<img src='images/eventList/"+currentEvent.type+"_icon_s.png'/>"+
 									"<span>"+currentEvent.metadata+"</span>"+
-									"<span style='position:relative;top:40px;'>area to display the preview of the entity</span>"+
+									"<span style='position:relative;top:40px;'>"+
+										//"<img src='"+"/storage/emulated/0/qwe.3gp"+"'/>"+//currentEvent.data
+										"<video width='320' height='240' controls='controls'>"+
+											"<source src='qwe.3gp' type='video/3gp'>"+
+											"Your browser does not show video :P"+
+										"</video>"+
+									+"</span>"+
 								"</span>"+
 							"</span>"+
 						//form
