@@ -275,10 +275,10 @@ function showPreview(){
 			item += /*"<audio class='posAbs' style='top:-270px;' width='600px' height='400' src='"+currentEvent.mediaURL+"'>"+
     					"<p>Your browser does not support the audio element</p>"+
 				"</audio>";*/
-				"<audio class='posAbs' style='top:-270px;' width='600px' height='400' controls='controls'>"+
-				"<source src='"+currentEvent.mediaURL+"' type='video/"+getMediaType(currentEvent.mediaURL.split(".")[1])+"'>"+
+				"<audio class='posAbs' style='top:270px;' width='600px' height='400' controls='controls'>"+
+				"<source src='"+currentEvent.mediaURL+"' type='audio/"+getMediaType(currentEvent.mediaURL.split(".")[1])+"'>"+
 				"<P>Your browsr does not support the audio element</P>"+
-				"</audio>";
+				"</audio>";alert(currentEvent.mediaURL);
 			break;
 		case 'video':
 			item +=	"<video class='posAbs' style='top:-270px;' width='600px' height='400' controls='controls'>"+
