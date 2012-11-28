@@ -20,20 +20,9 @@ public class BasicEvent {
 	private String title;
 	private String description;
 	private String place;
+	private String mediaURL;
 
 	public BasicEvent() {
-	}
-
-	public BasicEvent(int id, String type, Date from, Date to, Date metadata,
-			String title, String place, String description) {
-		this.id = id;
-		this.type = type;
-		this.from = from;
-		this.metadata = metadata;
-		this.to = to;
-		this.title = title;
-		this.place = place;
-		this.description = description;
 	}
 
 	public BasicEvent(int id) {
@@ -45,36 +34,58 @@ public class BasicEvent {
 		this.title = "";
 		this.place = "";
 		this.description = "";
+		this.mediaURL = "";
 	}
 
 	public BasicEvent(JSONObject jsonEvent) throws JSONException {
+		Long timeInMiliseconds;
 
 		this.id = jsonEvent.getInt("id");
 		this.type = jsonEvent.getString("type");
 		// from:
 		String dateInMiliseconds = jsonEvent.getString("from");
-		Long tineInMiliseconds = (dateInMiliseconds.compareTo("") == 0) ? null
-				: Long.parseLong(dateInMiliseconds);
-		if (tineInMiliseconds != null)
-			this.from = new Date(tineInMiliseconds);
+		if (dateInMiliseconds.compareTo("") != 0) {
+			timeInMiliseconds = Long.parseLong(dateInMiliseconds);
+			this.from = new Date(timeInMiliseconds);
+		}
 		// to:
 		dateInMiliseconds = jsonEvent.getString("to");
-		tineInMiliseconds = (dateInMiliseconds.compareTo("") == 0) ? null
-				: Long.parseLong(dateInMiliseconds);
-		if (tineInMiliseconds != null)
-			this.to = new Date(tineInMiliseconds);
+		if (dateInMiliseconds.compareTo("") != 0) {
+			timeInMiliseconds = Long.parseLong(dateInMiliseconds);
+			this.to = new Date(timeInMiliseconds);
+		}
 		// metadata:
 		dateInMiliseconds = jsonEvent.getString("metadata");
-		tineInMiliseconds = (dateInMiliseconds.compareTo("") == 0) ? null
-				: Long.parseLong(dateInMiliseconds);
-		if (tineInMiliseconds != null)
-			this.metadata = new Date(tineInMiliseconds);
-
+		if (dateInMiliseconds.compareTo("") != 0) {
+			timeInMiliseconds = Long.parseLong(dateInMiliseconds);
+			this.metadata = new Date(timeInMiliseconds);
+		}
 		this.title = jsonEvent.getString("title");
 		this.place = jsonEvent.getString("place");
 		this.description = jsonEvent.getString("place");
 	}
 
+	public JSONObject getJSONObject() {
+		JSONObject jsonEvent = new JSONObject();
+		try {
+			jsonEvent.put("id", getId());
+			jsonEvent.put("type", ((getType() == null) ? "" : getType()));
+			jsonEvent.put("title", ((getTitle() == null) ? "" : getTitle()));
+			jsonEvent.put("from",
+					(getFrom() == null ? "" : getFrom().getTime()));
+			jsonEvent.put("to", (getTo() == null ? "" : getTo().getTime()));
+			jsonEvent.put("metadata", (getMetadata() == null ? ""
+					: getMetadata().getTime()));
+			jsonEvent.put("place", (getPlace() == null ? "" : getPlace()));
+			jsonEvent.put("description", (getDescription() == null ? ""
+					: getDescription()));
+		} catch (JSONException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return jsonEvent;
+	}
+	
 	public Date getMetadata() {
 		return metadata;
 	}
@@ -139,6 +150,16 @@ public class BasicEvent {
 		this.description = description;
 	}
 
+	
+	
+	public String getMediaURL() {
+		return mediaURL;
+	}
+
+	public void setMediaURL(String mediaURL) {
+		this.mediaURL = mediaURL;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof BasicEvent) {
@@ -154,24 +175,5 @@ public class BasicEvent {
 		return this.id;
 	}
 
-	public JSONObject getJSONObject() {
-		JSONObject jsonEvent = new JSONObject();
-		try {
-			jsonEvent.put("id", getId());
-			jsonEvent.put("type", ((getType() == null) ? "" : getType()));
-			jsonEvent.put("title", ((getTitle() == null) ? "" : getTitle()));
-			jsonEvent.put("from",
-					(getFrom() == null ? "" : getFrom().getTime()));
-			jsonEvent.put("to", (getTo() == null ? "" : getTo().getTime()));
-			jsonEvent.put("metadata", (getMetadata() == null ? ""
-					: getMetadata().getTime()));
-			jsonEvent.put("place", (getPlace() == null ? "" : getPlace()));
-			jsonEvent.put("description", (getDescription() == null ? ""
-					: getDescription()));
-		} catch (JSONException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-		return jsonEvent;
-	}
+	
 }

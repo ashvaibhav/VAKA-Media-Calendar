@@ -201,7 +201,7 @@ public class EventService {
 	public void updateEvent(String id, String type, String from, String to,
 			String title, String place, String description) {
 		int updatedId = Integer.parseInt(id);
-		Calendar c = Calendar.getInstance();
+		//Calendar c = Calendar.getInstance();
 		// from:
 		long tineInMiliseconds = Long.parseLong(from);
 		Date fromDate = new Date(tineInMiliseconds);
@@ -210,12 +210,17 @@ public class EventService {
 		Date toDate = new Date(tineInMiliseconds);
 		// metadata:
 		Date metaDate = new Date(tineInMiliseconds);
-		BasicEvent ev = new BasicEvent(updatedId, type, fromDate, toDate,
-				metaDate, title, place, description);
+		
+		BasicEvent ev = new BasicEvent(updatedId);
 		if (eventList.contains(ev)) {
 			int location = eventList.indexOf(ev);
-			eventList.add(location, ev);
-
+			BasicEvent evToUpdate = eventList.get(location);
+			evToUpdate.setTitle(title);
+			evToUpdate.setPlace(place);
+			evToUpdate.setDescription(description);
+			evToUpdate.setFrom(fromDate);
+			evToUpdate.setTo(toDate);
+			evToUpdate.setMetadata(metaDate);
 		}
 	}
 

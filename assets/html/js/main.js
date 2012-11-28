@@ -181,9 +181,9 @@ function populateOneEvent(id, title, date, metadata, type, status){
  	}
  	var eventItem = "";
  	if(currentEvent.status)
- 			eventItem += "<img src='images/eventList/check_box"+currentEvent.status+".png'></span>";
+ 			eventItem += "<img class='noHighlight' src='images/eventList/check_box"+currentEvent.status+".png'></span>";
  	else
- 			eventItem += "<img src='images/eventList/check_box1.png'></span>";
+ 			eventItem += "<img class='noHighlight' src='images/eventList/check_box1.png'></span>";
  	//toggle icon on eventList page
  	$("#approvalIcon"+id).empty();
 	$("#approvalIcon"+id).append(eventItem);

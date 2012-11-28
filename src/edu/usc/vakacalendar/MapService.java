@@ -13,6 +13,7 @@ public class MapService {
 
 	public String getSuggestions(String subString) {
 		// TODO: implement map search
+		// [{}, {}]
 		return "";
 	}
 }
