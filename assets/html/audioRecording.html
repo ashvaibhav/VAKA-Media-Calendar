@@ -14,8 +14,16 @@
 <script type="text/javascript" src="js/jquery.gamequery-0.7.0.js"></script>
 </head>
 
-<body bgcolor="#f1f1f2" onload='javascript:audioRecordingStart();'>	
-	
+<body bgcolor="#f1f1f2" class='noHighlight' onload='javascript:audioRecordingStart();'>	
+<div id='test_activities' style='display:inline;'>
+	<input type='button' value='Audio' onClick='javascript:ButtonHandlers.onAudioButtonClick();'/>
+	<input type='button' value='Video' onClick='javascript:ButtonHandlers.onCameraButtonClick();'/>
+	<input type='button' value='Photo' onClick='javascript:ButtonHandlers.onPhotoButtonClick();'/>
+	<input type='button' value='Notes' onClick='javascript:ButtonHandlers.onEventListClick();'/>
+	<a href='eventList.html'>Event</a>
+	<a href='audioRecording.html'>AudioEvent</a>
+	<a href='startActivity.html'>StartEvent</a>
+	</div>	
 <div id='audio_screen' width="810px;" height="1200px;" style='text-align:center;background-color:#F1F1F2;'>
 	<div name='audioRecording'>
 		<span id='audioRecordingBgn'>

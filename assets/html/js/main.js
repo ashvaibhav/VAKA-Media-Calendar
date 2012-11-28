@@ -101,9 +101,9 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
  								eventItem += "<img src='images/eventList/check_box1.png'></span>";
 
 					//the complete text of item
- 					eventItem += "<span style='position:absolute;top:50px;left:200px;width:450px;'>"+title+"</span>"; 
+ 					eventItem += "<span id='editEventTitle"+id+"' style='position:absolute;top:50px;left:200px;width:450px;'>"+title+"</span>"; 
  					eventItem += "<HR style='position:absolute;top:70px;left:200px; width:450px;'/>";
- 					eventItem += "<span style='position:absolute;top:90px;left:200px;width:450px;'>"+date+"</span>";
+ 					eventItem += "<span id='editEventFrom"+id+"' style='position:absolute;top:90px;left:200px;width:450px;'>"+date+"</span>";
  					eventItem += "<HR style='position:absolute;top:110px;left:200px; width:450px;'/>"; 			 			
  					eventItem += "<span class='previewMetadata' style='position:absolute;top:130px;left:200px;width:450px;'><img src='images/eventList/"+type+"_icon_s.png'></span>"; 			 			
  					eventItem += "<span class='previewMetadataContent' style='position:absolute;top:130px;left:240px;width:450px;'>"+metadata+"</span>"+"</span>";
@@ -131,17 +131,39 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
  	for(index in dataForAllEvents){
 		if(dataForAllEvents[index].id == currentEvent.id){
 			dataForAllEvents[index] = currentEvent; 
+			break;
 		}		
 	}
+	EventService.updateEvent(currentEvent.id, currentEvent.type, currentEvent.from, currentEvent.to, currentEvent.title, currentEvent.place, currentEvent.description);
  }
+function updateEventList(){
+	//toggle Approval Icon status			taken care of in toggleApproval() funciton
+	
+	//toggle meeting title	
+	$("#editEventTitle"+currentEvent.id).empty().append(currentEvent.title);
+	//toggle meeting from date
+	$("#editEventFrom"+currentEvent.id).empty().append(currentEvent.from);
+}
+function updateEditedState(){
+	currentEvent.title = $("#editEventTitle").val();
+	currentEvent.from = $("#editEventFromText").val();
+	currentEvent.to = $("#editEventToText").val();
+	currentEvent.place = $("#editEventPlaceText").val();
+	currentEvent.status = 1;
+//(((document.getElementById("editEventStatus").getAttribute("src")).split("calendar_btn")[1]).split(".png")[0]);//$("#editEventStatus").attr("src");
+	currentEvent.description = $("#description"+currentEvent.id).val();
+	updateEventList();
+	updateEventListWithCurrentEvent();		
+	//alert(currentEvent.status);
+}
  function collapseEditEvent(){
- 		$("#edit_screen").hide(); 		
+		updateEditedState();
+ 		$("#edit_screen").hide();
 /*		$("#editEventForm"+currentEvent.id).hide();
 		$("#description"+currentEvent.id).parent().parent().empty();*/
  		$("#main_screen").show();
  		//deleting data
  		$("#updateEvent").empty();
- 		updateEventListWithCurrentEvent();		
  		currentEvent = "";
  }
  function expandEditEvent(){
@@ -189,8 +211,10 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
  	var eventItem = "";
  	if(currentEvent.status)
  			eventItem += "<img src='images/eventList/check_box"+currentEvent.status+".png'></span>";
- 	else
+ 	else{
  			eventItem += "<img src='images/eventList/check_box1.png'></span>";
+			currentEvent.status=1;
+	}
  	//toggle icon on eventList page
  	$("#approvalIcon"+id).empty();
 	$("#approvalIcon"+id).append(eventItem);
@@ -218,6 +242,25 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
 	editEvent(currentEvent.id, true);
 	}
  }
+function showPreview(){
+	var item = "";
+	switch(currentEvent.type){
+		case 'audio':alert('audio');break;
+		case 'video':alert('video');break;
+		case 'photo':alert('photo');break;
+		case 'note':alert('note');break;
+		default: alert("You associated some strange media with this event.");break;
+	}
+	item +=
+			"<span class='preview' title='preview'>"+
+				"<span class='previewMetadata'>"+
+					"<img src='images/eventList/"+currentEvent.type+"_icon_s.png'/>"+
+					"<span class='previewMetadataContent'>"+currentEvent.metadata+"</span>"+
+					"<span style='position:relative;top:40px;'>area to display the preview of the entity</span>"+
+				"</span>"+
+			"</span>";
+	return item;
+}
  function datePicker(control){
 	$("#editEvent"+control+"Text").datepicker("show");//editEventFrom
  	//alert("Date Picker under contruction - check ol js src");
@@ -299,7 +342,7 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
 							"</span>"+
 						//buttons
 							"<span id='editEventApproval' style='position:absolute;left:20px;top:10px;' onClick='javascript:toggleApproval("+id+",true);' title='approval'>"+
-								"<img src='images/editEvent/calendar_btn"+currentEvent.status+".png'/>"+
+								"<img id='editEventStatus' value="+currentEvent.status+" src='images/editEvent/calendar_btn"+currentEvent.status+".png'/>"+
 							"</span>"+
 							"<span style='position:absolute;left:140px;top:10px;' onClick='javascript:alarmClick();' title='alarm'>"+
 								"<img src='images/editEvent/alarm_btn1.png'/>"+
@@ -311,13 +354,7 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
 								"<img src='images/editEvent/delete_btn1.png'/>"+
 							"</span>"+
 						//preview
-							"<span class='preview' title='preview'>"+
-								"<span class='previewMetadata'>"+
-									"<img src='images/eventList/"+currentEvent.type+"_icon_s.png'/>"+
-									"<span class='previewMetadataContent'>"+currentEvent.metadata+"</span>"+
-									"<span style='position:relative;top:40px;'>area to display the preview of the entity</span>"+
-								"</span>"+
-							"</span>"+
+							showPreview()+
 						//form
 							"<span style='position:absolute;left:20px;top:340px;'>"+
 								formTable2
@@ -418,14 +455,24 @@ alt='gifgif' alt='gifgif' class='mapping' />"+
 */
 }
 function updateAudioTimer(){
-	alert("Hello");	
+	audioTimer++;
+	$("#audioTimer").html(audioTimer);
+	if(audioTimer<15)
+//		setInterval(updateAudioTimer(),1000);
+		audioTimerCountUp = setTimeout('updateAudioTimer()', 1000);
+	else
+		audioRecordingStopClicked();		
 }
 function audioRecordingStart(){
 	//startTimer
-	myVar=setInterval(updateAudioTimer(),1000);
+	audioTimer = -1;
+	audioTimerCountUp = setTimeout(updateAudioTimer(),1000);
 }
 function audioRecordingStopClicked(){
 	//stop timer
+	clearTimeout(audioTimerCountUp);
 	//hide stop button
+	$("#audioStopIcon").hide();
 	//destroy audio recording activity
+	ButtonHandlers.onStopButtonClick();
 }
