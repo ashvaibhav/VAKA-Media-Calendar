@@ -31,6 +31,7 @@
 	height:275px;
 	width:748px;
 	overflow:hidden;
+	z-index:1;
 }
 
 .editEventTextButton{
@@ -40,6 +41,7 @@
 
 .title{
 	top:0px;
+	z-index:1;
 }
 .from{
 	top:100px;
@@ -49,12 +51,35 @@
 }
 .place{
 	top:300px;
+	z-index:1;
 }
 .description{
 	top:400px;
+	z-index:1;
 }
 .editEventDropDown{
-	top:10px;
+	top:52px;
+	left:130px;
+	height:75px;
+	width:618px;
+	z-index:10;
+}
+.preview{
+	position:absolute;
+	left:20px;
+	top:120px;
+	width:760px;
+	height:200px;
+	border:1px solid;
+}
+.previewMetadata{
+	position:absolute;
+	left:20px;
+	top:20px;
+}
+.previewMetadataContent{
+	position:absolute;
+	padding-left:10px;
 }
 .noHighlight
 {

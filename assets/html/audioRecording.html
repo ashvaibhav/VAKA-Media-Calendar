@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" 
+	content="width=device-width, user-scalable=no, height = 800px ,width =480px, target-densitydpi = device-dpi" 
+/>
+<title>Audio Event</title>
+<link rel="stylesheet" type="text/css" href="css/editEvent.css"/>
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
+<script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="js/json.js"></script>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<script type="text/javascript" src="js/jquery.gamequery-0.7.0.js"></script>
+</head>
+
+<body bgcolor="#f1f1f2" onload='javascript:audioRecordingStart();'>	
+	
+<div id='audio_screen' width="810px;" height="1200px;" style='text-align:center;background-color:#F1F1F2;'>
+	<div name='audioRecording'>
+		<span id='audioRecordingBgn'>
+		<img  src = 'images/audioEvent/audio_event_bgn.png'/>
+		</span>
+		<span id='audioTimer' class='posAbs' style='left:41.64%;top:36%;z-index:10;' id='stopIcon'>00:00
+		</span>
+		<span id='audioStopIcon' class='posAbs' style='left:41.64%;top:36%;z-index:7;' id='stopIcon' onClick='javascript:audioRecordingStopClicked();'>
+			<img src='images/audioEvent/stop_btn_1.png'/>
+		</span>
+	</div>
+</body>
+</html>

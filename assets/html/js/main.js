@@ -1,5 +1,5 @@
 //Global Variables
-var debug = false;
+var debug = true;
 var dataForAllEvents;
 var currentEvent;
 
@@ -45,8 +45,11 @@ function populateAllEvents(){
 		}
 		if(!type)type=data.type;
 		if(!status)status=data.status;
-		if(data.status!=3)//if item is not deleted, display it
-			populateOneEvent(data.id, data.title, data.from, data.metadata, type, status);//id, type, title, from ,to ,place , description
+		$("#eventList").append("<div id='eventListComplete'></div>");
+		if(data.status!=3){	//if item is not deleted, display it
+			var response = populateOneEvent(data.id, data.title, data.from, data.metadata, type, status);//id, type, title, from ,to ,place , description,
+			$('#eventListComplete').append(response);
+		}
 	}
 }
 //getting data from Android about all events
@@ -82,8 +85,7 @@ dataForAllEvents = result;
 	//return "We plan to meet... :3-30 PM on 10/30... :25 Oct at 1...:audio, another event:trying to get it:figured out:video";	
 }
 //displaying one event data in EventList html page
-function populateOneEvent(id, title, date, metadata, type, status){
-		var eventList = $("#eventList");		
+function populateOneEvent(id, title, date, metadata, type, status, control){
 		var eventItem = "<div id='eventItem"+id+"' style='height:205px;'>";
 			//the complete item
 			eventItem+= "<HR>"; 
@@ -103,8 +105,8 @@ function populateOneEvent(id, title, date, metadata, type, status){
  					eventItem += "<HR style='position:absolute;top:70px;left:200px; width:450px;'/>";
  					eventItem += "<span style='position:absolute;top:90px;left:200px;width:450px;'>"+date+"</span>";
  					eventItem += "<HR style='position:absolute;top:110px;left:200px; width:450px;'/>"; 			 			
- 					eventItem += "<span style='position:absolute;top:130px;left:200px;width:450px;'><img src='images/eventList/"+type+"_icon_s.png'></span>"; 			 			
- 					eventItem += "<span style='position:absolute;top:130px;left:240px;width:450px;'>"+metadata+"</span>"+"</span>";
+ 					eventItem += "<span class='previewMetadata' style='position:absolute;top:130px;left:200px;width:450px;'><img src='images/eventList/"+type+"_icon_s.png'></span>"; 			 			
+ 					eventItem += "<span class='previewMetadataContent' style='position:absolute;top:130px;left:240px;width:450px;'>"+metadata+"</span>"+"</span>";
  					//delete icon
  					eventItem += "<span style='position:absolute;top:110px;left:730px;' onClick='javascript:toggleDelete("+id+");'><img src='images/eventList/delete_btn_s.png'></span>";
  					eventItem += "<HR style='position:absolute;top:170px;width:800px;border:1px solid #58585b; box-shadow: 0 2px 5px 1px #939597;'>";
@@ -117,7 +119,8 @@ function populateOneEvent(id, title, date, metadata, type, status){
  		//display delete icon
  		//display recorded date and timings
  		eventItem += "</div>";
- 		eventList.append(eventItem);
+ 		//$("#eventList").append(eventItem);
+		return eventItem;
  }
  function approveEvent(currentEvent){ 	
  	//currentEvent = JSON.parse(currentEvent);
@@ -133,9 +136,11 @@ function populateOneEvent(id, title, date, metadata, type, status){
  }
  function collapseEditEvent(){
  		$("#edit_screen").hide(); 		
+/*		$("#editEventForm"+currentEvent.id).hide();
+		$("#description"+currentEvent.id).parent().parent().empty();*/
  		$("#main_screen").show();
  		//deleting data
- 		$("#updateEvent").empty();;
+ 		$("#updateEvent").empty();
  		updateEventListWithCurrentEvent();		
  		currentEvent = "";
  }
@@ -160,7 +165,8 @@ function populateOneEvent(id, title, date, metadata, type, status){
 	}
  }
  function toggleDelete(id, fromEditPage){
-	alert("Do you want to delete it?");
+	var response = confirm("Do you want to delete it?");
+	if(response){
  	updateCurrentEvent(id);
  	currentEvent.status = 3;
  	$("#eventItem"+id).css("display","none"); 	
@@ -169,6 +175,7 @@ function populateOneEvent(id, title, date, metadata, type, status){
  	} 	
  	else
  		updateEventListWithCurrentEvent();
+	}
  }
  function toggleApproval(id, fromEditPage){
  	updateCurrentEvent(id);
@@ -181,9 +188,9 @@ function populateOneEvent(id, title, date, metadata, type, status){
  	}
  	var eventItem = "";
  	if(currentEvent.status)
- 			eventItem += "<img class='noHighlight' src='images/eventList/check_box"+currentEvent.status+".png'></span>";
+ 			eventItem += "<img src='images/eventList/check_box"+currentEvent.status+".png'></span>";
  	else
- 			eventItem += "<img class='noHighlight' src='images/eventList/check_box1.png'></span>";
+ 			eventItem += "<img src='images/eventList/check_box1.png'></span>";
  	//toggle icon on eventList page
  	$("#approvalIcon"+id).empty();
 	$("#approvalIcon"+id).append(eventItem);
@@ -202,19 +209,23 @@ function populateOneEvent(id, title, date, metadata, type, status){
  	alert("Alarm Under construction");
  }
  function reset(){
+	var response = confirm("Do you want to reset to default?");
+	if(response){
  	$("#editEventReset").empty().append("<img src='images/editEvent/undo_btn1.png'/>");
 	currentEvent = initialStateOfEvent;
 	updateEventListWithCurrentEvent();
 	$("#updateEvent").empty();
 	editEvent(currentEvent.id, true);
+	}
  }
  function datePicker(control){
 	$("#editEvent"+control+"Text").datepicker("show");//editEventFrom
  	//alert("Date Picker under contruction - check ol js src");
  }
  function mapPicker(){
-	var dropDown = "<input class='posAbs editEventDropDown place editEventTextBox editEventTextBoxContent editEventTextBoxStyle' type='text'/>";
-	$("span[name=place]").append(dropDown);
+	var dropDown = "<input class='editEventTextBoxContent editEventTextBoxStyle editEventDropDown' type='text'/>";
+	//$("span[name=place]").append(dropDown);
+	$("#EditEventPlaceText").append(dropDown);
  	//alert("Map Picker under contruction");
  }
  function editEvent(id, fromReset){
@@ -228,40 +239,6 @@ function populateOneEvent(id, title, date, metadata, type, status){
 		$("#main_screen").hide();
 		$("#edit_screen").show();
 		initialStateOfEvent = currentEvent;
-		var formTable =		 "<table border = 0>"+
-							"<tr>"+
-								"<td><span class='posAbs editEventHead  title'> Title</span></td>"+
-								"<td><span class='posAbs title'><input class='posAbs editEventTextBox' type='text' id='title"+id+"' value='"+currentEvent.title+"'/></span></td>"+
-								"<td><span></span></td>"+
-							"</tr>"+
-							"<tr>"+
-								"<td><span class='posAbs editEventHead  from'> From</span></td>"+
-								"<td><span class='posAbs from'><input class='posAbs editEventTextBox' type='text' id='from"+id+"' value='"+currentEvent.from+"'/></span></td>"+
-								"<td><span class='posAbs editEventTextButton from'><img src='images/editEvent/calendar_picker.png'/></span></td>"+
-							"</tr>"+
-							"<tr>"+
-								"<td><span class='posAbs editEventHead  to' style='top:40px;'> To</span></td>"+
-								"<td><span class='posAbs to'><input class='posAbs editEventTextBox' type='text' id='to"+id+"' value='"+currentEvent.to+"'/></span></td>"+
-								"<td><span class='posAbs editEventTextButton to'><img src='images/editEvent/calendar_picker.png'/></span></td>"+
-							"</tr>"+
-							"<tr>"+
-								"<td><span class='posAbs editEventHead place'> Place</span></td>"+
-								"<td><span class='posAbs place'><input class='posAbs editEventTextBox' type='text' id='to"+id+"' value='"+currentEvent.place+"'/></span></td>"+
-								"<td><span class='posAbs editEventTextButton place' style='top:300px;'><img src='images/editEvent/map_picker.png'/></span></td>"+
-							"</tr>"+
-							"<tr>"+
-								"<td colspan=3><span class='posAbs editEventHead ' style='top:100px;'> Description</span></td>"+								
-							"</tr>"+
-							"<tr>"+
-								"<td colspan=3><textarea id='description"+id+"' rows=20 cols=60>"+
-									currentEvent.description+
-								"</textarea></td>"+								
-							"</tr>"+
-							"<tr>"+
-								"<td colspan=1></td>"+
-								"<td colspan=2 style='text-align:right;'>Save Reminder Delete</td>"+								
-							"</tr>"+
-						"</table>";
 						
 		var formTable2 = "<span name='title'>"+
 							"<span class='posAbs title editEventHead'>"+
@@ -278,7 +255,7 @@ function populateOneEvent(id, title, date, metadata, type, status){
 //							"<span class='posAbs from editEventTextBox editEventTextBoxContent editEventTextBoxStyle'>"+
 //									currentEvent.from+
 //							"</span>"+
-							"<input id='editEventFromText' type='text' class='posAbs from editEventTextBox editEventTextBoxContent editEventTextBoxStyle' value='"+currentEvent.from+"'/>"+
+							"<input disabled='disabled' id='editEventFromText' type='text' class='posAbs from editEventTextBox editEventTextBoxContent editEventTextBoxStyle' value='"+currentEvent.from+"'/>"+
 							"<span id='editEventFrom' onClick='javascript:datePicker(\"From\");'><img class='posAbs from editEventTextButton ' src='images/editEvent/calendar_picker.png'/></span>"+
 						"</span>"+
 						"<span name='to'>"+
@@ -288,14 +265,14 @@ function populateOneEvent(id, title, date, metadata, type, status){
 //							"<span class='posAbs to editEventTextBox editEventTextBoxContent editEventTextBoxStyle'>"+
 //									currentEvent.to+
 //							"</span>"+
-							"<input id='editEventToText' type='text' class='posAbs to editEventTextBox editEventTextBoxContent editEventTextBoxStyle' value='"+currentEvent.to+"'/>"+
+							"<input disabled='disabled' id='editEventToText' type='text' class='posAbs to editEventTextBox editEventTextBoxContent editEventTextBoxStyle' value='"+currentEvent.to+"'/>"+
 							"<span id='editEventTo' onClick='javascript:datePicker(\"To\");'><img class='posAbs to editEventTextButton' src='images/editEvent/calendar_picker.png'/></span>"+
 						"</span>"+
 						"<span name='place'>"+
 							"<span class='posAbs place editEventHead '>"+
 									"Place"+
 							"</span>"+
-							"<span class='posAbs place editEventTextBox editEventTextBoxContent editEventTextBoxStyle'>"+
+							"<span id='EditEventPlaceText' class='posAbs place editEventTextBox editEventTextBoxContent editEventTextBoxStyle'>"+
 									currentEvent.place+
 							"</span>"+
 							"<span onClick='javascript:mapPicker();'><img class='posAbs place editEventTextButton' src='images/editEvent/map_picker.png'/></span>"+
@@ -334,17 +311,11 @@ function populateOneEvent(id, title, date, metadata, type, status){
 								"<img src='images/editEvent/delete_btn1.png'/>"+
 							"</span>"+
 						//preview
-							"<span style='position:absolute;left:20px;top:120px;width:760px;height:200px;border:1px solid;' title='collapse'>"+
-								"<span>"+
+							"<span class='preview' title='preview'>"+
+								"<span class='previewMetadata'>"+
 									"<img src='images/eventList/"+currentEvent.type+"_icon_s.png'/>"+
-									"<span>"+currentEvent.metadata+"</span>"+
-									"<span style='position:relative;top:40px;'>"+
-										//"<img src='"+"/storage/emulated/0/qwe.3gp"+"'/>"+//currentEvent.data
-										"<video width='320' height='240' controls='controls'>"+
-											"<source src='qwe.3gp' type='video/3gp'>"+
-											"Your browser does not show video :P"+
-										"</video>"+
-									+"</span>"+
+									"<span class='previewMetadataContent'>"+currentEvent.metadata+"</span>"+
+									"<span style='position:relative;top:40px;'>area to display the preview of the entity</span>"+
 								"</span>"+
 							"</span>"+
 						//form
@@ -445,4 +416,16 @@ alt='gifgif' alt='gifgif' class='mapping' />"+
     	"</map>"+// * /
 	"</img>");
 */
+}
+function updateAudioTimer(){
+	alert("Hello");	
+}
+function audioRecordingStart(){
+	//startTimer
+	myVar=setInterval(updateAudioTimer(),1000);
+}
+function audioRecordingStopClicked(){
+	//stop timer
+	//hide stop button
+	//destroy audio recording activity
 }
