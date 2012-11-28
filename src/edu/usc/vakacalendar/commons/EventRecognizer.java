@@ -244,6 +244,8 @@ public class EventRecognizer {
 			StringBuffer strBuff = new StringBuffer(title);
 			strBuff.delete(this.TITLE_SIZE, strBuff.length()).append("...");
 			event.setTitle(strBuff.toString());
-		}
+			return;
+		} 
+		event.setTitle(title);
 	}
 }
