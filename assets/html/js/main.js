@@ -60,8 +60,8 @@ if(!debug)
 else
 	result = '['+
 				'{"id":"1","title":"This audio meeting 1 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":"1", "mediaURL":"/storage/emulated/0/VAKA_audio001.3gp"},'+
-				'{"id":"2","title":"This video meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":"1", "mediaURL":"/storage/emulated/0/qwe.3gp"},'+
-				'{"id":"3","title":"This photo meeting 3 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", 								   "type":"photo","metadata":"stored info about meeting","status":"1","description":"'+				   
+				'{"id":"2","title":"This video works in alex machine", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":"1", "mediaURL":"/storage/emulated/0/qwe.3gp"},'+
+				'{"id":"3","title":"This photo is nice", "from":"some date", "to":"some other date at", "place":"Los Angeles", 								   "type":"photo","metadata":"stored info about meeting","status":"1","description":"'+				   
 				
 									"asddhg alidsh gpidh gqp hgiade hgiahgpoiah aiphgipa ghiad hgdgh aish"+
 									"asddhg alidsh gpidh gqp hgiade hgiahgpoiah aiphgipa ghiad hgdgh aish"+
@@ -73,10 +73,10 @@ else
 									"asddhg alidsh gpidh gqp hgiade hgiahgpoiah aiphgipa ghiad hgdgh aish"+
 									"asddhg alidsh gpidh gqp hgiade hgiahgpoiah aiphgipa ghiad hgdgh aish"+
 				'", "mediaURL":"/storage/emulated/0/123.jpg"},'+
-				'{"id":"4","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":"1"},'+
-				'{"id":"5","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":"1","mediaURL":"file.mp3"},'+
-				'{"id":"6","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":"1","mediaURL":""},'+
-				'{"id":"7","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"photo","metadata":"stored info about meeting","status":"1","mediaURL":""},'+
+				'{"id":"4","title":"This hangout meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":"1","mediaURL":"/storage/emulated/0/hangout_ringtone.ogg"},'+
+				'{"id":"5","title":"This song we will love", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":"1","mediaURL":"file.mp3"},'+
+				'{"id":"6","title":"This mp3 meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":"1","mediaURL":"/storage/emulated/0/asd.mp3"},'+
+				'{"id":"7","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":"1","mediaURL":"/storage/emulated/0/asd.mp3"},'+
 				'{"id":"8","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":1,"metadata":"stored info about meeting","status":"1"},'+
 				'{"id":"9","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":1,"metadata":"stored info about meeting","status":"1"}'+
 			 ']';
