@@ -221,6 +221,7 @@ public class EventService {
 			evToUpdate.setTo(toDate);
 			evToUpdate.setMetadata(metaDate);
 		}
+		saveAllEventsFromExternalFile();
 	}
 
 	public String addEvent(BasicEvent newEv) {
