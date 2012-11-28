@@ -3,6 +3,7 @@ package edu.usc.vakacalendar;
 
 import edu.usc.vakacalendar.commons.EventService;
 import edu.usc.vakacalendar.commons.MapService;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -39,5 +40,7 @@ public class StartActivity extends AbstractButtonHandlerActivity {
 		super.onRestart();
 		refreshPage();
 	}
+	
+
 	
 }

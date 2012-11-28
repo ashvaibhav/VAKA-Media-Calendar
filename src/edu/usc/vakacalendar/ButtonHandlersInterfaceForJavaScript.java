@@ -8,18 +8,22 @@ public class ButtonHandlersInterfaceForJavaScript implements ButtonHandler {
 		this.curActivity = curActivity;
 	}
 
+	@Override
 	public void onAudioButtonClick() {
 		curActivity.onAudioButtonClick();
 	}
 
+	@Override
 	public void onCameraButtonClick() {
 		curActivity.onCameraButtonClick();
 	}
 
+	@Override
 	public void onPhotoButtonClick() {
 		curActivity.onPhotoButtonClick();
 	}
 
+	@Override
 	public void onEventListClick() {
 		curActivity.onEventListClick();
 	}
@@ -28,6 +32,16 @@ public class ButtonHandlersInterfaceForJavaScript implements ButtonHandler {
 	public void onStopButtonClick() {
 		curActivity.onStopButtonClick();
 		
+	}
+	
+	@Override
+	public void onPlay(String url){
+		curActivity.onPlay(url);
+	}
+
+	@Override
+	public void onStopPlay(){
+		curActivity.onStopPlay();	
 	}
 
 }

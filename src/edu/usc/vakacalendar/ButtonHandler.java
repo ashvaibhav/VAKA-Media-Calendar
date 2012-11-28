@@ -11,5 +11,9 @@ public interface ButtonHandler {
 	public void onEventListClick();
 	
 	public void onStopButtonClick();
+
+	public void onPlay(String url);
+	
+	public void onStopPlay();
 	
 }
