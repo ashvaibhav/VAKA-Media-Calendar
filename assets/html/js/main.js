@@ -252,8 +252,19 @@ function showPreview(){
 					"<span style='position:relative;top:40px;'>";
 	switch(currentEvent.type){
 		case 'audio':
+			item += "<audio src='"+currentEvent.mediaURL+"'>"+
+    					"<p>Your browser does not support the audio element</p>"+
+				"</audio>";
+			break;
 		case 'video':
-		case 'photo':item += currentEvent.type;break;
+			item +=	"<video width='320' height='240' controls='controls'>"+
+				"  <source src='"=currentEvent.mediaURL+"' type='video/3gp'>"+
+				"Your browser does not support the video tag."+
+				"</video>";
+			break;
+		case 'photo':
+			item += "<img src='"+currentEvent.mediaURL+"'/>";
+			break;
 		case 'note':alert('note');break;
 		default: alert("You associated some strange media with this event.");break;
 	}
