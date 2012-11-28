@@ -13,11 +13,9 @@ public class StartActivity extends AbstractButtonHandlerActivity {
 	EventService evnSrv = EventService.getInstance(); 
 	MapService mapSrv = MapService.getInstance(); 
 	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	private void refreshPage(){
 		setContentView(R.layout.activity_start);
-
+		
 		WebView webView = (WebView) findViewById(R.id.startWebview);
 		webView.setWebChromeClient(new WebChromeClient());
 		WebSettings webSettings = webView.getSettings();
@@ -31,20 +29,15 @@ public class StartActivity extends AbstractButtonHandlerActivity {
 	}
 	
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		refreshPage();
+	}
+	
+	@Override
 	protected void onRestart() {
 		super.onRestart();
-		setContentView(R.layout.activity_start);
-
-		WebView webView = (WebView) findViewById(R.id.startWebview);
-		webView.setWebChromeClient(new WebChromeClient());
-		WebSettings webSettings = webView.getSettings();
-		webSettings.setJavaScriptEnabled(true);
-		buttonHandlersObj = new ButtonHandlersInterfaceForJavaScript(
-				this);
-		webView.addJavascriptInterface(buttonHandlersObj, "ButtonHandlers");
-		webView.addJavascriptInterface(evnSrv, "EventService");
-		webView.addJavascriptInterface(mapSrv, "MapService");
-		webView.loadUrl(getString(R.string.start_activity_html_file_url));
+		refreshPage();
 	}
 	
 }
