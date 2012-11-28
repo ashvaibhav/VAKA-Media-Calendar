@@ -33,14 +33,14 @@ function populateAllEvents(){
 		var status = "";
 		if(data.status){
 			switch(data.status){
-				case 1:
+				case "1":
 					status = "unapproved";break;
-				case 2:
+				case "2":
 					status = "approved";break;
 			}
 		}
 		else{
-			data["status"] = 1;
+			data["status"] = "1";
 			status = "unapproved";
 		}
 		if(!type)type=data.type;
@@ -59,9 +59,9 @@ if(!debug)
 	result = EventService.getAllEvents();
 else
 	result = '['+
-				'{"id":"1","title":"This meeting 1 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":1, "mediaURL":"/storage/emulated/0/asd.mp3"},'+
-				'{"id":"2","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":1, "mediaURL":"/storage/emulated/0/qwe.3gp"},'+
-				'{"id":"3","title":"This meeting 3 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", 								   "type":"photo","metadata":"stored info about meeting","status":1,"description":"'+				   
+				'{"id":"1","title":"This audio meeting 1 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":"1", "mediaURL":"/storage/emulated/0/VAKA_audio001.3gp"},'+
+				'{"id":"2","title":"This video meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":"1", "mediaURL":"/storage/emulated/0/qwe.3gp"},'+
+				'{"id":"3","title":"This photo meeting 3 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", 								   "type":"photo","metadata":"stored info about meeting","status":"1","description":"'+				   
 				
 									"asddhg alidsh gpidh gqp hgiade hgiahgpoiah aiphgipa ghiad hgdgh aish"+
 									"asddhg alidsh gpidh gqp hgiade hgiahgpoiah aiphgipa ghiad hgdgh aish"+
@@ -73,12 +73,12 @@ else
 									"asddhg alidsh gpidh gqp hgiade hgiahgpoiah aiphgipa ghiad hgdgh aish"+
 									"asddhg alidsh gpidh gqp hgiade hgiahgpoiah aiphgipa ghiad hgdgh aish"+
 				'", "mediaURL":"/storage/emulated/0/123.jpg"},'+
-				'{"id":"4","title":"This new meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":1, "mediaURL":"/storage/emulated/0/hangout_ringtone.ogg"},'+
-				'{"id":"5","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":1},'+
-				'{"id":"6","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"photo","metadata":"stored info about meeting","status":1},'+
-				'{"id":"7","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":1},'+
-				'{"id":"8","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":1},'+
-				'{"id":"9","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":1}'+
+				'{"id":"4","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":"1"},'+
+				'{"id":"5","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":"1","mediaURL":"file.mp3"},'+
+				'{"id":"6","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":"1","mediaURL":""},'+
+				'{"id":"7","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"photo","metadata":"stored info about meeting","status":"1","mediaURL":""},'+
+				'{"id":"8","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":1,"metadata":"stored info about meeting","status":"1"},'+
+				'{"id":"9","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":1,"metadata":"stored info about meeting","status":"1"}'+
 			 ']';
 result = JSON.parse(result);
 dataForAllEvents = result;	
@@ -135,7 +135,7 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
 		}		
 	}
 	if(!debug)
-	EventService.updateEvent(currentEvent.id, currentEvent.type, currentEvent.from, currentEvent.to, currentEvent.title, currentEvent.place, currentEvent.description);
+		EventService.updateEvent(currentEvent.id, currentEvent.type, currentEvent.from, currentEvent.to, currentEvent.title, currentEvent.place, currentEvent.description);
  }
 function updateEventList(){
 	//toggle Approval Icon status			taken care of in toggleApproval() funciton
@@ -150,7 +150,7 @@ function updateEditedState(){
 	currentEvent.from = $("#editEventFromText").val();
 	currentEvent.to = $("#editEventToText").val();
 	currentEvent.place = $("#editEventPlaceText").val();
-	currentEvent.status = 1;
+	currentEvent.status = "1";
 //(((document.getElementById("editEventStatus").getAttribute("src")).split("calendar_btn")[1]).split(".png")[0]);//$("#editEventStatus").attr("src");
 	currentEvent.description = $("#description"+currentEvent.id).val();
 	updateEventList();
@@ -191,7 +191,7 @@ function updateEditedState(){
 	var response = confirm("Do you want to delete it?");
 	if(response){
  	updateCurrentEvent(id);
- 	currentEvent.status = 3;
+ 	currentEvent.status = "3";
  	$("#eventItem"+id).css("display","none"); 	
  	if(fromEditPage){
  		collapseEditEvent();
@@ -204,17 +204,17 @@ function updateEditedState(){
  	updateCurrentEvent(id);
  	//toggle the status 	
  	switch(currentEvent.status){
- 		case 1:
- 			currentEvent.status = 2;break;
- 		case 2:
- 			currentEvent.status = 1;break;
+ 		case "1":
+ 			currentEvent.status = "2";break;
+ 		case "2":
+ 			currentEvent.status = "1";break;
  	}
  	var eventItem = "";
  	if(currentEvent.status)
  			eventItem += "<img src='images/eventList/check_box"+currentEvent.status+".png'></span>";
  	else{
  			eventItem += "<img src='images/eventList/check_box1.png'></span>";
-			currentEvent.status=1;
+			currentEvent.status="1";
 	}
  	//toggle icon on eventList page
  	$("#approvalIcon"+id).empty();
@@ -243,30 +243,51 @@ function updateEditedState(){
 	editEvent(currentEvent.id, true);
 	}
  }
+function getMediaType(ext){
+	var response = "";
+	switch(ext){
+		case "ogg":
+		case "oga":
+				response = "ogg";	break;
+		case "m4a":
+				response = "mp4";	break;
+		case "mp3":
+				response = "mpeg";	break;
+		case "webma":
+				response = "webm";	break;
+		case "3gp":
+				response = "3gpp";	break;
+		default:
+				response = ext; 
+	}
+	return response;
+}
 function showPreview(){
 	var item = "";
 	item +=
 			"<span class='preview' title='preview'>"+
 				"<span class='previewMetadata'>"+
 					"<img src='images/eventList/"+currentEvent.type+"_icon_s.png'/>"+
-					"<span class='previewMetadataContent'>"+currentEvent.metadata+"</span>"+
-					"<span style='position:relative;top:40px;'>";
+					"<span class='previewMetadataContent' style='width:500px;'>"+currentEvent.metadata+"</span>"+
+					"<span>";// style='position:relative;top:40px;'>";
 	switch(currentEvent.type){
 		case 'audio':
-			item += "<audio controls='controls'>"+
-    					"<source src='"+currentEvent.mediaURL+"' type='audio/ogg'>"+
+			item += /*"<audio class='posAbs' style='top:-270px;' width='600px' height='400' src='"+currentEvent.mediaURL+"'>"+
     					"<p>Your browser does not support the audio element</p>"+
+				"</audio>";*/
+				"<audio class='posAbs' style='top:-270px;' width='600px' height='400' controls='controls'>"+
+				"<source src='"+currentEvent.mediaURL+"' type='video/"+getMediaType(currentEvent.mediaURL.split(".")[1])+"'>"+
+				"<P>Your browsr does not support the audio element</P>"+
 				"</audio>";
-			
 			break;
 		case 'video':
-			item +=	"<video class='posAbs' style='top:-270px;' width='600' height='400' controls='controls'>"+
-				"  <source src='"+currentEvent.mediaURL+"' type='video/3gpp'>"+
+			item +=	"<video class='posAbs' style='top:-270px;' width='600px' height='400' controls='controls'>"+
+				"<source src='"+currentEvent.mediaURL+"' type='video/"+getMediaType(currentEvent.mediaURL.split(".")[1])+"'>"+
 				"Your browser does not support the video tag."+
 				"</video>";
 			break;
 		case 'photo':
-			item += "<img src='"+currentEvent.mediaURL+"'/>";
+			item += "<img class='posAbs' style='top:0px;' width='620px' height='150' src='"+currentEvent.mediaURL+"'/>";
 			break;
 		case 'note':alert('note');break;
 		default: alert("You associated some strange media with this event.");break;
