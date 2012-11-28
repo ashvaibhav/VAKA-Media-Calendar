@@ -244,19 +244,20 @@ function updateEditedState(){
  }
 function showPreview(){
 	var item = "";
-	switch(currentEvent.type){
-		case 'audio':alert('audio');break;
-		case 'video':alert('video');break;
-		case 'photo':alert('photo');break;
-		case 'note':alert('note');break;
-		default: alert("You associated some strange media with this event.");break;
-	}
 	item +=
 			"<span class='preview' title='preview'>"+
 				"<span class='previewMetadata'>"+
 					"<img src='images/eventList/"+currentEvent.type+"_icon_s.png'/>"+
 					"<span class='previewMetadataContent'>"+currentEvent.metadata+"</span>"+
-					"<span style='position:relative;top:40px;'>area to display the preview of the entity</span>"+
+					"<span style='position:relative;top:40px;'>";
+	switch(currentEvent.type){
+		case 'audio':
+		case 'video':
+		case 'photo':item += currentEvent.type;break;
+		case 'note':alert('note');break;
+		default: alert("You associated some strange media with this event.");break;
+	}
+	item += "</span>"+
 				"</span>"+
 			"</span>";
 	return item;
