@@ -1,9 +1,9 @@
 package edu.usc.vakacalendar;
 
-import java.io.File;
 
+import edu.usc.vakacalendar.commons.EventService;
+import edu.usc.vakacalendar.commons.MapService;
 import android.os.Bundle;
-import android.os.Environment;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;

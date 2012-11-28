@@ -4,7 +4,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class EventRecognizer {
-
+	private final int TITLE_SIZE = 25;
+	private final String AUDIO_URL = "/storage/emulated/0/VAKA_audio001.3gp";
+	private final String PLACE = "LA";
 	private class ParseFailedExcepion extends Exception {
 
 		/**
@@ -102,7 +104,9 @@ public class EventRecognizer {
 			return false;
 		}
 	}
-	private Date findFromTime(String[] array, Date fromDate) throws ParseFailedExcepion {
+
+	private Date findFromTime(String[] array, Date fromDate)
+			throws ParseFailedExcepion {
 		Calendar c = Calendar.getInstance();
 		c.setTime(fromDate);
 		c.set(Calendar.MINUTE, 0);
@@ -122,11 +126,12 @@ public class EventRecognizer {
 					} catch (ParseFailedExcepion e) {
 					}
 				}
-				
+
 			}
 		}
 		throw new ParseFailedExcepion();
 	}
+
 	private Date findFromDate(String[] array) throws ParseFailedExcepion {
 		Calendar c = Calendar.getInstance();
 		for (int i = 0; i < array.length; i++) {
@@ -224,8 +229,21 @@ public class EventRecognizer {
 			fromDate = c.getTime();
 		}
 		event.setFrom(fromDate);
-		event.setTo(c.getTime());
-		event.setTitle(inputText);
+		event.setTo(null);
+		setTruncatedTitle(event, inputText);
+		event.setDescription(inputText);
+		event.setPlace(this.PLACE);
+		event.setType(BasicEvent.AUDIO);
+		event.setMetadata(c.getTime());
+		event.setMediaURL(this.AUDIO_URL);
 		return event;
+	}
+
+	private void setTruncatedTitle(BasicEvent event, String title) {
+		if (title.length() > this.TITLE_SIZE) {
+			StringBuffer strBuff = new StringBuffer(title);
+			strBuff.delete(this.TITLE_SIZE, strBuff.length()).append("...");
+			event.setTitle(strBuff.toString());
+		}
 	}
 }

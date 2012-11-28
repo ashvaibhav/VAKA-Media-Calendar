@@ -6,6 +6,7 @@ import java.util.Calendar;
 
 import edu.usc.vakacalendar.commons.BasicEvent;
 import edu.usc.vakacalendar.commons.EventRecognizer;
+import edu.usc.vakacalendar.commons.EventService;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -21,9 +22,10 @@ import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.support.v4.app.NavUtils;
 
-public class AudioScreenActivity extends Activity {
+public class AudioScreenActivity extends AbstractButtonHandlerActivity {
 	private static final String TAG = "VAKA";
 
+	ButtonHandlersInterfaceForJavaScript buttonHandlersObj;
 	private SpeechRecognizer mSpeechRecognizer;
 	private Intent mRecognizerIntent;
 	private EventRecognizer eventRecognizer;
@@ -117,6 +119,11 @@ public class AudioScreenActivity extends Activity {
 		webView.setWebChromeClient(new WebChromeClient());
 		WebSettings webSettings = webView.getSettings();
 		webSettings.setJavaScriptEnabled(true);
+		
+		
+		buttonHandlersObj = new ButtonHandlersInterfaceForJavaScript(
+				this);
+		webView.addJavascriptInterface(buttonHandlersObj, "ButtonHandlers");
 		webView.addJavascriptInterface(evnSrv, "EventService");
 		webView.loadUrl(getString(R.string.audio_activity_html_file_url));
 

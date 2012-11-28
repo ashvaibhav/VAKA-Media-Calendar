@@ -1,5 +1,6 @@
 package edu.usc.vakacalendar;
 
+import edu.usc.vakacalendar.commons.EventService;
 import android.os.Bundle;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;

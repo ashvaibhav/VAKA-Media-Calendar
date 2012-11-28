@@ -1,4 +1,4 @@
-package edu.usc.vakacalendar;
+package edu.usc.vakacalendar.commons;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -19,7 +19,6 @@ import org.json.JSONObject;
 import android.os.Environment;
 import android.util.Log;
 
-import edu.usc.vakacalendar.commons.BasicEvent;
 
 public class EventService {
 	private String eventsFileName = "Events.txt";
