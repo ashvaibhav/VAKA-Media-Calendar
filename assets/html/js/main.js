@@ -59,8 +59,8 @@ if(!debug)
 	result = EventService.getAllEvents();
 else
 	result = '['+
-				'{"id":"1","title":"This meeting 1 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":1},'+
-				'{"id":"2","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":1},'+
+				'{"id":"1","title":"This meeting 1 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":1, "mediaURL":"/storage/emulated/0/asd.mp3"},'+
+				'{"id":"2","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":1, "mediaURL":"/storage/emulated/0/qwe.3gp"},'+
 				'{"id":"3","title":"This meeting 3 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", 								   "type":"photo","metadata":"stored info about meeting","status":1,"description":"'+				   
 				
 									"asddhg alidsh gpidh gqp hgiade hgiahgpoiah aiphgipa ghiad hgdgh aish"+
@@ -72,13 +72,13 @@ else
 									"asddhg alidsh gpidh gqp hgiade hgiahgpoiah aiphgipa ghiad hgdgh aish"+
 									"asddhg alidsh gpidh gqp hgiade hgiahgpoiah aiphgipa ghiad hgdgh aish"+
 									"asddhg alidsh gpidh gqp hgiade hgiahgpoiah aiphgipa ghiad hgdgh aish"+
-				'"},'+
-				'{"id":"4","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":3,"metadata":"stored info about meeting","status":1},'+
-				'{"id":"5","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":2,"metadata":"stored info about meeting","status":1},'+
-				'{"id":"6","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":1,"metadata":"stored info about meeting","status":1},'+
-				'{"id":"7","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":1,"metadata":"stored info about meeting","status":1},'+
-				'{"id":"8","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":1,"metadata":"stored info about meeting","status":1},'+
-				'{"id":"9","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":1,"metadata":"stored info about meeting","status":1}'+
+				'", "mediaURL":"/storage/emulated/0/123.jpg"},'+
+				'{"id":"4","title":"This new meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":1, "mediaURL":"/storage/emulated/0/hangout_ringtone.ogg"},'+
+				'{"id":"5","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":1},'+
+				'{"id":"6","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"photo","metadata":"stored info about meeting","status":1},'+
+				'{"id":"7","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":1},'+
+				'{"id":"8","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":1},'+
+				'{"id":"9","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":1}'+
 			 ']';
 result = JSON.parse(result);
 dataForAllEvents = result;	
@@ -134,6 +134,7 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
 			break;
 		}		
 	}
+	if(!debug)
 	EventService.updateEvent(currentEvent.id, currentEvent.type, currentEvent.from, currentEvent.to, currentEvent.title, currentEvent.place, currentEvent.description);
  }
 function updateEventList(){
@@ -252,13 +253,15 @@ function showPreview(){
 					"<span style='position:relative;top:40px;'>";
 	switch(currentEvent.type){
 		case 'audio':
-			item += "<audio src='"+currentEvent.mediaURL+"'>"+
+			item += "<audio controls='controls'>"+
+    					"<source src='"+currentEvent.mediaURL+"' type='audio/ogg'>"+
     					"<p>Your browser does not support the audio element</p>"+
 				"</audio>";
+			
 			break;
 		case 'video':
-			item +=	"<video width='320' height='240' controls='controls'>"+
-				"  <source src='"=currentEvent.mediaURL+"' type='video/3gp'>"+
+			item +=	"<video class='posAbs' style='top:-270px;' width='600' height='400' controls='controls'>"+
+				"  <source src='"+currentEvent.mediaURL+"' type='video/3gpp'>"+
 				"Your browser does not support the video tag."+
 				"</video>";
 			break;

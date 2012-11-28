@@ -63,6 +63,7 @@ public class BasicEvent {
 		this.title = jsonEvent.getString("title");
 		this.place = jsonEvent.getString("place");
 		this.description = jsonEvent.getString("place");
+		this.mediaURL = jsonEvent.getString("mediaURL");
 	}
 
 	public JSONObject getJSONObject() {
@@ -79,6 +80,8 @@ public class BasicEvent {
 			jsonEvent.put("place", (getPlace() == null ? "" : getPlace()));
 			jsonEvent.put("description", (getDescription() == null ? ""
 					: getDescription()));
+			jsonEvent.put("mediaURL", (getDescription() == null ? ""
+					: getMediaURL()));
 		} catch (JSONException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e);
