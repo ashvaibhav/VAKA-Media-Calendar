@@ -19,10 +19,8 @@ import org.json.JSONObject;
 import android.os.Environment;
 import android.util.Log;
 
-
 public class EventService {
 	private String eventsFileName = "Events.txt";
-	private String runLogFileName = "RunLog.txt";
 	private boolean isFirstStart;
 	private boolean mExternalStorageAvailable = false;
 	private boolean mExternalStorageWriteable = false;
@@ -36,8 +34,8 @@ public class EventService {
 	}
 
 	private EventService() {
-		loadAllEventsFromExternalFile();
 		checkRunLog();
+		loadAllEventsFromExternalFile();
 	}
 
 	private void checkStorageAvailability() {
@@ -57,42 +55,12 @@ public class EventService {
 	private void checkRunLog() {
 		checkStorageAvailability();
 		if (mExternalStorageAvailable && mExternalStorageWriteable) {
-			Environment.getExternalStorageDirectory();
 			File file = new File(Environment.getExternalStorageDirectory(),
-					runLogFileName);
-			this.isFirstStart = false;
-			try {
-				DataInputStream dis = new DataInputStream(new FileInputStream(
-						file));
-				try {
-					String runNumber = dis.readUTF();
-					Log.d(this.getClass().getName(), "Run log read: \n"
-							+ runNumber);
-				} finally {
-					dis.close();
-				}
-			} catch (FileNotFoundException e) {
+					this.eventsFileName);
+			if (file.exists())
+				this.isFirstStart = false;
+			else 
 				this.isFirstStart = true;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			try {
-				DataOutputStream dos = new DataOutputStream(
-						new FileOutputStream(file));
-				try {
-					dos.writeUTF("1");
-					Log.d(this.getClass().getName(), "Run log writen: \n"
-							+ getAllEvents());
-				} finally {
-					dos.close();
-				}
-			} catch (FileNotFoundException e) {
-				// Unable to create file, likely because external storage is not
-				// currently mounted.
-				Log.w("ExternalStorage", "Error writing " + file, e);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		} else {
 			Log.d(this.getClass().getName(),
 					"External storage is not available: storage available: "
@@ -106,7 +74,6 @@ public class EventService {
 	private void saveAllEventsFromExternalFile() {
 		checkStorageAvailability();
 		if (mExternalStorageAvailable && mExternalStorageWriteable) {
-			Environment.getExternalStorageDirectory();
 
 			File file = new File(Environment.getExternalStorageDirectory(),
 					eventsFileName);
@@ -146,8 +113,30 @@ public class EventService {
 
 			File file = new File(Environment.getExternalStorageDirectory(),
 					eventsFileName);
-
 			try {
+				boolean isFileExists = file.exists();
+				if (!isFileExists) {
+					boolean isCreated = file.createNewFile();
+					if (isCreated){
+
+						try {
+							DataOutputStream dos = new DataOutputStream(
+									new FileOutputStream(file));
+							try {
+								dos.writeUTF("[]");
+							} finally {
+								dos.close();
+							}
+						} catch (FileNotFoundException e) {
+							Log.w("ExternalStorage", "Error writing " + file, e);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}	
+					}
+					else {
+						// ERROR: runtime exception 
+					}
+				}
 				DataInputStream dis = new DataInputStream(new FileInputStream(
 						file));
 				try {
@@ -170,7 +159,6 @@ public class EventService {
 				} finally {
 					dis.close();
 				}
-
 			} catch (FileNotFoundException e) {
 				// Unable to create file, likely because external storage is not
 				// currently mounted.
@@ -200,7 +188,7 @@ public class EventService {
 	public void updateEvent(String id, String type, String from, String to,
 			String title, String place, String description) {
 		int updatedId = Integer.parseInt(id);
-		//Calendar c = Calendar.getInstance();
+		// Calendar c = Calendar.getInstance();
 		// from:
 		long tineInMiliseconds = Long.parseLong(from);
 		Date fromDate = new Date(tineInMiliseconds);
@@ -209,7 +197,7 @@ public class EventService {
 		Date toDate = new Date(tineInMiliseconds);
 		// metadata:
 		Date metaDate = new Date(tineInMiliseconds);
-		
+
 		BasicEvent ev = new BasicEvent(updatedId);
 		if (eventList.contains(ev)) {
 			int location = eventList.indexOf(ev);
