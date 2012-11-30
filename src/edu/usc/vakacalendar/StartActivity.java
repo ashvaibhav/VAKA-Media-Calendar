@@ -1,9 +1,5 @@
 package edu.usc.vakacalendar;
 
-
-import edu.usc.vakacalendar.commons.EventService;
-import edu.usc.vakacalendar.commons.MapService;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.webkit.WebChromeClient;
@@ -12,8 +8,8 @@ import android.webkit.WebView;
 
 public class StartActivity extends AbstractButtonHandlerActivity {
 	ButtonHandlersInterfaceForJavaScript buttonHandlersObj; 
-	EventService evnSrv = EventService.getInstance(); 
-	MapService mapSrv = MapService.getInstance(); 
+//	EventService evnSrv = EventService.getInstance(); 
+//	MapService mapSrv = MapService.getInstance(); 
 	
 	
 	private void refreshPage(){		
@@ -55,7 +51,5 @@ public class StartActivity extends AbstractButtonHandlerActivity {
 		super.onRestart();
 		refreshPage();
 	}
-	
 
-	
 }

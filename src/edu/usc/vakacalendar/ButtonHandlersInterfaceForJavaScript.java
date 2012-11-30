@@ -35,16 +35,6 @@ public class ButtonHandlersInterfaceForJavaScript implements ButtonHandler {
 	}
 	
 	@Override
-	public void onPlay(String url){
-		curActivity.onPlay(url);
-	}
-
-	@Override
-	public void onStopPlay(){
-		curActivity.onStopPlay();	
-	}
-
-	@Override
 	public void onExit() {
 		curActivity.onExit();
 	}

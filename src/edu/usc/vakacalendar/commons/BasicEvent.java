@@ -80,7 +80,7 @@ public class BasicEvent {
 			jsonEvent.put("place", (getPlace() == null ? "" : getPlace()));
 			jsonEvent.put("description", (getDescription() == null ? ""
 					: getDescription()));
-			jsonEvent.put("mediaURL", (getDescription() == null ? ""
+			jsonEvent.put("mediaURL", (getMediaURL() == null ? ""
 					: getMediaURL()));
 		} catch (JSONException e) {
 			e.printStackTrace();

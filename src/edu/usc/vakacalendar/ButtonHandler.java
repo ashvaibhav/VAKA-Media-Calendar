@@ -12,10 +12,6 @@ public interface ButtonHandler {
 	
 	public void onStopButtonClick();
 
-	public void onPlay(String url);
-	
-	public void onStopPlay();
-	
 	public void onExit();
 	
 	

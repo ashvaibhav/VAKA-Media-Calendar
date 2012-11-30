@@ -16,6 +16,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnErrorListener;
 import android.os.Environment;
 import android.util.Log;
 
@@ -24,6 +27,7 @@ public class EventService {
 	private boolean isFirstStart;
 	private boolean mExternalStorageAvailable = false;
 	private boolean mExternalStorageWriteable = false;
+	private MediaPlayer mediaPlayer;
 
 	private static final EventService instance = new EventService();
 
@@ -59,7 +63,7 @@ public class EventService {
 					this.eventsFileName);
 			if (file.exists())
 				this.isFirstStart = false;
-			else 
+			else
 				this.isFirstStart = true;
 		} else {
 			Log.d(this.getClass().getName(),
@@ -117,7 +121,7 @@ public class EventService {
 				boolean isFileExists = file.exists();
 				if (!isFileExists) {
 					boolean isCreated = file.createNewFile();
-					if (isCreated){
+					if (isCreated) {
 
 						try {
 							DataOutputStream dos = new DataOutputStream(
@@ -131,10 +135,9 @@ public class EventService {
 							Log.w("ExternalStorage", "Error writing " + file, e);
 						} catch (IOException e) {
 							e.printStackTrace();
-						}	
-					}
-					else {
-						// ERROR: runtime exception 
+						}
+					} else {
+						// ERROR: runtime exception
 					}
 				}
 				DataInputStream dis = new DataInputStream(new FileInputStream(
@@ -188,34 +191,39 @@ public class EventService {
 	public void updateEvent(String id, String type, String from, String to,
 			String title, String place, String description) {
 		int updatedId = Integer.parseInt(id);
-		Calendar c = Calendar.getInstance();
-		// from:
-		long tineInMiliseconds = (Double.valueOf(from)).longValue();
-		Date fromDate = new Date(tineInMiliseconds);
-		// to:
-		tineInMiliseconds =  (Double.valueOf(to)).longValue();
-		Date toDate = new Date(tineInMiliseconds);
-		// metadata:
-		tineInMiliseconds = c.getTimeInMillis();
-		Date metaDate = new Date(tineInMiliseconds);
-
 		BasicEvent ev = new BasicEvent(updatedId);
 		if (eventList.contains(ev)) {
 			int location = eventList.indexOf(ev);
 			BasicEvent evToUpdate = eventList.get(location);
+			Calendar c = Calendar.getInstance();
 			evToUpdate.setTitle(title);
 			evToUpdate.setPlace(place);
 			evToUpdate.setDescription(description);
-			evToUpdate.setFrom(fromDate);
-			evToUpdate.setTo(toDate);
-			evToUpdate.setMetadata(metaDate);
+			long tineInMiliseconds;
+			// from:
+			if (from.compareTo("") != 0) {
+				tineInMiliseconds = (Double.valueOf(from)).longValue();
+				Date fromDate = new Date(tineInMiliseconds);
+				evToUpdate.setFrom(fromDate);
+			}
+			// to:
+			if (from.compareTo("") != 0) {
+				tineInMiliseconds = (Double.valueOf(to)).longValue();
+				Date toDate = new Date(tineInMiliseconds);
+				evToUpdate.setTo(toDate);
+			}
+			// metadata:
+			if (from.compareTo("") != 0) {
+				tineInMiliseconds = c.getTimeInMillis();
+				Date metaDate = new Date(tineInMiliseconds);
+				evToUpdate.setMetadata(metaDate);
+			}
 		}
 		saveAllEventsFromExternalFile();
 	}
 
 	public String addEvent(BasicEvent newEv) {
-		int newId = (eventList.size() == 0) ? 1 : (eventList.get(
-				eventList.size() - 1).getId() + 1);
+		int newId = getNextId();
 		newEv.setId(newId);
 		eventList.add(newEv);
 		saveAllEventsFromExternalFile();
@@ -238,6 +246,11 @@ public class EventService {
 
 	public boolean isEmprtyList() {
 		return eventList.isEmpty();
+	}
+
+	public int getNextId() {
+		return (eventList.size() == 0) ? 1 : (eventList.get(
+				eventList.size() - 1).getId() + 1);
 	}
 
 }
