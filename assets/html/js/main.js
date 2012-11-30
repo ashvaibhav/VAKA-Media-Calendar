@@ -194,7 +194,9 @@ function updateEditedState(){
 	if(response){
  	updateCurrentEvent(id);
  	currentEvent.status = "3";
- 	$("#eventItem"+id).css("display","none"); 	
+ 	$("#eventItem"+id).css("display","none");
+ 	if(!debug)
+ 		EventService.deleteEvent(currentEvent.id); 	
  	if(fromEditPage){
  		collapseEditEvent();
  	} 	
@@ -479,8 +481,10 @@ function showAudio(){
 }
 var tempCounter = 0;
 function hoverChange(control){
+	alert("control exists ->"+control);
+	alert(JSON.stringify(control));
 	if(control){
-		updateText(control.target + +control.target.value+ tempCounter++);
+		updateText(1+JSON.stringify(control)+ tempCounter++);
 		control = $("#"+control+"Menu");
 		if(control){
 			$("[name=expandImage]").css("display","none");
@@ -535,4 +539,14 @@ function audioRecordingStopClicked(){
 	$("#audioStopIcon").hide();
 	//destroy audio recording activity
 	ButtonHandlers.onStopButtonClick();
+}
+
+function bindingTouchMove(e){
+							updateText("jquery_document_ready :D");
+							e.preventDefault();
+							updateText("preventDefault done");
+							alert(JSON.parse("{'test':'vaibhav'"));
+							updateText("json parsed 1");
+							alert(JSON.stringify(control));
+							hoverChange(e);
 }
