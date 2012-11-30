@@ -74,7 +74,7 @@ public class AbstractButtonHandlerActivity extends Activity implements
 	@Override
 	public void onStopPlay() {
 		mediaPlayer.stop();
-		mediaPlayer.release();
+		mediaPlayer.reset();
 	}
 
 	@Override
