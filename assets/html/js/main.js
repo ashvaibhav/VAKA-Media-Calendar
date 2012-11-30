@@ -296,7 +296,7 @@ function showPreview(){
 				"<audio class='posAbs' style='top:270px;' width='600px' height='400' controls='controls'>"+
 				"<source src='"+currentEvent.mediaURL+"' type='audio/"+getMediaType(currentEvent.mediaURL.split(".")[1])+"'>"+
 				"<P>Your browsr does not support the audio element</P>"+
-				"</audio>";alert(currentEvent.mediaURL);
+				"</audio>";
 			break;
 		case 'video':
 			item +=	"<video class='posAbs' style='top:-270px;' width='600px' height='400' controls='controls'>"+
@@ -405,7 +405,7 @@ function showPreview(){
 								"<img src='images/editEvent/undo_btn1.png'/>"+
 							"</span>"+
 							"<span style='position:absolute;left:360px;top:10px;' onClick='javascript:toggleDelete("+id+",true);' title='delete'>"+
-								"<img src='images/editEvent/delete_btn1.png'/>"+
+								"<img src='images/editEvent/delete_btn2.png'/>"+
 							"</span>"+
 						//preview
 							showPreview()+
@@ -482,10 +482,10 @@ function showAudio(){
 }
 var tempCounter = 0;
 function hoverChange(control){
-	alert("control exists ->"+control);
-	alert(JSON.stringify(control));
+	//alert("control exists ->"+control);
+	//alert(JSON.stringify(control));
 	if(control){
-		updateText(1+JSON.stringify(control)+ tempCounter++);
+		//updateText(1+JSON.stringify(control)+ tempCounter++);
 		control = $("#"+control+"Menu");
 		if(control){
 			$("[name=expandImage]").css("display","none");
@@ -541,17 +541,61 @@ function audioRecordingStopClicked(){
 	//destroy audio recording activity
 	ButtonHandlers.onStopButtonClick();
 }
+function position(event) {
+    
+    var
+        touch,
+        x,
+        y;
+
+    if (event.touches && event.touches.length) {
+        touch = event.touches[0];
+        x = touch.pageX;
+        y = touch.pageY;
+    } else if (event.changedTouches && event.changedTouches.length) {
+        touch = event.changedTouches[0];
+        x = touch.pageX;
+        y = touch.pageY;
+    } else if (event.pageX !== undefined && event.pageY !== undefined) {
+        x = event.pageX;
+        y = event.pageY;
+    } else if (event.clientX !== undefined && event.clientY !== undefined) {
+        x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+        y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    }
+    
+    return { x: x, y: y };
+}
 
 function bindingTouchMove(e){
-							//alert('asdf');
-							updateText("jquery_document_ready :D");
+							//alert('asdf');							
+							//updateText("jquery_document_ready :D");
 							e.preventDefault();
-							updateText("preventDefault done");
-							updateText("JSON->"+JSON);
-							updateText("e->"+e.target.src.split("html/images/")[1]);
+							//updateText("preventDefault done");
+							//updateText("JSON->"+JSON);
+							//updateText("e.targetTouches->"+e.targetTouches);//e.pageX+"  "+e.pageY);//target.src.split("html/images/")[1]);
+							//alert(""+e.clientX+e.clientY+e.offsetX+e.offsetY+e.pageX+e.pageY+e.screenX+e.screenY);
+							pos=position(event);
+							updateText(pos.x+"  "+pos.y);
+							if(pos.y>700){
+								hoverChange('baseArea');
+							}
+							else if(pos.x<120){
+								hoverChange('shape1');
+							}
+							else if(pos.x<210){
+								hoverChange('shape2');
+							}
+							else if(pos.x<250){
+								hoverChange('shape3');
+							}
+							else{
+								hoverChange('shape4');
+							}
+							//updateText(e.touches);
 							//updateText("serializing->"+JSON.stringify({}));
-							alert(JSON.stringify(e.target));
-							updateText("json parsed 1");
-							alert(JSON.stringify(control));
-							hoverChange(e);
+							//alert("This is JSON"+JSON.stringify(e));
+							//updateText("json parsed 1");
+							//alert(JSON.stringify(control));
+							//hoverChange(e);
 }
