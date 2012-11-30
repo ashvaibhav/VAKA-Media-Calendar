@@ -188,14 +188,15 @@ public class EventService {
 	public void updateEvent(String id, String type, String from, String to,
 			String title, String place, String description) {
 		int updatedId = Integer.parseInt(id);
-		// Calendar c = Calendar.getInstance();
+		Calendar c = Calendar.getInstance();
 		// from:
-		long tineInMiliseconds = Long.parseLong(from);
+		long tineInMiliseconds = (Double.valueOf(from)).longValue();
 		Date fromDate = new Date(tineInMiliseconds);
 		// to:
-		tineInMiliseconds = Long.parseLong(from);
+		tineInMiliseconds =  (Double.valueOf(to)).longValue();
 		Date toDate = new Date(tineInMiliseconds);
 		// metadata:
+		tineInMiliseconds = c.getTimeInMillis();
 		Date metaDate = new Date(tineInMiliseconds);
 
 		BasicEvent ev = new BasicEvent(updatedId);
