@@ -10,9 +10,12 @@
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript">
-	$(document).ready(function()
+	//$(document).ready(function()
+		$(window).load(function()
 		{			
-			$("#main_button_div").bind("touchmove", bindingTouchMove(e));
+			$("#main_button_div").bind("touchmove", function(e){
+				bindingTouchMove(e);
+				});
 		/*
 			document.getElementById("main_button_div").addEventListener('touchmove',
 				function(e) {

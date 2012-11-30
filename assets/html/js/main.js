@@ -292,6 +292,7 @@ function showPreview(){
 			item += /*"<audio class='posAbs' style='top:-270px;' width='600px' height='400' src='"+currentEvent.mediaURL+"'>"+
     					"<p>Your browser does not support the audio element</p>"+
 				"</audio>";*/
+				"<input type='button' value='PLAY' onClick='javascript:ButtonHandlers.onPlay();'/><input type='button' value='STOP' onClick='javascript:ButtonHandlers.onStopPlay();'/>"+
 				"<audio class='posAbs' style='top:270px;' width='600px' height='400' controls='controls'>"+
 				"<source src='"+currentEvent.mediaURL+"' type='audio/"+getMediaType(currentEvent.mediaURL.split(".")[1])+"'>"+
 				"<P>Your browsr does not support the audio element</P>"+
@@ -542,10 +543,14 @@ function audioRecordingStopClicked(){
 }
 
 function bindingTouchMove(e){
+							//alert('asdf');
 							updateText("jquery_document_ready :D");
 							e.preventDefault();
 							updateText("preventDefault done");
-							alert(JSON.parse("{'test':'vaibhav'"));
+							updateText("JSON->"+JSON);
+							updateText("e->"+e.target.src.split("html/images/")[1]);
+							//updateText("serializing->"+JSON.stringify({}));
+							alert(JSON.stringify(e.target));
 							updateText("json parsed 1");
 							alert(JSON.stringify(control));
 							hoverChange(e);
