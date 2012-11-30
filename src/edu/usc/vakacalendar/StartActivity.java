@@ -24,9 +24,8 @@ public class StartActivity extends AbstractButtonHandlerActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	    if (keyCode == KeyEvent.KEYCODE_BACK ) {
-	    	//refreshPage();
 	    	WebView webView = (WebView) findViewById(R.id.startWebview);
-	    	webView.loadUrl("javascript:(function () { " + "reset();" + "})()");
+	    	webView.loadUrl("javascript:(function () { " + "goBack();" + "})()");
 	        return true;
 	    }
 	    return super.onKeyDown(keyCode, event);
