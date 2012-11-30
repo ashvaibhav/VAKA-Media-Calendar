@@ -235,6 +235,10 @@ function updateEditedState(){
  function alarmClick(){
  	alert("Alarm Under construction");
  }
+ function goBack(){
+ 	reset();
+ 	collapseEditEvent();
+ }
  function reset(){
 	var response = confirm("Do you want to reset to default?");
 	if(response){
@@ -466,10 +470,14 @@ function showAudio(){
 }
 var tempCounter = 0;
 function hoverChange(control){
-	updateText("From hoverChange: "+control +tempCounter++);
-	control = $("#"+control+"Menu");
-	$("[name=expandImage]").css("display","none");
-	control.css("display","inline");
+	if(control){
+		updateText(control.target.id +tempCounter++);
+		control = $("#"+control+"Menu");
+		if(control){
+			$("[name=expandImage]").css("display","none");
+			control.css("display","inline");
+		}
+	}
 }
 //mouse press was released. restore to plus icon and remove menu.
 function clickMinus(){
