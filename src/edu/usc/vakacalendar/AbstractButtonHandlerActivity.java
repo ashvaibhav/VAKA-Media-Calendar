@@ -33,19 +33,16 @@ public class AbstractButtonHandlerActivity extends Activity implements
 
 	public void onCameraButtonClick() {
 		Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse(getURI(BasicEvent.VIDEO)));
 		startActivityForResult(takeVideoIntent, ACTION_TAKE_VIDEO);
+		addEvent(BasicEvent.VIDEO);
 	}
 
 	public void onPhotoButtonClick() {
-		Intent takeVideoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		String mediaURL = getURI();
-		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse(mediaURL));
-		startActivityForResult(takeVideoIntent, ACTION_TAKE_PHOTO);
-		BasicEvent event = new BasicEvent();
-		event.setType(BasicEvent.PHOTO);
-		event.setMediaURL(getMediaURL());
-		event.setMetadata(Calendar.getInstance().getTime());
-		evnSrv.addEvent(event);
+		Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse(getURI(BasicEvent.PHOTO)));
+		startActivityForResult(takePhotoIntent, ACTION_TAKE_PHOTO);
+		addEvent(BasicEvent.PHOTO);
 	}
 
 	public void onEventListClick() {
@@ -63,12 +60,19 @@ public class AbstractButtonHandlerActivity extends Activity implements
 		finish();
 	}
 
-	
-	private String getURI(){
-		return "file://" +getMediaURL();
+	private void addEvent(String type){
+		BasicEvent event = new BasicEvent();
+		event.setType(type);
+		event.setMediaURL(getMediaURL(type));
+		event.setMetadata(Calendar.getInstance().getTime());
+		evnSrv.addEvent(event);
 	}
 	
-	private String getMediaURL(){
-		return Environment.getExternalStorageDirectory().getAbsolutePath() + "/VAKA_note_" + evnSrv.getNextId() + ".jpg";
+	private String getURI(String type){
+		return "file://" +getMediaURL(type);
+	}
+	
+	private String getMediaURL(String type){
+		return Environment.getExternalStorageDirectory().getAbsolutePath() + "/VAKA_note_" + evnSrv.getNextId() + (type.compareTo(BasicEvent.PHOTO) == 0 ? ".jpg" : ".3gp");
 	}
 }

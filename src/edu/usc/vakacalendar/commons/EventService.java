@@ -235,6 +235,9 @@ public class EventService {
 		BasicEvent ev = new BasicEvent(idToDelete);
 		if (eventList.contains(ev)) {
 			int location = eventList.indexOf(ev);
+			ev = eventList.get(location);
+			File f = new File(ev.getMediaURL());
+			f.delete();
 			eventList.remove(location);
 		}
 		saveAllEventsFromExternalFile();
