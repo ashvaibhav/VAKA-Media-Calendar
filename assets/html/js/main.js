@@ -1,3 +1,5 @@
+//ButtonHandlers.onPlay('"+currentEvent.mediaURL+"');
+//ButtonHandlers.onStopPlay();
 //Global Variables
 var debug = true;
 var dataForAllEvents;
@@ -414,6 +416,10 @@ function showPreview(){
 function getScreenWidth(){
 	return $(window).width();
 }
+function mainExpand(){
+	//change the div from compressed to expansion
+	//
+}
 function toggleMainButton(control){
 	//var mainButton = $('#main_button');
 	//var control = $("#"+control.id);
@@ -458,8 +464,9 @@ function showAudio(){
 	$("#toggleMinusDiv").css("display","none");
 	$("#pie_audio").css("display","inline");
 }
-
+var tempCounter = 0;
 function hoverChange(control){
+	updateText("From hoverChange: "+control +tempCounter++);
 	control = $("#"+control+"Menu");
 	$("[name=expandImage]").css("display","none");
 	control.css("display","inline");

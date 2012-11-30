@@ -2,13 +2,26 @@
 <html>
 <head>
 <title>VAKA Media Calendar</title>
+<meta name="viewport" 
+	content="width=device-width, user-scalable=no, height = 800px ,width =480px, target-densitydpi = device-dpi" 
+/>
 
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 <script type="text/javascript" src="js/json.js"></script>
-<meta name="viewport" 
-	content="width=device-width, user-scalable=no, height = 800px ,width =480px, target-densitydpi = device-dpi" 
-/>
+<script type="text/javascript">
+	$(document).ready({
+		//$("#main_button_div").
+		
+		document.getElementById("main_button_div").addEventListener('touchmove',
+				function(e) {
+							alert("document_ready :D");
+							e.preventDefault();
+							hoverChange(e);
+				} 
+				, false);
+		});
+</script>
 </head>
 
 
@@ -24,12 +37,15 @@
 	</div>
 	
 <div id='main_screen'>
-	<div id='abcd' style='display:none;position:absolute;top:50%;'><input id="abcdText" type='text'></text>
+	<div id='abcd' style='display:block;position:absolute;top:50%;'><input id="abcdText" type='text'></text>
 	<input type='button' value='Button to test touch controls' style='top:200px;'
-		onMouseDown='javascript:updateText("You are mouse down");' 		
-		onMouseUp='javascript:updateText("You are mouse up");'		
-		>
+		onTouchStart='javascript:updateText("Touch started");'
+		onTouchEnd ='javascript:updateText("Touch ended");'
+		onTouchMove='javascript:updateText("You moving your finger");'		
+	>
 		<!--
+		onMouseDown='javascript:updateText("You are mouse down");' 		
+		onMouseUp='javascript:updateText("You are mouse up");'
 		onMouseOver='javascript:alert("mouse over");'
 		onMouseOut='javascript:alert("mouse out");'
 		onClick='javascript:alert("mouse click");'
@@ -38,24 +54,37 @@
 	<div style='position:absolute;top:30%;left:20%;'>
 		<img  src = 'images/logo.png'/>
 	</div>	
-	<div id='main_button_div' onMouseDown="javascript:clickPlus();" onMouseUp="javascript:clickMinus();">
+
+	<div id='main_button_div' onTouchMove="javascript:hoverChange();" onTouchStart="javascript:clickPlus();" onTouchEnd="javascript:clickMinus();" onMouseDown="javascript:clickPlus();" onMouseUp="javascript:clickMinus();">
 		<span id='main_button' style="position:absolute;top:542px;">		
-			<span id='togglePlusDiv' style='display:none;position:relative;top:656+6px;left:38%'>
-				<img src = 'images/plus_button.png' />
+			<span id='togglePlusDiv' style='display:inline;position:relative;top:114px;'>
+				<span style='top:6px;'>
+					<img src = 'images/plus_button.png' />
+				</span>
 			</span>
-			<span id='toggleMinusDiv' style='position:relative;top:10px;left:15%;'>
+			<span id='toggleMinusDiv' style='display:none;position:relative;top:10px;'>
 				<span id='baseAreaMenu'  name='expandImage'  style='display:inline;'><img id='pie_controls' src = 'images/Pie_Menu.png' usemap="pieControlsMap" /></span>
 				<span id='shape1Menu' name='expandImage' style='display:none;'><img id='pie_controls' src = 'images/Pie_Note.png' usemap="pieControlsMap" /></span>
 				<span id='shape2Menu' name='expandImage' style='display:none;'><img id='pie_controls' src = 'images/Pie_Audio.png' usemap="pieControlsMap" /></span>
-				<span id='shape3Menu' name='expandImage' style='display:none;'><img id='pie_controls' src = 'images/Pie_Photo.png' usemap="pieControlsMap" /></span>
+				<span id='shape3Menu' name='expandImage' style='display:none;'><img id='pie_controls' src = 'images/Pie_Photo.png' usemap="pieControlsMap" /></span>n
 				<span id='shape4Menu' name='expandImage' style='display:none;'><img id='pie_controls' src = 'images/Pie_Video.png' usemap="pieControlsMap" /></span>
 				<map name="pieControlsMap">
-					<AREA id='baseArea' href='startActivity.html' onmouseover="javascript:hoverChange('baseArea');" title="mainButton" SHAPE="circle" COORDS="171,171,62"></AREA>
-					<AREA id='shape1' href='startActivity.html' onmouseover="javascript:hoverChange('shape1');" title="shape1" SHAPE="poly" COORDS="5,171,55,55, 128, 128, 110, 171"></AREA>
-					<AREA id='shape2' href='startActivity.html' onmouseover="javascript:hoverChange('shape2');" title="shape2" SHAPE="poly" COORDS="128,128,55,55, 172, 8, 172, 108"></AREA>
-					<AREA id='shape3' href='startActivity.html' onmouseover="javascript:hoverChange('shape3');" title="shape3" SHAPE="poly" COORDS="172,108,172,8, 288, 55, 215, 128"></AREA>
-					<AREA id='shape4' href='startActivity.html' onmouseover="javascript:hoverChange('shape4');" title="shape4" SHAPE="poly" COORDS="215,128,288,55, 335, 171, 235,171"></AREA>					
+					<!--
+					<AREA id='baseArea' href='startActivity.html' onTouchMove="javascript:hoverChange('baseArea');" onMouseOver="javascript:hoverChange('baseArea');" title="mainButton" SHAPE="circle" COORDS="171,171,62"></AREA>
+					<AREA id='shape1' href='startActivity.html' onTouchMove="javascript:hoverChange('shape1');" onMouseOver="javascript:hoverChange('shape1');" title="shape1" SHAPE="poly" COORDS="5,171,55,55, 128, 128, 110, 171"></AREA>
+					<AREA id='shape2' href='startActivity.html' onTouchMove="javascript:hoverChange('shape2');" onMouseOver="javascript:hoverChange('shape2');" title="shape2" SHAPE="poly" COORDS="128,128,55,55, 172, 8, 172, 108"></AREA>
+					<AREA id='shape3' href='startActivity.html' onTouchMove="javascript:hoverChange('shape3');" onMouseOver="javascript:hoverChange('shape3');" title="shape3" SHAPE="poly" COORDS="172,108,172,8, 288, 55, 215, 128"></AREA>
+					<AREA id='shape4' href='startActivity.html' onTouchMove="javascript:hoverChange('shape4');" onMouseOver="javascript:hoverChange('shape4');" title="shape4" SHAPE="poly" COORDS="215,128,288,55, 335, 171, 235,171"></AREA>					
 					<AREA id='extendedArea' href='startActivity.html' onClick="javascript:alert('area2');" title="area1" SHAPE="circle" COORDS="171,171,166"></AREA>
+					 -->
+					
+					<AREA id='baseArea' href='startActivity.html' onMouseOver="javascript:hoverChange('baseArea');" title="mainButton" SHAPE="circle" COORDS="171,171,62"></AREA>
+					<AREA id='shape1' href='startActivity.html' onMouseOver="javascript:hoverChange('shape1');" title="shape1" SHAPE="poly" COORDS="5,171,55,55, 128, 128, 110, 171"></AREA>
+					<AREA id='shape2' href='startActivity.html' onMouseOver="javascript:hoverChange('shape2');" title="shape2" SHAPE="poly" COORDS="128,128,55,55, 172, 8, 172, 108"></AREA>
+					<AREA id='shape3' href='startActivity.html' onMouseOver="javascript:hoverChange('shape3');" title="shape3" SHAPE="poly" COORDS="172,108,172,8, 288, 55, 215, 128"></AREA>
+					<AREA id='shape4' href='startActivity.html' onMouseOver="javascript:hoverChange('shape4');" title="shape4" SHAPE="poly" COORDS="215,128,288,55, 335, 171, 235,171"></AREA>					
+					<AREA id='extendedArea' href='startActivity.html' onClick="javascript:alert('area2');" title="area1" SHAPE="circle" COORDS="171,171,166"></AREA>
+					
 				</map>
 			</span>
 		</span>
@@ -83,8 +112,9 @@
 		<span id='pie_list' style='display:none;position:relative;top:-78px;'>
 			<img src = 'images/Pie_Note.png' />			
 		</span>
--->	</div>
+-- >	</div>
 
 </div>
+
 </body>
 </html>
