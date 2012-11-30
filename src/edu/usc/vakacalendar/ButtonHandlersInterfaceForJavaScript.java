@@ -44,4 +44,9 @@ public class ButtonHandlersInterfaceForJavaScript implements ButtonHandler {
 		curActivity.onStopPlay();	
 	}
 
+	@Override
+	public void onExit() {
+		curActivity.onExit();
+	}
+
 }

@@ -16,4 +16,7 @@ public interface ButtonHandler {
 	
 	public void onStopPlay();
 	
+	public void onExit();
+	
+	
 }

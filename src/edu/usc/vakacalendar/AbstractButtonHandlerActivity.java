@@ -77,4 +77,9 @@ public class AbstractButtonHandlerActivity extends Activity implements
 		mediaPlayer.release();
 	}
 
+	@Override
+	public void onExit() {
+		finish();
+	}
+
 }
