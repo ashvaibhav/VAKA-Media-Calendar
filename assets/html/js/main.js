@@ -236,8 +236,17 @@ function updateEditedState(){
  	alert("Alarm Under construction");
  }
  function goBack(){
- 	reset();
- 	collapseEditEvent();
+ 	//edit event or event list
+ 	var editStatus = $("#edit_screen").is(":visible");
+ 	if(editStatus){
+	 	reset();
+ 		collapseEditEvent();
+ 	}
+ 	else
+ 	{
+ 		if(!debug)
+	 		ButtonHandlers.onExit();
+ 	}
  }
  function reset(){
 	var response = confirm("Do you want to reset to default?");
@@ -471,7 +480,7 @@ function showAudio(){
 var tempCounter = 0;
 function hoverChange(control){
 	if(control){
-		updateText(control.target.id +tempCounter++);
+		updateText(control.target + +control.target.value+ tempCounter++);
 		control = $("#"+control+"Menu");
 		if(control){
 			$("[name=expandImage]").css("display","none");
