@@ -15,7 +15,7 @@ public class StartActivity extends AbstractButtonHandlerActivity {
 	
 	private void refreshPage(){		
 		WebView webView = (WebView) findViewById(R.id.startWebview);
-		if (EventService.getInstance().isFirstStart()){
+		if (EventService.getInstance().isFirstStart() && EventService.getInstance().isEmprtyList()){
 			webView.loadUrl(getString(R.string.tutorial_html_file_url));
 		} else {
 			webView.loadUrl(getString(R.string.start_activity_html_file_url));

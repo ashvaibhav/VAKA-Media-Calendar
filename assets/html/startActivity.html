@@ -30,7 +30,7 @@
 
 
 <body bgcolor=#f1f1f2 class='noHighlight'>
-<div id='test_activities' style='display:block;'>
+<div id='test_activities' style='display:none;'>
 	<input type='button' value='Audio' onClick='javascript:ButtonHandlers.onAudiotButtonClick();'/>
 	<input type='button' value='Video' onClick='javascript:ButtonHandlers.onCameraButtonClick();'/>
 	<input type='button' value='Photo' onClick='javascript:ButtonHandlers.onPhotoButtonClick();'/>
@@ -41,7 +41,7 @@
 	</div>
 	
 <div id='main_screen'>
-	<img src='images/preview/arrow1.png'/>
+	<!--<img src='images/preview/arrow1.png'/>-->
 	<div id='slider'>
 	  <ul>
 	    <li style='display:block'><img src='images/preview/Screen1.png'/></li>
@@ -49,7 +49,7 @@
 	    <li style='display:none'><img src='images/preview/Screen3.png'/></li>
 	  </ul>
 	</div>
-	<img src='images/preview/arrow2.png'/>
+	<!--<img src='images/preview/arrow2.png'/>-->
 	<div id='abcd' style='display:none;position:absolute;top:50%;'><input id="abcdText" type='text'></text>
 	<input type='button' value='Button to test touch controls' style='top:200px;display:none;'
 		onTouchStart='javascript:updateText("Touch started");'

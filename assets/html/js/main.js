@@ -1,8 +1,8 @@
 //ButtonHandlers.onPlay('"+currentEvent.mediaURL+"');
 //ButtonHandlers.onStopPlay();
 //Global Variables
-var debug = false;
-var debu2 = false;
+var debug = false;//false;
+var debug2 = false;
 var dataForAllEvents;
 var currentEvent;
 
@@ -110,7 +110,7 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
  					eventItem += "<span id='editEventFrom"+id+"' style='position:absolute;top:90px;left:200px;width:450px;'>"+date+"</span>";
  					eventItem += "<HR style='position:absolute;top:110px;left:200px; width:450px;'/>"; 			 			
  					eventItem += "<span class='previewMetadata' style='position:absolute;top:130px;left:200px;width:450px;'><img src='images/eventList/"+type+"_icon_s.png'></span>"; 			 			
- 					eventItem += "<span class='previewMetadataContent' style='position:absolute;top:130px;left:240px;width:450px;'>"+metadata+"</span>"+"</span>";
+ 					eventItem += "<span class='previewMetadataContent' style='position:absolute;top:130px;left:240px;width:450px;'> Recorded on "+dateConversion(metadata,true)+"</span>"+"</span>";
  					//delete icon
  					eventItem += "<span style='position:absolute;top:110px;left:730px;' onClick='javascript:toggleDelete("+id+");'><img src='images/eventList/delete_btn_s.png'></span>";
  					eventItem += "<HR style='position:absolute;top:170px;width:780px;border:1px solid #58585b; box-shadow: 0 2px 5px 1px #939597;'>";
@@ -136,8 +136,9 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
  	for(index in dataForAllEvents){
 		if(dataForAllEvents[index].id == currentEvent.id){
 			dataForAllEvents[index] = currentEvent; 
-			dateForAllEvents[index].from = dateConversion(dateForAllEvents[index].from, false);
-			dateForAllEvents[index].to = dateConversion(dateForAllEvents[index].to, false);
+			dataForAllEvents[index].from = dateConversion(dataForAllEvents[index].from, false);
+			dataForAllEvents[index].to = dateConversion(dataForAllEvents[index].to, false);
+			dataForAllEvents[index].metaData = dateConversion(dataForAllEvents[index].metadata, false);
 			break;
 		}		
 	}
@@ -150,12 +151,12 @@ function updateEventList(){
 	//toggle meeting title	
 	$("#editEventTitle"+currentEvent.id).empty().append(currentEvent.title);
 	//toggle meeting from date
-	$("#editEventFrom"+currentEvent.id).empty().append(currentEvent.from);
+	$("#editEventFrom"+currentEvent.id).empty().append(dateConversion(currentEvent.from, true));
 }
 function updateEditedState(){
 	currentEvent.title = $("#editEventTitle").val();
-	currentEvent.from = $("#editEventFromText").val();
-	currentEvent.to = $("#editEventToText").val();
+	currentEvent.from = dateConversion($("#editEventFromText").val(),true);
+	currentEvent.to = dateConversion($("#editEventToText").val(),true);
 	currentEvent.place = $("#editEventPlaceText").val();
 	currentEvent.status = "1";
 //(((document.getElementById("editEventStatus").getAttribute("src")).split("calendar_btn")[1]).split(".png")[0]);//$("#editEventStatus").attr("src");
@@ -378,8 +379,8 @@ function showPreview(){
 							"<span class='posAbs place editEventHead '>"+
 									"Place"+
 							"</span>"+
-							"<span id='EditEventPlaceText' class='posAbs place editEventTextBox editEventTextBoxContent editEventTextBoxStyle'>"+
-									currentEvent.place+
+							"<span><input type='text' id='EditEventPlaceText' class='posAbs place editEventTextBox editEventTextBoxContent editEventTextBoxStyle' value='"+
+									currentEvent.place+"'>"+
 							"</span>"+
 							"<span onClick='javascript:mapPicker();'><img class='posAbs place editEventTextButton' src='images/editEvent/map_picker.png'/></span>"+
 						"</span>"+
@@ -608,15 +609,17 @@ function position(event) {
 }
 
 function dateConversion(date, isBackToFront){
+	//return date;
 	if(isBackToFront){
-		//if(date in milliseconds)
+		//if(date == date.getTime())
 			return new Date(date);
 		//else
 			//return date
 	}
 	else{
 		//if(date not in milliseconds)
-			return date.getTime();
+			return new Date(date).getTime();
+			//return date.getTime();
 		//else
 			//return date
 	}
