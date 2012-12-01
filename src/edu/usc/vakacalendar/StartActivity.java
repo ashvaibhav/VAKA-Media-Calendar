@@ -1,5 +1,6 @@
 package edu.usc.vakacalendar;
 
+import edu.usc.vakacalendar.commons.EventService;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.webkit.WebChromeClient;
@@ -14,7 +15,12 @@ public class StartActivity extends AbstractButtonHandlerActivity {
 	
 	private void refreshPage(){		
 		WebView webView = (WebView) findViewById(R.id.startWebview);
-		webView.loadUrl(getString(R.string.start_activity_html_file_url));
+		if (EventService.getInstance().isFirstStart()){
+			webView.loadUrl(getString(R.string.tutorial_html_file_url));
+		} else {
+			webView.loadUrl(getString(R.string.start_activity_html_file_url));
+		}
+		
 	}
 	
 	@Override

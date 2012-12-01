@@ -1,7 +1,7 @@
 //ButtonHandlers.onPlay('"+currentEvent.mediaURL+"');
 //ButtonHandlers.onStopPlay();
 //Global Variables
-var debug = true;
+var debug = false;
 var dataForAllEvents;
 var currentEvent;
 
@@ -321,8 +321,7 @@ function showPreview(){
 	return item;
 }
  function datePicker(control){
-	$("#editEvent"+control+"Text").datepicker("show");//editEventFrom
- 	//alert("Date Picker under contruction - check ol js src");
+	$("#editEvent"+control+"Text").focus();	
  }
  function mapPicker(){
 	var dropDown = "<input class='editEventTextBoxContent editEventTextBoxStyle editEventDropDown' type='text'/>";
@@ -357,7 +356,7 @@ function showPreview(){
 //							"<span class='posAbs from editEventTextBox editEventTextBoxContent editEventTextBoxStyle'>"+
 //									currentEvent.from+
 //							"</span>"+
-							"<input disabled='disabled' id='editEventFromText' type='text' class='posAbs from editEventTextBox editEventTextBoxContent editEventTextBoxStyle' value='"+currentEvent.from+"'/>"+
+							"<input readonly='true' id='editEventFromText' onClick='javascript:datePicker(\"From\");' type='text' class='posAbs from editEventTextBox editEventTextBoxContent editEventTextBoxStyle' value='"+currentEvent.from+"'/>"+
 							"<span id='editEventFrom' onClick='javascript:datePicker(\"From\");'><img class='posAbs from editEventTextButton ' src='images/editEvent/calendar_picker.png'/></span>"+
 						"</span>"+
 						"<span name='to'>"+
@@ -421,9 +420,10 @@ function showPreview(){
 		provideEditEventOnClickFunctionality();
 	}
 	function provideEditEventOnClickFunctionality(){
-		$("#editEventFromText").datepicker();
-		$("#editEventToText").datepicker();
-	}
+		var opt = {datetime:{ preset : 'datetime', minDate: new Date(2012,3,10,9,22), maxDate: new Date(2014,7,30,15,44), stepMinute: 5  }}	
+		$('#editEventFromText').scroller($.extend(opt['datetime'],{}));
+		$('#editEventToText').scroller($.extend(opt['datetime'],{}));
+}
 	//populate the bigger div
 	//populate all sections
 	//make controls
@@ -486,6 +486,7 @@ var tempCounter = 0;
 function hoverChange(control){
 	//alert("control exists ->"+control);
 	//alert(JSON.stringify(control));
+	
 	if(control){
 		//updateText(1+JSON.stringify(control)+ tempCounter++);
 		control = $("#"+control+"Menu");
@@ -495,12 +496,44 @@ function hoverChange(control){
 		}
 	}
 }
+function identifyHighlightedControl(control){
+	var imageType = "";
+	imageType = control.split("Menu")[0];
+	return imageType;
+}
 //mouse press was released. restore to plus icon and remove menu.
 function clickMinus(){
 	var mainButton = $('#toggleMinusDiv');
-	mainButton.css("display","none");	
+	//$("#kanika").empty().append("in clickminus");
+	//$("#kanika").empty().append("<span style='word-wrap:break-word;'> test "+$("[name=expandImage][style='display:inline;']")+"</span>");
+	//var selected = $("[name=expandImage][style='display:inline;']").attr("id");
+	var selected = $("[name=expandImage]");
+	var length = selected.length;
+	for(var index = 0;index<length;index++){
+		//alert('testing '+selected[index].id);
+		if(selected[index].style.display != 'none'){
+			selected = selected[index].id;
+			break;
+		}
+	}
+	mainButton.css("display","none");
+	$("#kanika").empty().append("selected - "+selected);	
 	$("#togglePlusDiv").css("display","inline");
-
+	//$("#kanika").empty().append(selected);
+	if(!debug){
+		$("#kanika").empty().append(identifyHighlightedControl(selected));
+		switch(identifyHighlightedControl(selected)){
+			case 'shape1':
+				ButtonHandlers.onAudioButtonClick();
+				break;
+			case 'shape2':
+				ButtonHandlers.onCameraButtonClick();
+				break;
+			case 'shape3':
+				ButtonHandlers.onPhotoButtonClick();
+				break;
+		}
+	}
 	//waste below this line	
 /*	var mainButton = $('#toggleDiv');
 	//remove existing button
@@ -570,6 +603,7 @@ function position(event) {
 }
 
 function bindingTouchMove(e){
+							
 							//alert('asdf');							
 							//updateText("jquery_document_ready :D");
 							e.preventDefault();
@@ -578,17 +612,18 @@ function bindingTouchMove(e){
 							//updateText("e.targetTouches->"+e.targetTouches);//e.pageX+"  "+e.pageY);//target.src.split("html/images/")[1]);
 							//alert(""+e.clientX+e.clientY+e.offsetX+e.offsetY+e.pageX+e.pageY+e.screenX+e.screenY);
 							pos=position(event);
-							updateText(pos.x+"  "+pos.y);
-							if(pos.y>700){
+							//updateText(pos.x+"  "+pos.y);
+							//$("#kanika").empty().append("x = "+pos.x+" y = "+pos.y);
+							if(pos.y>1100){
 								hoverChange('baseArea');
 							}
-							else if(pos.x<120){
+							else if(pos.x<330){
 								hoverChange('shape1');
 							}
-							else if(pos.x<210){
+							else if(pos.x<425){
 								hoverChange('shape2');
 							}
-							else if(pos.x<250){
+							else if(pos.x<525){
 								hoverChange('shape3');
 							}
 							else{
@@ -601,3 +636,35 @@ function bindingTouchMove(e){
 							//alert(JSON.stringify(control));
 							//hoverChange(e);
 }
+
+var myDateTimeControl=  {
+	create: function(tp_inst, obj, unit, val, min, max, step){
+		$('<input class="ui-timepicker-input" value="'+val+'" style="width:100%">')
+			.appendTo(obj)
+			.spinner({
+				min: min,
+				max: max,
+				step: step,
+				change: function(e,ui){ // key events
+						tp_inst._onTimeChange();
+						tp_inst._onSelectHandler();
+					},
+				spin: function(e,ui){ // spin events
+						tp_inst.control.value(tp_inst, obj, unit, ui.value);
+						tp_inst._onTimeChange();
+						tp_inst._onSelectHandler();
+					}
+			});
+		return obj;
+	},
+	options: function(tp_inst, obj, unit, opts, val){
+		if(typeof(opts) == 'string' && val !== undefined)
+				return obj.find('.ui-timepicker-input').spinner(opts, val);
+		return obj.find('.ui-timepicker-input').spinner(opts);
+	},
+	value: function(tp_inst, obj, unit, val){
+		if(val !== undefined)
+			return obj.find('.ui-timepicker-input').spinner('value', val);
+		return obj.find('.ui-timepicker-input').spinner('value');
+	}
+};

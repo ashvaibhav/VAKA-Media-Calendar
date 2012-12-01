@@ -9,6 +9,8 @@
 <script type="text/javascript" src="js/json.js"></script>
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 <script type="text/javascript" src="js/main.js"></script>
+<script type="text/javascript" src="js/swipe.js"></script>
+
 <script type="text/javascript">
 	//$(document).ready(function()
 		$(window).load(function()
@@ -19,15 +21,9 @@
 			$("#main_button_div").bind("mousemove", function(e){
 				bindingTouchMove(e);
 				});
-		/*
-			document.getElementById("main_button_div").addEventListener('touchmove',
-				function(e) {
-							alert("document_ready :D");
-							e.preventDefault();
-							hoverChange(e);
-				} 
-				, false);
-		*/
+			window.mySwipe = new Swipe(
+				  document.getElementById('slider')
+			);
 		});
 </script>
 </head>
@@ -45,8 +41,17 @@
 	</div>
 	
 <div id='main_screen'>
-	<div id='abcd' style='display:block;position:absolute;top:50%;'><input id="abcdText" type='text'></text>
-	<input type='button' value='Button to test touch controls' style='top:200px;'
+	<img src='images/preview/arrow1.png'/>
+	<div id='slider'>
+	  <ul>
+	    <li style='display:block'><img src='images/preview/Screen1.png'/></li>
+	    <li style='display:none'><img src='images/preview/Screen2.png'/></li>
+	    <li style='display:none'><img src='images/preview/Screen3.png'/></li>
+	  </ul>
+	</div>
+	<img src='images/preview/arrow2.png'/>
+	<div id='abcd' style='display:none;position:absolute;top:50%;'><input id="abcdText" type='text'></text>
+	<input type='button' value='Button to test touch controls' style='top:200px;display:none;'
 		onTouchStart='javascript:updateText("Touch started");'
 		onTouchEnd ='javascript:updateText("Touch ended");'
 		onTouchMove='javascript:updateText("You moving your finger");'		
@@ -59,32 +64,24 @@
 		onClick='javascript:alert("mouse click");'
 		-->
 	</div>
-	<div style='position:absolute;top:30%;left:20%;'>
+	<div style='position:absolute;top:30%;left:20%;display:none;'>
 		<img  src = 'images/logo.png'/>
 	</div>	
 <!-- onTouchMove="javascript:hoverChange();" -->
 	<div id='main_button_div' onTouchStart="javascript:clickPlus();" onTouchEnd="javascript:clickMinus();" onMouseDown="javascript:clickPlus();" onMouseUp="javascript:clickMinus();">
-		<span id='main_button' style="position:absolute;top:542px;">		
-			<span id='togglePlusDiv' style='display:inline;position:relative;top:114px;'>
+		<span id='main_button' style="position:absolute;top:700px;">		
+			<span id='togglePlusDiv' style='display:inline;position:relative;top:400px;left:350px'>
 				<span style='top:6px;'>
 					<img src = 'images/plus_button.png' />
 				</span>
 			</span>
-			<span id='toggleMinusDiv' style='display:none;position:relative;top:10px;'>
+			<span id='toggleMinusDiv' style='display:none;position:absolute;top:300px;left:245px;'>
 				<span id='baseAreaMenu'  name='expandImage'  style='display:inline;'><img id='pie_controls' src = 'images/Pie_Menu.png' usemap="pieControlsMap" /></span>
-				<span id='shape1Menu' name='expandImage' style='display:none;'><img id='pie_NoteControls' src = 'images/Pie_Note.png' usemap="pieControlsMap" /></span>
-				<span id='shape2Menu' name='expandImage' style='display:none;'><img id='pie_AudioControls' src = 'images/Pie_Audio.png' usemap="pieControlsMap" /></span>
-				<span id='shape3Menu' name='expandImage' style='display:none;'><img id='pie_PhotoControls' src = 'images/Pie_Photo.png' usemap="pieControlsMap" /></span>n
-				<span id='shape4Menu' name='expandImage' style='display:none;'><img id='pie_VideoControls' src = 'images/Pie_Video.png' usemap="pieControlsMap" /></span>
+				<span id='shape1Menu' name='expandImage' style='display:none;left:-350px'><img id='pie_NoteControls' src = 'images/Pie_Note.png' usemap="pieControlsMap" /></span>
+				<span id='shape2Menu' name='expandImage' style='display:none;left:-350px'><img id='pie_AudioControls' src = 'images/Pie_Audio.png' usemap="pieControlsMap" /></span>
+				<span id='shape3Menu' name='expandImage' style='display:none;left:-350px'><img id='pie_PhotoControls' src = 'images/Pie_Photo.png' usemap="pieControlsMap" /></span>n
+				<span id='shape4Menu' name='expandImage' style='display:none;left:-350px'><img id='pie_VideoControls' src = 'images/Pie_Video.png' usemap="pieControlsMap" /></span>
 				<map name="pieControlsMap">
-					<!--
-					<AREA id='baseArea' href='startActivity.html' onTouchMove="javascript:hoverChange('baseArea');" onMouseOver="javascript:hoverChange('baseArea');" title="mainButton" SHAPE="circle" COORDS="171,171,62"></AREA>
-					<AREA id='shape1' href='startActivity.html' onTouchMove="javascript:hoverChange('shape1');" onMouseOver="javascript:hoverChange('shape1');" title="shape1" SHAPE="poly" COORDS="5,171,55,55, 128, 128, 110, 171"></AREA>
-					<AREA id='shape2' href='startActivity.html' onTouchMove="javascript:hoverChange('shape2');" onMouseOver="javascript:hoverChange('shape2');" title="shape2" SHAPE="poly" COORDS="128,128,55,55, 172, 8, 172, 108"></AREA>
-					<AREA id='shape3' href='startActivity.html' onTouchMove="javascript:hoverChange('shape3');" onMouseOver="javascript:hoverChange('shape3');" title="shape3" SHAPE="poly" COORDS="172,108,172,8, 288, 55, 215, 128"></AREA>
-					<AREA id='shape4' href='startActivity.html' onTouchMove="javascript:hoverChange('shape4');" onMouseOver="javascript:hoverChange('shape4');" title="shape4" SHAPE="poly" COORDS="215,128,288,55, 335, 171, 235,171"></AREA>					
-					<AREA id='extendedArea' href='startActivity.html' onClick="javascript:alert('area2');" title="area1" SHAPE="circle" COORDS="171,171,166"></AREA>
-					 -->
 					
 					<AREA id='baseArea' href='startActivity.html' onMouseOver="javascript:hoverChange('baseArea');" title="mainButton" SHAPE="circle" COORDS="171,171,62"></AREA>
 					<AREA id='shape1' href='startActivity.html' onMouseOver="javascript:hoverChange('shape1');" title="shape1" SHAPE="poly" COORDS="5,171,55,55, 128, 128, 110, 171"></AREA>
@@ -96,31 +93,7 @@
 				</map>
 			</span>
 		</span>
-<!--
-<AREA SHAPE="poly" id="area1" COORDS="0,0,0,10000,10000,10000,10000,0" ALT="REGION2" title="area1"></AREA>		
-
-		<span id='toggleMinusDiv' style='display:none;position:relative;top:-180px;'>
-			<img id='pie_controls' src = 'images/Pie_Menu.png' usemap="pieControlsMap" />													
-			<map name="pieControlsMap">
-				<span id='alert' style='position:relative;top:-100px;left:-150px;z-index:50px;background-image:url('pie_menu.gif');background-color:#cccccc;' >
-					<AREA SHAPE="poly" id="area1" COORDS="0,0,0,10000,10000,10000,10000,0" ALT="REGION2" title="area1"></AREA>
-					<AREA id='area2' href="#" title="area1" title="area2" SHAPE="poly" COORDS="10,10,10,1000,1000,1000,1000,10">come here for alert</AREA>
-				</span>
-			</map>	
-		</span>
-		<span id='pie_audio' style='display:none;position:relative;top:-78px;'>
-			<img id='pie_controls' src = 'images/Pie_Audio.png' />			
-		</span>
-		<span id='pie_video' style='display:none;position:relative;top:-78px;'>
-			<img src = 'images/Pie_Video.png' />			
-		</span>
-		<span id='pie_photo' style='display:none;position:relative;top:-78px;'>
-			<img src = 'images/Pie_Photo.png' />			
-		</span>
-		<span id='pie_list' style='display:none;position:relative;top:-78px;'>
-			<img src = 'images/Pie_Note.png' />			
-		</span>
--- >	</div>
+	</div>
 
 </div>
 

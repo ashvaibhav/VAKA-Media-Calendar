@@ -85,3 +85,16 @@
 {
 -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+.mainButton{
+	align:center;
+	position:absolute;
+	padding-left:100px;
+	padding-top:200px;
+	top:542px;
+	margin-top:450px;
+	margin-left:250px;
+}
+.expanded_pie{
+	position:absolute;
+	margin-left:-110px;
+}

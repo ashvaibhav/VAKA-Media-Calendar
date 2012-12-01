@@ -7,11 +7,16 @@
 <title>Event List</title>
 <link rel="stylesheet" type="text/css" href="css/editEvent.css"/>
 <link rel="stylesheet" type="text/css" href="css/jquery-ui.css"/>
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-timepicker-addon.css"/>
+<link rel="stylesheet" type="text/css" href="css/mobiscroll-2.2.custom.min.css"/>
 <script type="text/javascript" src="js/main.js"></script>
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 <script type="text/javascript" src="js/json.js"></script>
 <script type="text/javascript" src="js/jquery-ui.js"></script>
 <script type="text/javascript" src="js/jquery.gamequery-0.7.0.js"></script>
+<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="js/mobiscroll-2.2.custom.min.js"></script>
+
 <script type="text/javascript">
 	$(document).ready(function() {
    		populateAllEvents();
@@ -21,6 +26,15 @@
 		var d = new Date(a);
 		alert(d.getTime());
 	}
+	$(window).load(function()
+		{			
+			$("#main_button_div").bind("touchmove", function(e){
+				bindingTouchMove(e);
+				});
+			$("#main_button_div").bind("mousemove", function(e){
+				bindingTouchMove(e);
+				});
+		});
 </script>
 </head>
 
@@ -34,20 +48,48 @@
 	<a href='audioRecording.html'>AudioEvent</a>
 	<a href='gestureRecognition.html'>GestureEvent</a>
 	<a href='startActivity.html'>StartEvent</a>
+	<div id='kanika'></div>
 	</div>
 	
 <div id='main_screen' width="810px;" height="1200px;" style='text-align:center;background-color:#F1F1F2;'>
 	<div id='test_activities' style='display:none;'>	
 	<a href='startActivity.html'>Start Activity</a>
 	</div>
-	<div>
+	<div id='eventListHeader'>
 		<img  src = 'images/eventList/event_list_txt.png'/>
 	</div>
-	<div id="eventList" style='height:980px;overflow:auto;'>
+	<div id="eventList" style='height:880px;overflow:auto;'>
 		<span id='logo'>
 			<img  src = 'images/logo.png'/>
 		</span>
 	</div>
+	<div id='main_button_div' class='mainButton' onTouchStart="javascript:clickPlus();" onTouchEnd="javascript:clickMinus();" onMouseDown="javascript:clickPlus();" onMouseUp="javascript:clickMinus();">
+		<span id='main_button' style="position:absolute;top:0px;">		
+			<span id='togglePlusDiv' style='display:inline;position:absolute;top:114px;'>
+				<span style='top:6px;'>
+					<img src = 'images/plus_button.png' />
+				</span>
+			</span>
+			<span id='toggleMinusDiv' style='display:none;position:absolute;top:-0px;'>
+				<span id='baseAreaMenu'  name='expandImage'  class='expanded_pie' style='display:inline;'><img id='pie_controls' src = 'images/Pie_Menu.png' usemap="pieControlsMap" /></span>
+				<span id='shape1Menu' name='expandImage' class='expanded_pie' style='display:none;'><img id='pie_NoteControls' src = 'images/Pie_Note.png' usemap="pieControlsMap" /></span>
+				<span id='shape2Menu' name='expandImage' class='expanded_pie' style='display:none;'><img id='pie_AudioControls' src = 'images/Pie_Audio.png' usemap="pieControlsMap" /></span>
+				<span id='shape3Menu' name='expandImage' class='expanded_pie' style='display:none;'><img id='pie_PhotoControls' src = 'images/Pie_Photo.png' usemap="pieControlsMap" /></span>n
+				<span id='shape4Menu' name='expandImage' class='expanded_pie' style='display:none;'><img id='pie_VideoControls' src = 'images/Pie_Video.png' usemap="pieControlsMap" /></span>
+				<map name="pieControlsMap">
+					
+					<AREA id='baseArea' href='startActivity.html' onMouseOver="javascript:hoverChange('baseArea');" title="mainButton" SHAPE="circle" COORDS="171,171,62"></AREA>
+					<AREA id='shape1' href='startActivity.html' onMouseOver="javascript:hoverChange('shape1');" title="shape1" SHAPE="poly" COORDS="5,171,55,55, 128, 128, 110, 171"></AREA>
+					<AREA id='shape2' href='startActivity.html' onMouseOver="javascript:hoverChange('shape2');" title="shape2" SHAPE="poly" COORDS="128,128,55,55, 172, 8, 172, 108"></AREA>
+					<AREA id='shape3' href='startActivity.html' onMouseOver="javascript:hoverChange('shape3');" title="shape3" SHAPE="poly" COORDS="172,108,172,8, 288, 55, 215, 128"></AREA>
+					<AREA id='shape4' href='startActivity.html' onMouseOver="javascript:hoverChange('shape4');" title="shape4" SHAPE="poly" COORDS="215,128,288,55, 335, 171, 235,171"></AREA>					
+					<AREA id='extendedArea' href='startActivity.html' onClick="javascript:alert('area2');" title="area1" SHAPE="circle" COORDS="171,171,166"></AREA>
+					
+				</map>
+			</span>
+		</span>
+	</div>
+
 </div>
 <div id='edit_screen' width="810px;" height="1200px;" style='display:none;text-align:center;background-color:#F1F1F2;'>
 	<div>

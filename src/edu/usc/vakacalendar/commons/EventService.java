@@ -207,17 +207,15 @@ public class EventService {
 				evToUpdate.setFrom(fromDate);
 			}
 			// to:
-			if (from.compareTo("") != 0) {
+			if (to.compareTo("") != 0) {
 				tineInMiliseconds = (Double.valueOf(to)).longValue();
 				Date toDate = new Date(tineInMiliseconds);
 				evToUpdate.setTo(toDate);
 			}
 			// metadata:
-			if (from.compareTo("") != 0) {
-				tineInMiliseconds = c.getTimeInMillis();
-				Date metaDate = new Date(tineInMiliseconds);
-				evToUpdate.setMetadata(metaDate);
-			}
+			tineInMiliseconds = c.getTimeInMillis();
+			Date metaDate = new Date(tineInMiliseconds);
+			evToUpdate.setMetadata(metaDate);
 		}
 		saveAllEventsFromExternalFile();
 	}
