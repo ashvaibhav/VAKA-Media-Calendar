@@ -2,6 +2,7 @@
 //ButtonHandlers.onStopPlay();
 //Global Variables
 var debug = false;
+var debu2 = false;
 var dataForAllEvents;
 var currentEvent;
 
@@ -88,6 +89,7 @@ dataForAllEvents = result;
 }
 //displaying one event data in EventList html page
 function populateOneEvent(id, title, date, metadata, type, status, control){
+		date = dateConversion(date, true);
 		var eventItem = "<div id='eventItem"+id+"' style='height:205px;'>";
 			//the complete item
 			eventItem+= "<HR>"; 
@@ -126,6 +128,7 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
  }
  function approveEvent(currentEvent){ 	
  	//currentEvent = JSON.parse(currentEvent);
+	if(debug2)
 	alert("You want me to approve event: "+currentEvent);
  }
  function updateEventListWithCurrentEvent(){
@@ -133,6 +136,8 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
  	for(index in dataForAllEvents){
 		if(dataForAllEvents[index].id == currentEvent.id){
 			dataForAllEvents[index] = currentEvent; 
+			dateForAllEvents[index].from = dateConversion(dateForAllEvents[index].from, false);
+			dateForAllEvents[index].to = dateConversion(dateForAllEvents[index].to, false);
 			break;
 		}		
 	}
@@ -287,7 +292,7 @@ function showPreview(){
 					"<img src='images/eventList/"+currentEvent.type+"_icon_s.png'/>"+
 					"<span class='previewMetadataContent' style='width:500px;'>"+currentEvent.metadata+"</span>"+
 					"<span>";// style='position:relative;top:40px;'>";
-					alert(currentEvent.mediaURL);
+					if(debug2)alert(currentEvent.mediaURL);
 	switch(currentEvent.type){
 		case 'audio':
 			item += 
@@ -356,7 +361,7 @@ function showPreview(){
 //							"<span class='posAbs from editEventTextBox editEventTextBoxContent editEventTextBoxStyle'>"+
 //									currentEvent.from+
 //							"</span>"+
-							"<input readonly='true' id='editEventFromText' onClick='javascript:datePicker(\"From\");' type='text' class='posAbs from editEventTextBox editEventTextBoxContent editEventTextBoxStyle' value='"+currentEvent.from+"'/>"+
+							"<input readonly='true' id='editEventFromText' onClick='javascript:datePicker(\"From\");' type='text' class='posAbs from editEventTextBox editEventTextBoxContent editEventTextBoxStyle' value='"+dateConversion(currentEvent.from, true)+"'/>"+
 							"<span id='editEventFrom' onClick='javascript:datePicker(\"From\");'><img class='posAbs from editEventTextButton ' src='images/editEvent/calendar_picker.png'/></span>"+
 						"</span>"+
 						"<span name='to'>"+
@@ -366,7 +371,7 @@ function showPreview(){
 //							"<span class='posAbs to editEventTextBox editEventTextBoxContent editEventTextBoxStyle'>"+
 //									currentEvent.to+
 //							"</span>"+
-							"<input disabled='disabled' id='editEventToText' type='text' class='posAbs to editEventTextBox editEventTextBoxContent editEventTextBoxStyle' value='"+currentEvent.to+"'/>"+
+							"<input readonly='true' id='editEventToText' type='text' class='posAbs to editEventTextBox editEventTextBoxContent editEventTextBoxStyle' value='"+dateConversion(currentEvent.to, true)+"'/>"+
 							"<span id='editEventTo' onClick='javascript:datePicker(\"To\");'><img class='posAbs to editEventTextButton' src='images/editEvent/calendar_picker.png'/></span>"+
 						"</span>"+
 						"<span name='place'>"+
@@ -600,6 +605,21 @@ function position(event) {
     }
     
     return { x: x, y: y };
+}
+
+function dateConversion(date, isBackToFront){
+	if(isBackToFront){
+		//if(date in milliseconds)
+			return new Date(date);
+		//else
+			//return date
+	}
+	else{
+		//if(date not in milliseconds)
+			return date.getTime();
+		//else
+			//return date
+	}
 }
 
 function bindingTouchMove(e){
