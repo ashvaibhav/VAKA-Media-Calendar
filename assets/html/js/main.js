@@ -61,7 +61,7 @@ if(!debug)
 	result = EventService.getAllEvents();
 else
 	result = '['+
-				'{"id":"1","title":"This audio meeting 1 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":"1", "mediaURL":"/storage/emulated/0/VAKA_audio001.3gp"},'+
+				'{"id":"1","title":"This audio meeting 1 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":"1", "mediaURL":"https://dl.dropbox.com/s/n5u4h3qrx1s2rj5/dd.mp3?dl=1"},'+
 				'{"id":"2","title":"This video works in alex machine", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":"1", "mediaURL":"/storage/emulated/0/qwe.3gp"},'+
 				'{"id":"3","title":"This photo is nice", "from":"some date", "to":"some other date at", "place":"Los Angeles", 								   "type":"photo","metadata":"stored info about meeting","status":"1","description":"'+				   
 				
@@ -93,7 +93,7 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
 			eventItem+= "<HR>"; 
  			eventItem += "<span style='position:relative;text-align:left;'>";
  				eventItem += "<span style='position:absolute;left:0px;top:-10px;align:left;'>";
- 					eventItem += "<span style='position:absolute;left:655px;top:0px;' onClick='javascript:editEvent("+id+");'>"+
+ 					eventItem += "<span style='position:absolute;left:630px;top:0px;' onClick='javascript:editEvent("+id+");'>"+
  										"<img src='images/eventList/event_plus.png'>"+
  								"</span>"; 			
  					eventItem += "<span id='approvalIcon"+id+"' style='position:absolute;left:45px;top:55px;' onClick='javascript:toggleApproval("+id+");'>";
@@ -111,7 +111,7 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
  					eventItem += "<span class='previewMetadataContent' style='position:absolute;top:130px;left:240px;width:450px;'>"+metadata+"</span>"+"</span>";
  					//delete icon
  					eventItem += "<span style='position:absolute;top:110px;left:730px;' onClick='javascript:toggleDelete("+id+");'><img src='images/eventList/delete_btn_s.png'></span>";
- 					eventItem += "<HR style='position:absolute;top:170px;width:800px;border:1px solid #58585b; box-shadow: 0 2px 5px 1px #939597;'>";
+ 					eventItem += "<HR style='position:absolute;top:170px;width:780px;border:1px solid #58585b; box-shadow: 0 2px 5px 1px #939597;'>";
  				eventItem += "</span>";
  			eventItem += "</span>"; 		 		
  		
@@ -287,16 +287,21 @@ function showPreview(){
 					"<img src='images/eventList/"+currentEvent.type+"_icon_s.png'/>"+
 					"<span class='previewMetadataContent' style='width:500px;'>"+currentEvent.metadata+"</span>"+
 					"<span>";// style='position:relative;top:40px;'>";
+					alert(currentEvent.mediaURL);
 	switch(currentEvent.type){
 		case 'audio':
-			item += /*"<audio class='posAbs' style='top:-270px;' width='600px' height='400' src='"+currentEvent.mediaURL+"'>"+
-    					"<p>Your browser does not support the audio element</p>"+
-				"</audio>";*/
-				"<input type='button' value='PLAY' onClick='javascript:ButtonHandlers.onPlay();'/><input type='button' value='STOP' onClick='javascript:ButtonHandlers.onStopPlay();'/>"+
-				"<audio class='posAbs' style='top:270px;' width='600px' height='400' controls='controls'>"+
+			item += 
+				//"<input type='button' value='PLAY' onClick='javascript:ButtonHandlers.onPlay();'/><input type='button' value='STOP' onClick='javascript:ButtonHandlers.onStopPlay();'/>"+
+				
+				"<audio class='posAbs' style='top:70px;width=600px; height=400px;'  controls='controls' autoplay='autoplay'>"+
+"<source src='"+currentEvent.mediaURL+"' type='audio/mpeg'/>"+
+"</audio>";//https://dl.dropbox.com/s/n5u4h3qrx1s2rj5/dd.mp3?dl=1
+				
+				/*"<audio class='posAbs' style='top:270px;' width='600px' height='400' controls='controls' autoplay='autoplay'>"+
 				"<source src='"+currentEvent.mediaURL+"' type='audio/"+getMediaType(currentEvent.mediaURL.split(".")[1])+"'>"+
 				"<P>Your browsr does not support the audio element</P>"+
 				"</audio>";
+				*/
 			break;
 		case 'video':
 			item +=	"<video class='posAbs' style='top:-270px;' width='600px' height='400' controls='controls'>"+
@@ -391,20 +396,17 @@ function showPreview(){
  				eventData += "<span style='position:absolute;left:0px;top:-10px;align:left;'>";
 				eventData +=
 						//collapseIcon 
-							"<span style='position:absolute;left:655px;' onClick='javascript:collapseEditEvent();' title='collapse'>"+
+							"<span style='position:absolute;left:630px;' onClick='javascript:collapseEditEvent();' title='collapse'>"+
 								"<img src='images/editEvent/event_minus.png'/>"+
 							"</span>"+
 						//buttons
 							"<span id='editEventApproval' style='position:absolute;left:20px;top:10px;' onClick='javascript:toggleApproval("+id+",true);' title='approval'>"+
 								"<img id='editEventStatus' value="+currentEvent.status+" src='images/editEvent/calendar_btn"+currentEvent.status+".png'/>"+
 							"</span>"+
-							"<span style='position:absolute;left:140px;top:10px;' onClick='javascript:alarmClick();' title='alarm'>"+
-								"<img src='images/editEvent/alarm_btn1.png'/>"+
+							"<span id='editEventReset' style='position:absolute;left:155px;top:10px;' onClick='javascript:reset();' title='reset'>"+
+								"<img src='images/editEvent/reset_btn2.png'/>"+
 							"</span>"+
-							"<span id='editEventReset' style='position:absolute;left:250px;top:10px;' onClick='javascript:reset();' title='reset'>"+
-								"<img src='images/editEvent/undo_btn1.png'/>"+
-							"</span>"+
-							"<span style='position:absolute;left:360px;top:10px;' onClick='javascript:toggleDelete("+id+",true);' title='delete'>"+
+							"<span style='position:absolute;left:265px;top:10px;' onClick='javascript:toggleDelete("+id+",true);' title='delete'>"+
 								"<img src='images/editEvent/delete_btn2.png'/>"+
 							"</span>"+
 						//preview

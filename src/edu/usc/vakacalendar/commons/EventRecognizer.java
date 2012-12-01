@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class EventRecognizer {
 	private final int TITLE_SIZE = 25;
-	private final String AUDIO_URL = "/storage/emulated/0/VAKA_audio001.3gp";
+	private final String AUDIO_URL = "https://dl.dropbox.com/s/n5u4h3qrx1s2rj5/dd.mp3?dl=1";
 	private final String PLACE = "LA";
 	private class ParseFailedExcepion extends Exception {
 
