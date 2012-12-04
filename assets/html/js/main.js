@@ -1,7 +1,7 @@
 //ButtonHandlers.onPlay('"+currentEvent.mediaURL+"');
 //ButtonHandlers.onStopPlay();
 //Global Variables
-var debug = false;//false;
+var debug = true;//false;
 var debug2 = false;
 var dataForAllEvents;
 var currentEvent;
@@ -530,10 +530,10 @@ function clickMinus(){
 		$("#kanika").empty().append(identifyHighlightedControl(selected));
 		switch(identifyHighlightedControl(selected)){
 			case 'shape1':
-				ButtonHandlers.onAudioButtonClick();
+				ButtonHandlers.onCameraButtonClick();
 				break;
 			case 'shape2':
-				ButtonHandlers.onCameraButtonClick();
+				ButtonHandlers.onAudioButtonClick();
 				break;
 			case 'shape3':
 				ButtonHandlers.onPhotoButtonClick();
@@ -548,7 +548,7 @@ function clickMinus(){
 	//display the new button
 	mainButton.css("position","relative");
 	mainButton.css("top","-37px");
-	mainButton.html("<img src = 'images/plus_button.png'>"+
+	mainButton.html("<img src = 'images/main/plus_button.png'>"+
 /// *	"<map name='bkgdMap' id='bkgdMap'>"+
          	"<area shape="rect" coords='12,161,341,379' href='#' 
 
