@@ -68,9 +68,14 @@
 	position:absolute;
 	left:20px;
 	top:120px;
-	width:760px;
-	height:200px;
+	width:745px;
+	height:600px;
 	border:1px solid;
+}
+.afterPreview{
+	position:absolute;
+	left:20px;
+	top:780px;'
 }
 .previewMetadata{
 	position:absolute;
@@ -80,6 +85,17 @@
 .previewMetadataContent{
 	position:absolute;
 	padding-left:10px;
+}
+.previewMedia{
+	top:100px;
+	left:110px;
+}
+.previewVideoMedia{
+	width:500px;
+	height:400px;
+}
+.previewPhotoMedia{
+	width:70%;
 }
 .noHighlight
 {

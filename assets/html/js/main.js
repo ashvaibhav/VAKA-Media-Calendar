@@ -3,6 +3,7 @@
 //Global Variables
 var debug = false;//false;
 var debug2 = false;
+var isZeroData = false;
 var dataForAllEvents;
 var currentEvent;
 
@@ -11,9 +12,11 @@ function populateAllEvents(){
 	getDataForAllEvents();//populating dataForAllEvents 
 	var res = dataForAllEvents
 	//if result is not null, remove logo	
-	if(res){
-		$("#logo").css('display','none');
+	if(res.length>0){
+		showLogo(false);
 	}
+	else
+		showLogo(true);
 	//res = res.split(",");
 	
 	//for every element in res
@@ -49,19 +52,35 @@ function populateAllEvents(){
 		if(!type)type=data.type;
 		if(!status)status=data.status;
 		$("#eventList").append("<div id='eventListComplete'></div>");
+		if(type=='audio'){
+			alert("this is audio event: "+status);
+		}
 		if(data.status!=3){	//if item is not deleted, display it
 			var response = populateOneEvent(data.id, data.title, data.from, data.metadata, type, status);//id, type, title, from ,to ,place , description,
 			$('#eventListComplete').append(response);
 		}
 	}
+	//End of populating all events
+	//identify if latest event is current. If yes, highlight the div for 2 seconds.
+	highlightLatestDiv();
+}
+
+function highlightLatestDiv(){
+	var res = dataForAllEvents;
+	var index = 0;//res.length-1;
+	if(res.length>0)
+		if(new Date() - new Date(res[index].metadata)<6000){
+			$("#eventItem"+res[index].id).css('background-color','#C1C1C2').animate({backgroundColor: '#F1F1F2'},{duration:6000});
+		}
 }
 //getting data from Android about all events
 function getDataForAllEvents(){
 var result = "";
 if(!debug)
 	result = EventService.getAllEvents();
-else
-	result = '['+
+else{
+	result = isZeroData?'[]':
+		'['+
 				'{"id":"1","title":"This audio meeting 1 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"audio","metadata":"stored info about meeting","status":"1", "mediaURL":"https://dl.dropbox.com/s/n5u4h3qrx1s2rj5/dd.mp3?dl=1"},'+
 				'{"id":"2","title":"This video works in alex machine", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":"video","metadata":"stored info about meeting","status":"1", "mediaURL":"/storage/emulated/0/qwe.3gp"},'+
 				'{"id":"3","title":"This photo is nice", "from":"some date", "to":"some other date at", "place":"Los Angeles", 								   "type":"photo","metadata":"stored info about meeting","status":"1","description":"'+				   
@@ -83,6 +102,7 @@ else
 				'{"id":"8","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":1,"metadata":"stored info about meeting","status":"1"},'+
 				'{"id":"9","title":"This meeting 2 is supposed to happen", "from":"some date", "to":"some other date at", "place":"Los Angeles", "description":"about the meeting","type":1,"metadata":"stored info about meeting","status":"1"}'+
 			 ']';
+}
 result = JSON.parse(result);
 dataForAllEvents = result;	
 	//return "We plan to meet... :3-30 PM on 10/30... :25 Oct at 1...:audio, another event:trying to get it:figured out:video";	
@@ -131,7 +151,14 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
 	if(debug2)
 	alert("You want me to approve event: "+currentEvent);
  }
+ function showLogo(status){
+ 	if(status)
+ 		$("#logo").css("display","inline");
+ 	else
+ 		$("#logo").css("display","none");
+ }
  function updateEventListWithCurrentEvent(){
+ 	var allDelete = true;
  	if(!currentEvent) return;
  	for(index in dataForAllEvents){
 		if(dataForAllEvents[index].id == currentEvent.id){
@@ -139,9 +166,19 @@ function populateOneEvent(id, title, date, metadata, type, status, control){
 			dataForAllEvents[index].from = dateConversion(dataForAllEvents[index].from, false);
 			dataForAllEvents[index].to = dateConversion(dataForAllEvents[index].to, false);
 			dataForAllEvents[index].metaData = dateConversion(dataForAllEvents[index].metadata, false);
+			/*alert("showLogo status: "+dataForAllEvents[index].status);
+			if ( allDelete && dataForAllEvents[index].status!=3 ){
+				allDelete = false;
+			}*/
 			break;
 		}		
+	}/*
+	if(allDelete){
+		showLogo(true);
 	}
+	else
+		showLogo(false);
+		*/
 	if(!debug)
 		EventService.updateEvent(currentEvent.id, currentEvent.type, currentEvent.from, currentEvent.to, currentEvent.title, currentEvent.place, currentEvent.description);
  }
@@ -165,12 +202,22 @@ function updateEditedState(){
 	updateEventListWithCurrentEvent();		
 	//alert(currentEvent.status);
 }
+function displayEditMainScreen(){
+	$("#main_screen").show();
+	//if none of the events has status 1 or 2 then display logo else make it invisible.
+	var res = dataForAllEvents;
+	for(index in res){
+		if(res[index].status!=3){
+			showLogo(false);
+			return;
+		}
+	}
+	showLogo(true);
+}
  function collapseEditEvent(){
 		updateEditedState();
  		$("#edit_screen").hide();
-/*		$("#editEventForm"+currentEvent.id).hide();
-		$("#description"+currentEvent.id).parent().parent().empty();*/
- 		$("#main_screen").show();
+ 		displayEditMainScreen();
  		//deleting data
  		$("#updateEvent").empty();
  		currentEvent = "";
@@ -198,16 +245,17 @@ function updateEditedState(){
  function toggleDelete(id, fromEditPage){
 	var response = confirm("Do you want to delete it?");
 	if(response){
- 	updateCurrentEvent(id);
- 	currentEvent.status = "3";
- 	$("#eventItem"+id).css("display","none");
- 	if(!debug)
- 		EventService.deleteEvent(currentEvent.id); 	
- 	if(fromEditPage){
- 		collapseEditEvent();
- 	} 	
- 	else
- 		updateEventListWithCurrentEvent();
+	 	updateCurrentEvent(id);
+	 	currentEvent.status = "3";
+	 	$("#eventItem"+id).css("display","none");
+	 	if(!debug)
+	 		EventService.deleteEvent(currentEvent.id); 	
+	 	if(fromEditPage){
+	 		collapseEditEvent();
+	 	} 	
+	 	else{
+	 		updateEventListWithCurrentEvent();
+	 	}
 	}
  }
  function toggleApproval(id, fromEditPage){
@@ -243,12 +291,34 @@ function updateEditedState(){
  function alarmClick(){
  	alert("Alarm Under construction");
  }
+ function showDialog(message,buttons, parentId){
+ 	message = "Do you want to save changes?";
+ 	buttons = ["YES", "NO"];
+ 	
+ 	var $dialog = $("<div style='z-index:20;'></div>'")
+		.html(message)
+		.dialog({
+			autoOpen: false,
+		});
+	if(parentId)
+		$("#"+parentId).append($dialog);
+	$dialog.dialog("open");
+	return false;
+ }
  function goBack(){
  	//edit event or event list
  	var editStatus = $("#edit_screen").is(":visible");
  	if(editStatus){
-	 	reset();
- 		collapseEditEvent();
+ 		var response = showDialog("Do you want to save changes?", ["YES", "NO"], "edit_screen");//
+ 		
+ 		response = confirm("Do you want to save changes?");
+ 		if(response){
+ 			 collapseEditEvent();
+ 		}
+ 		else{
+ 			reset(true);
+ 			collapseEditEvent();
+ 		}
  	}
  	else
  	{
@@ -256,8 +326,12 @@ function updateEditedState(){
 	 		ButtonHandlers.onExit();
  	}
  }
- function reset(){
-	var response = confirm("Do you want to reset to default?");
+ function saveExit(){
+ 	
+ }
+ function reset(response){
+	if(!response)
+		response = confirm("Do you want to reset to default?");
 	if(response){
  	$("#editEventReset").empty().append("<img src='images/editEvent/undo_btn1.png'/>");
 	currentEvent = initialStateOfEvent;
@@ -292,14 +366,14 @@ function showPreview(){
 				"<span class='previewMetadata'>"+
 					"<img src='images/eventList/"+currentEvent.type+"_icon_s.png'/>"+
 					"<span class='previewMetadataContent' style='width:500px;'>"+currentEvent.metadata+"</span>"+
-					"<span>";// style='position:relative;top:40px;'>";
+				"</span><span>";// style='position:relative;top:40px;'>";
 					if(debug2)alert(currentEvent.mediaURL);
 	switch(currentEvent.type){
 		case 'audio':
 			item += 
 				//"<input type='button' value='PLAY' onClick='javascript:ButtonHandlers.onPlay();'/><input type='button' value='STOP' onClick='javascript:ButtonHandlers.onStopPlay();'/>"+
 				
-				"<audio class='posAbs' style='top:70px;width=600px; height=400px;'  controls='controls' autoplay='autoplay'>"+
+				"<audio class='posAbs previewMedia ' controls='controls' autoplay='autoplay'>"+//style='top:70px;width=600px; height=400px;'  
 "<source src='"+currentEvent.mediaURL+"' type='audio/mpeg'/>"+
 "</audio>";//https://dl.dropbox.com/s/n5u4h3qrx1s2rj5/dd.mp3?dl=1
 				
@@ -310,13 +384,13 @@ function showPreview(){
 				*/
 			break;
 		case 'video':
-			item +=	"<video class='posAbs' style='top:-270px;' width='600px' height='400' controls='controls'>"+
+			item +=	"<video class='posAbs previewMedia previewVideoMedia' controls='controls'>"+//width='600px' height='400' //style='top:0px;width:70%;'  
 				"<source src='"+currentEvent.mediaURL+"' type='video/"+getMediaType(currentEvent.mediaURL.split(".")[1])+"'>"+
 				"Your browser does not support the video tag."+
 				"</video>";
 			break;
 		case 'photo':
-			item += "<img class='posAbs' style='top:0px;' width='620px' height='150' src='"+currentEvent.mediaURL+"'/>";
+			item += "<img class='posAbs previewMedia previewPhotoMedia' src='"+currentEvent.mediaURL+"'/>";//width='620px' height='150' 
 			break;
 		case 'note':alert('note');break;
 		default: alert("You associated some strange media with this event.");break;
@@ -417,7 +491,7 @@ function showPreview(){
 						//preview
 							showPreview()+
 						//form
-							"<span style='position:absolute;left:20px;top:340px;'>"+
+							"<span class='afterPreview'>"+
 								formTable2
 							"</span>"+
 						//ending
