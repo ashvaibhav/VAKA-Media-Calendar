@@ -24,6 +24,7 @@
 	function showTime(){
 		var a = 32423423;
 		var d = new Date(a);
+		d.format("mm/dd/yyyy");
 		if(debug2)alert(d.getTime());
 	}
 	$(window).load(function()
@@ -63,12 +64,12 @@
 			<img  src = 'images/logo.png'/>
 		</span>
 	</div>
-	<div id='main_button_div' class='mainButton' onTouchStart="javascript:clickPlus();" onTouchEnd="javascript:clickMinus();" onMouseDown="javascript:clickPlus();" onMouseUp="javascript:clickMinus();">
+	<div id='main_button_div' class='mainButton' onTouchEnd="javascript:clickMinus();" onMouseDown="javascript:clickPlus();" onMouseUp="javascript:clickMinus();">
 		<span id='main_button' style="position:absolute;top:0px;">		
 			<span id='togglePlusDiv' style='display:inline;position:absolute;top:114px;'>
-				<span style='top:6px;'>
-					<img src = 'images/Main/plus_button.png' />
-				</span>
+				<div style='position:absolute;top:0px;height:107px;overflow:hidden;'>
+					<img src = 'images/Main/plus_button.png' onTouchStart="javascript:clickPlus();" />
+				</div>
 			</span>
 			<span id='toggleMinusDiv' style='display:none;position:absolute;top:-50px;left:-160px;'>
 				<span id='baseAreaMenu'  name='expandImage'  style='display:inline;'><img id='pie_controls' src = 'images/Main/Pie_Menu.png' usemap="pieControlsMap" /></span>

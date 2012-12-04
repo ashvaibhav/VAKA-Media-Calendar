@@ -2,7 +2,7 @@
 //ButtonHandlers.onStopPlay();
 //Global Variables
 var debug = false;//false;
-var debug2 = false;
+var debug2 = true;
 var isZeroData = false;
 var dataForAllEvents;
 var currentEvent;
@@ -524,20 +524,13 @@ function toggleMainButton(control){
 	var isPlus = control.innerHTML.indexOf("plus")>0?true:false;
 	if(isPlus){
 	clickPlus();
-	/*//alert(isPlus);
-	$("#plus_button").hide();
-	$("#expanded_default").show();*/
 	}
 	else{
 	clickMinus();
-	/*alert(isPlus);
-	$("#expanded_default").hide();
-	$("#plus_button").show();*/
 	}
 	
 }
 function updateText(text){
-	//alert(text);
 	$("#abcdText").val(text);
 }
 //plus button was clicked. hide it. show minus button instead
@@ -545,18 +538,6 @@ function clickPlus(){
 	var mainButton = $('#togglePlusDiv');
 	mainButton.css("display","none");
 	$("#toggleMinusDiv").css("display","inline");
-	//$("#area1").hover(function(e){alert("Hello");});
-//	$("#alert").hover(function(e){alert("Hello2");});
-//	$("#pie_controls")
-	//waste below this line
-/*	//remove existing button
-//	mainButton.html();
-	//display the new button
-//	mainButton.css("position","relative");
-//	mainButton.css("top","-78px");
-	//this image should zoom in
-//	mainButton.append("<img src= 'images/expanded_default.png'></img>");
-*/
 }
 function showAudio(){
 	$("#toggleMinusDiv").css("display","none");
@@ -564,9 +545,6 @@ function showAudio(){
 }
 var tempCounter = 0;
 function hoverChange(control){
-	//alert("control exists ->"+control);
-	//alert(JSON.stringify(control));
-	
 	if(control){
 		//updateText(1+JSON.stringify(control)+ tempCounter++);
 		control = $("#"+control+"Menu");
@@ -603,13 +581,13 @@ function clickMinus(){
 	if(!debug){
 		$("#kanika").empty().append(identifyHighlightedControl(selected));
 		switch(identifyHighlightedControl(selected)){
-			case 'shape1':
+			case 'shape3':
 				ButtonHandlers.onCameraButtonClick();
 				break;
 			case 'shape2':
 				ButtonHandlers.onAudioButtonClick();
 				break;
-			case 'shape3':
+			case 'shape1':
 				ButtonHandlers.onPhotoButtonClick();
 				break;
 		}
@@ -701,17 +679,9 @@ function dateConversion(date, isBackToFront){
 
 function bindingTouchMove(e){
 							
-							//alert('asdf');							
-							//updateText("jquery_document_ready :D");
 							e.preventDefault();
-							//updateText("preventDefault done");
-							//updateText("JSON->"+JSON);
-							//updateText("e.targetTouches->"+e.targetTouches);//e.pageX+"  "+e.pageY);//target.src.split("html/images/")[1]);
-							//alert(""+e.clientX+e.clientY+e.offsetX+e.offsetY+e.pageX+e.pageY+e.screenX+e.screenY);
 							pos=position(event);
-							//updateText(pos.x+"  "+pos.y);
-							//$("#kanika").empty().append("x = "+pos.x+" y = "+pos.y);
-							if(pos.y>1100){
+							if(pos.y>1100 || pos.y<300){
 								hoverChange('baseArea');
 							}
 							else if(pos.x<330){
@@ -720,18 +690,9 @@ function bindingTouchMove(e){
 							else if(pos.x<425){
 								hoverChange('shape2');
 							}
-							else if(pos.x<525){
+							else{
 								hoverChange('shape3');
 							}
-							else{
-								hoverChange('shape4');
-							}
-							//updateText(e.touches);
-							//updateText("serializing->"+JSON.stringify({}));
-							//alert("This is JSON"+JSON.stringify(e));
-							//updateText("json parsed 1");
-							//alert(JSON.stringify(control));
-							//hoverChange(e);
 }
 
 var myDateTimeControl=  {
