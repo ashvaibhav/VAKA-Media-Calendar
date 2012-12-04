@@ -135,8 +135,20 @@ public class EventRecognizer {
 	private Date findFromDate(String[] array) throws ParseFailedExcepion {
 		Calendar c = Calendar.getInstance();
 		for (int i = 0; i < array.length; i++) {
+			int nextItemIndex = i + 1;
+			if ((nextItemIndex < array.length)
+					&& checkTemplate(array, i, "next")) {
+				// next <weekDay>
+				try {
+					// FIXME: check
+					Integer weekDay = parseWeekDay(array[nextItemIndex]);
+					c.set(Calendar.DAY_OF_WEEK, weekDay);
+					return c.getTime();
+				} catch (ParseFailedExcepion e) {
+				}
+			}
+			// on ...
 			if (checkTemplate(array, i, "on")) {
-				int nextItemIndex = i + 1;
 				if ((nextItemIndex + 1 < array.length)
 						&& checkTemplate(array, nextItemIndex, "next")) {
 					// next <weekDay>
@@ -200,7 +212,6 @@ public class EventRecognizer {
 				return c.getTime();
 			}
 			if (checkTemplate(array, i, "date")) {
-				int nextItemIndex = i + 1;
 				if (nextItemIndex + 1 < array.length) {
 					try {
 						Integer month = parseMonth(array[nextItemIndex]);
