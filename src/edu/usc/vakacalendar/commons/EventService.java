@@ -27,7 +27,6 @@ public class EventService {
 	private boolean isFirstStart;
 	private boolean mExternalStorageAvailable = false;
 	private boolean mExternalStorageWriteable = false;
-	private MediaPlayer mediaPlayer;
 
 	private static final EventService instance = new EventService();
 
@@ -179,12 +178,16 @@ public class EventService {
 		return;
 	}
 
+	// reverset order is returned.
 	public String getAllEvents() {
 		JSONArray jsonEventList = new JSONArray();
-		for (BasicEvent basicEvent : eventList) {
-			JSONObject jsonEvent = basicEvent.getJSONObject();
-			jsonEventList.put(jsonEvent);
+		for (int i = eventList.size() - 1; i >= 0; i--){
+			jsonEventList.put(eventList.get(i).getJSONObject());
 		}
+//		for (BasicEvent basicEvent : eventList) {
+//			JSONObject jsonEvent = basicEvent.getJSONObject();
+//			jsonEventList.put(jsonEvent);
+//		}
 		return jsonEventList.toString();
 	}
 

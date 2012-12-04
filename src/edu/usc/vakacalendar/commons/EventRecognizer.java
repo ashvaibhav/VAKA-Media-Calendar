@@ -46,16 +46,17 @@ public class EventRecognizer {
 		}
 		
 		StringBuffer buffer = new StringBuffer();
-		byte[] chars = token.getBytes();
-		for (byte ch : chars) {
+		char[] chars = new char[token.length()];
+		token.getChars(0, token.length(), chars, 0);
+		for (char ch : chars) {
 			if (Character.isDigit(ch))
 			{
-				//buffer.append(Character.toString(ch));
+				buffer.append(Character.toString(ch));
 			}
 		}		
 		
 		try {
-			number = Integer.parseInt(token.toString());
+			number = Integer.parseInt(buffer.toString());
 		} catch (NumberFormatException e) {
 			throw new ParseFailedExcepion();
 		}
