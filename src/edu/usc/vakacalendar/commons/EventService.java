@@ -178,16 +178,12 @@ public class EventService {
 		return;
 	}
 
-	// reverset order is returned.
+	// reversed order is returned.
 	public String getAllEvents() {
 		JSONArray jsonEventList = new JSONArray();
 		for (int i = eventList.size() - 1; i >= 0; i--){
 			jsonEventList.put(eventList.get(i).getJSONObject());
 		}
-//		for (BasicEvent basicEvent : eventList) {
-//			JSONObject jsonEvent = basicEvent.getJSONObject();
-//			jsonEventList.put(jsonEvent);
-//		}
 		return jsonEventList.toString();
 	}
 

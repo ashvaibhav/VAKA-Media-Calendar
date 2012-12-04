@@ -6,7 +6,11 @@ import java.util.Date;
 public class EventRecognizer {
 	private final int TITLE_SIZE = 25;
 	private final String AUDIO_URL = "https://dl.dropbox.com/s/n5u4h3qrx1s2rj5/dd.mp3?dl=1";
-	private final String PLACE = "LA";
+	private final String AUDIO_URL_TOMORROW = "https://dl.dropbox.com/s/c7uke5oi2270hkc/DVT_A001.MP3?dl=1";
+	private final String AUDIO_URL_FRIDAY = "https://dl.dropbox.com/s/lp8p0i5lk5ed4yr/DVT_A002.MP3?dl=1";
+	private final String AUDIO_URL_DECEMBER = "https://dl.dropbox.com/s/d5hyd9l6zfzcdae/DVT_A003.MP3?dl=1";
+	private final String PLACE = "Los Angeles";
+
 	private class ParseFailedExcepion extends Exception {
 
 		/**
@@ -19,7 +23,7 @@ public class EventRecognizer {
 	private Integer parseNumber(Integer min, Integer max, String token)
 			throws ParseFailedExcepion {
 		Integer number = null;
-		
+
 		if ("first".compareToIgnoreCase(token) == 0)
 			number = 1;
 		if ("second".compareToIgnoreCase(token) == 0)
@@ -38,23 +42,22 @@ public class EventRecognizer {
 			number = 8;
 		if ("nineth".compareToIgnoreCase(token) == 0)
 			number = 9;
-		
-		if (number != null){
+
+		if (number != null) {
 			if ((number <= max) && (number >= min)) {
 				return number;
 			}
 		}
-		
+
 		StringBuffer buffer = new StringBuffer();
 		char[] chars = new char[token.length()];
 		token.getChars(0, token.length(), chars, 0);
 		for (char ch : chars) {
-			if (Character.isDigit(ch))
-			{
+			if (Character.isDigit(ch)) {
 				buffer.append(Character.toString(ch));
 			}
-		}		
-		
+		}
+
 		try {
 			number = Integer.parseInt(buffer.toString());
 		} catch (NumberFormatException e) {
@@ -168,6 +171,26 @@ public class EventRecognizer {
 		throw new ParseFailedExcepion();
 	}
 
+	private void setTime(int position, String[] array, Calendar c) {
+		// at xx pm
+		int nextItemIndex = position + 1;
+		if (position < array.length) {
+			if (checkTemplate(array, position, "at")) {
+				if (nextItemIndex < array.length) {
+					try {
+						// FIXME: always PM
+						Integer hour = parseNumber(1, 12, array[nextItemIndex]);
+						c.set(Calendar.HOUR_OF_DAY, hour + 12);
+						c.set(Calendar.MINUTE, 0);
+						c.set(Calendar.SECOND, 0);
+					} catch (ParseFailedExcepion e) {
+					}
+				}
+			}
+		}
+		return;
+	}
+
 	private Date findFromDate(String[] array) throws ParseFailedExcepion {
 		Calendar c = Calendar.getInstance();
 		for (int i = 0; i < array.length; i++) {
@@ -202,6 +225,7 @@ public class EventRecognizer {
 						// FIXME: check
 						Integer weekDay = parseWeekDay(array[nextItemIndex]);
 						c.set(Calendar.DAY_OF_WEEK, weekDay);
+						setTime(nextItemIndex + 1, array, c);
 						return c.getTime();
 					} catch (ParseFailedExcepion e) {
 					}
@@ -214,6 +238,7 @@ public class EventRecognizer {
 								array[nextItemIndex + 1]);
 						c.set(Calendar.MONTH, month);
 						c.set(Calendar.DAY_OF_MONTH, day);
+						setTime(nextItemIndex + 2, array, c);
 						return c.getTime();
 					} catch (ParseFailedExcepion e) {
 					}
@@ -223,6 +248,7 @@ public class EventRecognizer {
 						Integer day = parseNumber(1, 31, array[nextItemIndex]);
 						c.set(Calendar.MONTH, month);
 						c.set(Calendar.DAY_OF_MONTH, day);
+						setTime(nextItemIndex + 2, array, c);
 						return c.getTime();
 					} catch (ParseFailedExcepion e) {
 					}
@@ -234,6 +260,7 @@ public class EventRecognizer {
 						Integer day = parseNumber(1, 31, array[nextItemIndex]);
 						c.set(Calendar.MONTH, month);
 						c.set(Calendar.DAY_OF_MONTH, day);
+						setTime(nextItemIndex + 3, array, c);
 						return c.getTime();
 					} catch (ParseFailedExcepion e) {
 					}
@@ -241,6 +268,7 @@ public class EventRecognizer {
 			}
 			if (checkTemplate(array, i, "tomorrow")) {
 				c.set(Calendar.DAY_OF_MONTH, c.get(Calendar.DAY_OF_MONTH) + 1);
+				setTime(i + 1, array, c);
 				return c.getTime();
 			}
 			if (checkTemplate(array, i, "day", "after", "tomorrow")) {
@@ -276,23 +304,46 @@ public class EventRecognizer {
 			fromDate = c.getTime();
 		}
 		event.setFrom(fromDate);
-		event.setTo(null);
+		if (fromDate != null) {
+			c.setTime(fromDate);
+			c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) + 1);
+			event.setTo(c.getTime());
+		} else {
+			event.setTo(null);
+		}
 		setTruncatedTitle(event, inputText);
 		event.setDescription(inputText);
 		event.setPlace(this.PLACE);
 		event.setType(BasicEvent.AUDIO);
 		event.setMetadata(c.getTime());
-		event.setMediaURL(this.AUDIO_URL);
+		//event.setMediaURL(this.AUDIO_URL);
+		setURL(event);
 		return event;
 	}
 
+	private void setURL(BasicEvent event){
+		if (event.getDescription().indexOf("tomorrow") != -1){
+			event.setMediaURL(this.AUDIO_URL_TOMORROW);
+			return;
+		}
+		if (event.getDescription().indexOf("Friday") != -1){
+			event.setMediaURL(this.AUDIO_URL_FRIDAY);
+			return;
+		}
+		if (event.getDescription().indexOf("December") != -1){
+			event.setMediaURL(this.AUDIO_URL_TOMORROW);
+			return;
+		}
+		event.setMediaURL(this.AUDIO_URL);
+		return;
+	}
 	private void setTruncatedTitle(BasicEvent event, String title) {
 		if (title.length() > this.TITLE_SIZE) {
 			StringBuffer strBuff = new StringBuffer(title);
 			strBuff.delete(this.TITLE_SIZE, strBuff.length()).append("...");
 			event.setTitle(strBuff.toString());
 			return;
-		} 
+		}
 		event.setTitle(title);
 	}
 }
