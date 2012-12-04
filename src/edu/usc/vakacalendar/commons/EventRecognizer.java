@@ -18,9 +18,44 @@ public class EventRecognizer {
 
 	private Integer parseNumber(Integer min, Integer max, String token)
 			throws ParseFailedExcepion {
-		Integer number;
+		Integer number = null;
+		
+		if ("first".compareToIgnoreCase(token) == 0)
+			number = 1;
+		if ("second".compareToIgnoreCase(token) == 0)
+			number = 2;
+		if ("third".compareToIgnoreCase(token) == 0)
+			number = 3;
+		if ("forth".compareToIgnoreCase(token) == 0)
+			number = 4;
+		if ("fifth".compareToIgnoreCase(token) == 0)
+			number = 5;
+		if ("sixth".compareToIgnoreCase(token) == 0)
+			number = 6;
+		if ("seventh".compareToIgnoreCase(token) == 0)
+			number = 7;
+		if ("eighth".compareToIgnoreCase(token) == 0)
+			number = 8;
+		if ("nineth".compareToIgnoreCase(token) == 0)
+			number = 9;
+		
+		if (number != null){
+			if ((number <= max) && (number >= min)) {
+				return number;
+			}
+		}
+		
+		StringBuffer buffer = new StringBuffer();
+		byte[] chars = token.getBytes();
+		for (byte ch : chars) {
+			if (Character.isDigit(ch))
+			{
+				buffer.append(ch);
+			}
+		}		
+		
 		try {
-			number = Integer.parseInt(token);
+			number = Integer.parseInt(buffer.toString());
 		} catch (NumberFormatException e) {
 			throw new ParseFailedExcepion();
 		}
