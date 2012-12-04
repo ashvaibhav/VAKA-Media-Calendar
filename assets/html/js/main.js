@@ -1,7 +1,7 @@
 //ButtonHandlers.onPlay('"+currentEvent.mediaURL+"');
 //ButtonHandlers.onStopPlay();
 //Global Variables
-var debug = true;//false;
+var debug = false;//false;
 var debug2 = false;
 var dataForAllEvents;
 var currentEvent;

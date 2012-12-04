@@ -50,12 +50,12 @@ public class EventRecognizer {
 		for (byte ch : chars) {
 			if (Character.isDigit(ch))
 			{
-				buffer.append(ch);
+				//buffer.append(Character.toString(ch));
 			}
 		}		
 		
 		try {
-			number = Integer.parseInt(buffer.toString());
+			number = Integer.parseInt(token.toString());
 		} catch (NumberFormatException e) {
 			throw new ParseFailedExcepion();
 		}
